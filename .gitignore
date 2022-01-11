@@ -1,0 +1,8 @@
+# dunder folders
+__pycache__
+
+# datasets
+*.npy
+
+# checkpoints
+*.pt

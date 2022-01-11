@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --job-name=ConvLSTM
+#SBATCH --partition=rtx6000
+#SBATCH --gres=gpu:1
+#SBATCH --qos=normal
+#SBATCH --cpus-per-task=4
+#SBATCH --mem-per-cpu=8G
+#SBATCH --output=slurm-out-%j.log
+#SBATCH --error=error-slurm-%j.log
+
+source /ssd003/projects/aieng/envs/fcast_env/bin/activate
+
+python main_v2.py --batch_size 16 \
+	--num_epochs 40 \
+	--num_workers 10 \
+	--lr 1e-3 \
+	--rdm_seed 42069 \
+	--use_wandb True \
+	--checkpoint_path /h/mchoi/SpatioStuff/models/checkpoints/lstmnet_v2_128_64_64.pt \
+	--sample_output_path /h/mchoi/SpatioStuff/gifs/ \
+	--seq_len 10 \
+	--hidden_channels 128 64 64 
