@@ -7,7 +7,7 @@ This dataset provides daily historical weather data from 109 stations across Can
 - Daily maximum temperature (℃)
 - Daily total precipitation - rainfall and water equivalent of snowfall (mm)
 
-We selected 115 stations among 8447 total available from the Canadian (Climate Data Extraction Tool)[https://climate-change.canada.ca/climate-data/#/daily-climate-data] that had greater than 95% coverage between 1990 and 2022 for the above features. 
+We selected 115 stations among 8447 total available from the Canadian [Climate Data Extraction Tool](https://climate-change.canada.ca/climate-data/#/daily-climate-data) that had greater than 95% coverage between 1990 and 2022 for the above features. 
 
 The main dataset is stored in `weather_data.csv` and selected station metadata are stored in `station_metadata.csv`.
 
