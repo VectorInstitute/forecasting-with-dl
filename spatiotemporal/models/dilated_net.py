@@ -4,6 +4,8 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
+from .multi_input_sequential import MultiInputSequential
+
 
 class MultiInputSequential(nn.Sequential):
     def forward(self, *inputs):
@@ -49,7 +51,7 @@ class DilatedBlock(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x: Tensor, scale_bias: Tensor) -> Tuple[Tensor, Tensor]:
-        assert scale_bias.shape[0] == 2
+        assert len(scale_bias) == 10
         scale = scale_bias[self.scale_bias_index * 2]
         bias = scale_bias[self.scale_bias_index * 2 + 1]
         identity = x
@@ -89,24 +91,6 @@ class DilatedEncoder(nn.Module):
         return MultiInputSequential(*layers)
 
     def forward(self, x: Tensor, scale_bias: Tensor) -> Tensor:
-        out = self.layers(x, scale_bias)
+        assert len(scale_bias) == len(self.dilations) * 2   # scale and bias vector per dilation
+        out, _ = self.layers(x, scale_bias)
         return out
-
-"""
-import matplotlib.pyplot as plt
-import numpy as np
-model = DilatedEncoder(3, 32, 32)
-with torch.no_grad():
-    for name, param in model.named_parameters():
-        if param.requires_grad is True:
-            param.fill_(1)
-
-x = torch.ones(1, 3, 32, 32)
-output = model(x)
-plt.figure()
-plt_ten = output.permute(0, 2, 3, 1).detach().numpy()
-plt_ten = ((plt_ten - plt_ten.min()) * (255 / (plt_ten.max() - plt_ten.min()))).astype(np.uint8)
-plt.imshow(plt_ten[0])
-plt.colorbar()
-import pdb; pdb.set_trace()
-"""

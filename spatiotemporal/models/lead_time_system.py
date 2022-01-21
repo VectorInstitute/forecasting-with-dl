@@ -1,8 +1,9 @@
 import os
-from typing import Tuple
+from typing import Tuple, Dict
 
 import torch
 import torch.nn as nn
+from torch import Tensor
 
 
 class LeadTimeMLPSystem(nn.Module):
@@ -60,7 +61,20 @@ class LeadTimeMLPSystem(nn.Module):
                                        out_features=self.slave_in_features,
                                        bias=self.slave_bias,))
             slave.append(nn.Linear(in_features=self.slave_in_features,
-                                   out_features=out_features,
+                                   out_features=out_features * 2,   # Scale and bias
                                    bias=self.slave_bias,))
             slaves[f"slave_{i}"] = nn.Sequential(*slave)
         return slaves
+
+    def forward(self, leadtime: Tensor, batch_size: int) -> Dict[str, Tensor]:
+        # Master
+        master_encoded_vector = self.master(leadtime)
+
+        # Slaves
+        slave_vectors = []
+        for i, slave in enumerate(self.slaves.values()):
+            slave_vector = slave(master_encoded_vector)
+            scale, bias = slave_vector.chunk(2, dim=1)
+            slave_vectors.append(scale.unsqueeze(2).unsqueeze(3))
+            slave_vectors.append(bias.unsqueeze(2).unsqueeze(3))
+        return slave_vectors
