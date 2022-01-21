@@ -38,8 +38,6 @@ def check_grads(named_parameters):
                 raise Exception(f"Grad for requires_grad=True parameter {n} is None!")
 
 def tensor_to_gif(tensor, save_name, save_dir):
-    tensor = (tensor - tensor.min()) * (255 / (tensor.max() - tensor.min()))
-    unnormed_tensor = tensor.numpy().astype(np.uint8)  
     images = []
     for i, frame in enumerate(unnormed_tensor):
         img = Image.fromarray(frame[0]) # Get rid of channel dim
@@ -48,3 +46,10 @@ def tensor_to_gif(tensor, save_name, save_dir):
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+def tensor_to_images(tensor, save_dir):
+    tensor = (tensor - tensor.min()) * (255 / (tensor.max() - tensor.min()))
+    tensor = tensor.numpy().astype(np.uint8)
+    for i, image in enumerate(tensor):
+        img = Image.fromarray(image.transpose(1, 2, 0).squeeze()) # Color channel last
+        img.save(save_dir + f"pixelcnn_sample_{i}.png", format="PNG")

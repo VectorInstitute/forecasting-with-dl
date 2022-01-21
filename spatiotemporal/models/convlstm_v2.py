@@ -27,6 +27,7 @@ class ConvLSTMLayer(nn.Module):
 
     def forward(self, x: Tensor, hidden: Tensor,
             cell: Tensor) -> Tuple[Tensor, Tensor]:
+
         B, _, H, W = hidden.shape
         if x is None:
             x = torch.zeros((B, self.in_channels, H, W)).to(hidden.device)
@@ -82,6 +83,7 @@ class ConvLSTMEncoder(nn.Module):
 
 
 class ConvLSTMDecoder(nn.Module):
+    """Not needed for metnet2"""
     def __init__(
         self,
         in_channels: int,
@@ -129,6 +131,7 @@ class ConvLSTMDecoder(nn.Module):
 
 
 class ConvLSTMForecastingNet(nn.Module):
+    """Not needed for metnet2"""
     def __init__(self, 
                  in_channels: int,
                  seq_len: int,

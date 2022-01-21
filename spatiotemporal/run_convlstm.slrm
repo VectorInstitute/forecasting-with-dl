@@ -10,13 +10,15 @@
 
 source /ssd003/projects/aieng/envs/fcast_env/bin/activate
 
-python main_v2.py --batch_size 16 \
-	--num_epochs 40 \
+python main_convlstm_v3.py --batch_size 16 \
+	--num_epochs 100 \
 	--num_workers 10 \
 	--lr 1e-3 \
 	--rdm_seed 42069 \
 	--use_wandb True \
-	--checkpoint_path /h/mchoi/SpatioStuff/models/checkpoints/lstmnet_v2_128_64_64.pt \
-	--sample_output_path /h/mchoi/SpatioStuff/gifs/ \
+	--checkpoint_path /h/mchoi/SpatioStuff/models/checkpoints/lstmnet_v2_128_128_64_64_32_32_MSE.pt \
+	--sample_output_path /h/mchoi/SpatioStuff/gifs_MSE/ \
+	--project_name MSE_vs_BCE_Loss_ConvLSTM \
 	--seq_len 10 \
-	--hidden_channels 128 64 64 
+	--hidden_channels 128 128 64 64 32 \
+	--loss_fn MSELoss

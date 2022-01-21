@@ -48,10 +48,4 @@ class WeatherBench():
 dset = WeatherBench(["2000-01-01", "2018-12-30"])
 print(dset)
 print(len(dset))
-start_time = time.time()
-from tqdm import tqdm
-for i in tqdm(range(len(dset))):
-    x, y = dset[i]
-    breakpoint()
-end_time = time.time()
-print(f"Time elapsed: {end_time - start_time}")
+import pdb; pdb.set_trace()
