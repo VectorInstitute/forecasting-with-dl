@@ -8,7 +8,7 @@ from torchvision import transforms
 import wandb
 
 from dataset_impls.moving_mnist import MovingMnist
-from models.convlstm import ConvLSTMForecastingNet
+from models.convlstm_v2 import ConvLSTMForecastingNet
 from utils.visualization_tools import plot_grad_flow, check_grads, tensor_to_gif, count_parameters
 
 def boolean_string(s):
@@ -42,6 +42,7 @@ def prepare_args():
                         default="/h/mchoi/SpatioStuff/gifs")
 
     # Model params
+    parser.add_argument("--in_channels", type=int, default=1)
     parser.add_argument("--seq_len", type=int, default=10)
     parser.add_argument("--hidden_channels", nargs="+")
 
@@ -115,15 +116,15 @@ def main(args):
                                           pin_memory=True)
 
     # Loss function
-    #loss_fn = nn.CrossEntropyLoss()
     loss_fn = nn.MSELoss()
 
     # Model and optim
     hidden_channels = tuple(map(int, args.hidden_channels))
-    model_args = [args.seq_len, hidden_channels]
+    model_args = [args.in_channels, args.seq_len, hidden_channels]
     if os.path.isfile(
             args.checkpoint_path) and "None" not in args.checkpoint_path:
         model, optim = load(args, model_args, device)
+        print(f"Loaded from checkpoint: {args.checkpoint_path}")
     else:
         model = ConvLSTMForecastingNet(*model_args)
         model.to(device)  # Must put model on device before feeding into optim
@@ -182,9 +183,9 @@ def main(args):
 
             # Sample tensor from last batch
             if "None" not in args.sample_output_path:
-                sample_tensor = torch.cat((example[0], preds[0]), dim=0)
-                tensor_to_gif(sample_tensor.detach().cpu(),
-                              f"moving_mnist_val.gif", args.sample_output_path)
+                sample_tensor = torch.cat((example[0], target[0], preds[0]), dim=0)
+                samples = torchvision.utils.make_grid(sample_tensor.detach().cpu(), nrow=args.seq_len, normalize=True)
+                torchvision.utils.save_image(samples, args.sample_output_path + f"moving_mnist_epoch{i}.png")
 
     # Final test epoch
     with torch.no_grad():

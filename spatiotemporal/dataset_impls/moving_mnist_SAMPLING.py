@@ -13,7 +13,7 @@ from torchvision import transforms
 
 @dataclass
 class MovingMnist():
-    src_file: str = "/h/mchoi/SpatioStuff/dataset_impls/datasets/moving_mnist.npy"
+    src_file: str = "./datasets/moving_mnist.npy"
     split: str = "train"
     div: float = 1.0    # Ratio of dataset length
     transform: transforms = None
@@ -48,3 +48,12 @@ class MovingMnist():
 
     def __len__(self) -> None:
         return self._len
+
+dset = MovingMnist()
+samples = torch.zeros(10 * 11, 1, 64, 64)
+for i in range(0, 110, 11):
+    example, target, _ = dset[i]
+    sample = torch.cat((example, target.unsqueeze(0)), dim=0)
+    samples[i:i + 11, :, :, :] = sample
+grid_samples = torchvision.utils.make_grid(samples, nrow=11)
+import pdb; pdb.set_trace()

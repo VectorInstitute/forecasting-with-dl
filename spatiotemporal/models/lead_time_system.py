@@ -74,7 +74,7 @@ class LeadTimeMLPSystem(nn.Module):
         slave_vectors = []
         for i, slave in enumerate(self.slaves.values()):
             slave_vector = slave(master_encoded_vector)
-            scale, bias = slave_vector.chunk(2, dim=1)
-            slave_vectors.append(scale.unsqueeze(2).unsqueeze(3))
-            slave_vectors.append(bias.unsqueeze(2).unsqueeze(3))
+            scale, bias = slave_vector.chunk(2, dim=2)  # (B, 1, 256) -> 256 is D for slave
+            slave_vectors.append(scale.transpose(1, 2).unsqueeze(-1))
+            slave_vectors.append(bias.transpose(1, 2).unsqueeze(-1))
         return slave_vectors

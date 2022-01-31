@@ -28,7 +28,6 @@ class ConvLSTMLayer(nn.Module):
         x_and_hidden, cell = torch.split(x, self.in_channels + self.hidden_channels, dim=1)
 
         x_and_hidden = self.cns(x_and_hidden)
-        x_and_hidden = x_and_hidden
 
         xh_i, xh_f, xh_o, xh_c = torch.split(x_and_hidden, self.hidden_channels, dim=1)
 
@@ -63,7 +62,8 @@ class ConvLSTMEncoder(nn.Module):
             for i, lstm in enumerate(self.lstm_net):
                 scale = scale_bias[i * 2]
                 bias = scale_bias[i * 2 + 1]
-                initial_states = torch.zeros((B, self.network_hidden_channels[i] * 2, H, W)).to(x.device)
+                initial_states = torch.zeros((B, self.network_hidden_channels[i] * 2, H, W))    #.to(x.device)
+                initial_states = initial_states.type_as(x)
                 x_in = x[:, t, :, :, :] if i == 0 else new_states[i - 1].chunk(2, dim=1)[0]
                 hidden, cell = initial_states.chunk(2, dim=1) if t == 0 else new_states[i].chunk(2, dim=1)
 
