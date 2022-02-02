@@ -10,26 +10,23 @@ def split_data(data, dates, train_perc, test_perc):
     num_val = n_samples - num_train - num_test
 
     # Sample train set
-    train_data = data.iloc[0:num_train, :]
+    train_data = data[0:num_train, :]
     train_dates = pd.DatetimeIndex(dates.iloc[0:num_train])
-    scaled_train_data = scale_data(train_data)
 
     # Sample validation set
-    val_data = data.iloc[num_train: num_train+num_val, :]
+    val_data = data[num_train: num_train+num_val, :]
     val_dates = pd.DatetimeIndex(dates.iloc[num_train: num_train+num_val])
-    scaled_val_data = scale_data(val_data)
 
     # Sample Test Set
-    test_data = data.iloc[num_train+num_val:, :]
+    test_data = data[num_train+num_val:, :]
     test_dates = pd.DatetimeIndex(dates.iloc[num_train+num_val:])
-    scaled_test_data = scale_data(test_data)
 
-    return (scaled_train_data, train_dates), (scaled_val_data, val_dates), (scaled_test_data, test_dates)
+    return (train_data, train_dates), (val_data, val_dates), (test_data, test_dates)
 
 def scale_data(data):
     scaler = StandardScaler()
-    scaler.fit(data.values)
-    scaled_data = scaler.transform(data.values)
+    scaler.fit(data)
+    scaled_data = scaler.transform(data)
     return scaled_data
 
 def get_day_features(datetime_index):
@@ -61,6 +58,6 @@ def get_hour_features(datetime_index):
     doy_feat = (datetime_index.dayofyear - 1) / 365.0 - 0.5
     
     # Stack into time feature matrix
-    time_feat = np.stack((dow_feat, dom_feat, doy_feat), axis=0).transpose(1, 0)
+    time_feat = np.stack((hod_feat, dow_feat, dom_feat, doy_feat), axis=0).transpose(1, 0)
     
     return time_feat
