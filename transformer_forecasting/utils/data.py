@@ -3,11 +3,9 @@ import pandas as pd
 
 from sklearn.preprocessing import StandardScaler
 
-def split_data(data, dates, train_perc, test_perc):
+def split_data(data, dates, num_val, num_test):
     n_samples = data.shape[0]
-    num_train = int(n_samples * train_perc)
-    num_test = int(n_samples * test_perc)
-    num_val = n_samples - num_train - num_test
+    num_train = n_samples - (num_val + num_test) 
 
     # Sample train set
     train_data = data[0:num_train, :]

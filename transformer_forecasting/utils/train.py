@@ -110,11 +110,9 @@ def test(af_model, test_loader, run_name, device, pred_len, start_token_len, fea
     trues = np.array(trues)
     inputs = np.array(inputs)
 
-    print('test shape:', preds.shape, trues.shape)
     preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
     trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
     inputs = inputs.reshape(-1, inputs.shape[-2], inputs.shape[-1])
-    print('test shape:', preds.shape, trues.shape)
 
     # result save
     folder_path = './results/' + run_name + '/'
