@@ -1,7 +1,7 @@
 
 from torch.utils.data import Dataset
 
-class ExchangeDataset(Dataset):
+class CustomDataset(Dataset):
     def __init__(self, data, time_feat, seq_len, start_token_len, pred_len):
         self.data = data
         self.time_feat = time_feat

@@ -93,6 +93,7 @@ def test(af_model, test_loader, run_name, device, pred_len, start_token_len, fea
             dec_inp = torch.cat([batch_y[:, :start_token_len, :], dec_inp], dim=1).float().to(device)
             # encoder - decoder
             outputs = af_model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+            
             f_dim = -1 if features == 'MS' else 0
             batch_y = batch_y[:, -pred_len:, f_dim:].to(device)
             outputs = outputs.detach().cpu().numpy()
@@ -110,29 +111,8 @@ def test(af_model, test_loader, run_name, device, pred_len, start_token_len, fea
     trues = np.array(trues)
     inputs = np.array(inputs)
 
-    print('test shape:', preds.shape, trues.shape)
     preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
     trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
     inputs = inputs.reshape(-1, inputs.shape[-2], inputs.shape[-1])
-    print('test shape:', preds.shape, trues.shape)
-
-    # result save
-    folder_path = './results/' + run_name + '/'
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
-    mae, mse, rmse, mape, mspe = metric(preds, trues)
-    print('mse:{}, mae:{}'.format(mse, mae))
-    f = open("result.txt", 'a')
-    f.write(run_name + "  \n")
-    f.write('mse:{}, mae:{}'.format(mse, mae))
-    f.write('\n')
-    f.write('\n')
-    f.close()
-
-    np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-    np.save(folder_path + 'pred.npy', preds)
-    np.save(folder_path + 'true.npy', trues)
-    np.save(folder_path + 'inputs.npy', inputs)
 
     return inputs, preds, trues
