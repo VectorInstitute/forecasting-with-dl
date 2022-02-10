@@ -10,6 +10,12 @@ In testing, we have identified version incompatibilities with Pandas. Please ens
 
 ### Prophet and NeuralProphet
 
+Prophet and NeuralProphet applied to exchange rate forecasting. One configuration of Prophet and three configurations of NeuralProphet are considered. Uses a conventional data splitting approach (80% train, 20% test). Applies a collection of four evaluation metrics (MSE, rMSE, MAE, MAPE) in a consistent fashion over all experiments.
+
 ### PyTorch Forecasting
 
+N-BEATS, DeepAR, and Temporal Fusion Transformer applied to exchange rate forecasting.
+
 ### Rolling Cross-Validation
+
+Alternative data splitting and experimental design using rolling cross-validation and NeuralProphet. Applied to exchange rate forecasting.
