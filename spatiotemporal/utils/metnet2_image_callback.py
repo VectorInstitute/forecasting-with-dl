@@ -1,6 +1,7 @@
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 import torch
+import torchvision
 import wandb
 
 
@@ -10,35 +11,29 @@ class WandbImageCallback(pl.Callback):
     Images are stacked into a mosaic, with output on the top
     and input on the bottom."""
     
-    def __init__(self, val_samples, max_samples=4):
+    def __init__(self, val_samples):
         super().__init__()
-        self.val_imgs, _ = val_samples
-        self.val_imgs = self.val_imgs[:max_samples]
+        self.val_imgs, self.targets, self.leadtime_vecs = val_samples
           
-    def on_validation_end(self, trainer, pl_module):
-        val_imgs = self.val_imgs.to(device=pl_module.device)
+    def on_train_epoch_start(self, trainer, pl_module):
+        examples_batch = self.val_imgs.to(device=pl_module.device)
+        targets_batch = self.targets.to(device=pl_module.device)
+        leadtime_vecs_batch = self.leadtime_vecs.to(device=pl_module.device)
     
-    
-        leadtime_vecs = nn.functional.one_hot(torch.arange(10).long(), num_classes=10)
-        preds = []
-        for sample in self.val_images:
-            for leadtime_vec in leadtime_vecs:
-                preds.append(pl_modul(x, leadtime_vec))
-        preds = torch.Tensor(preds)
-        sample_tensor = torch.cat((example, target, preds), dim=0)
+        print("**Creating sample**")
+        samples = []
+        for x, target, leadtime_vec in zip(examples_batch, targets_batch, leadtime_vecs_batch):
+            x = x.unsqueeze(0)
+            target = target.unsqueeze(0)
+            leadtime_vec = leadtime_vec.unsqueeze(0)    # Manually add batch dimensions
+            pred = pl_module(x, leadtime_vec)
+            sample = torch.cat((x.squeeze(0), target, pred), dim=0)
+            samples.append(sample)
+        grid_images = torchvision.utils.make_grid(samples, nrow=6)
+        #torchvision.utils.save_image(grid_images, "wandb_sample.png")
 
-
-        mosaics = torch.cat([outs, val_imgs], dim=-2)
-        caption = "Top: Output, Bottom: Input"
+        caption = "Epoch sample"
         trainer.logger.experiment.log({
-            "val/examples": [wandb.Image(mosaic, caption=caption) 
-                              for mosaic in mosaics],
+            "val/examples": [wandb.Image(grid_images, caption=caption)],
             "global_step": trainer.global_step
             })
-            
-...
-
-trainer = pl.Trainer(
-    ...
-    callbacks=[WandbImageCallback(val_samples)]
-)

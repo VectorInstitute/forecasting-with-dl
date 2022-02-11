@@ -13,7 +13,7 @@ from torchvision import transforms
 
 @dataclass
 class MovingMnist():
-    src_file: str = "/h/mchoi/SpatioStuff/dataset_impls/datasets/moving_mnist.npy"
+    src: str = "/h/mchoi/SpatioStuff/dataset_impls/datasets/moving_mnist.npy"
     split: str = "train"
     div: float = 1.0    # Ratio of dataset length
     transform: transforms = None
@@ -21,7 +21,7 @@ class MovingMnist():
     def __post_init__(self) -> None:
         if self.split not in ["train", "test", "val"]:
             raise KeyError(f"Incorrect dataset split: {self.split}")
-        self._raw_dataset = np.load(self.src_file)
+        self._raw_dataset = np.load(self.src)
         self._raw_dataset = self._raw_dataset.transpose(1, 0, 2, 3)
 
         if self.split == "train":

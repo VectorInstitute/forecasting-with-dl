@@ -21,6 +21,7 @@ import wandb
 from models.metnet2_pl import MetNet2
 from dataset_impls.dataset_registry import get_dataset_implementation
 from models.multi_input_sequential import boolean_string
+from utils.metnet2_image_callback import WandbImageCallback
 
 
 def prepare_args() -> Namespace:
@@ -33,20 +34,12 @@ def prepare_args() -> Namespace:
     parser.add_argument("--div", type=float, default=1.0)
 
     # Training params
-    parser.add_argument("--num_epochs", type=int, default=4)
     parser.add_argument("--num_workers", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=4)
     parser.add_argument("--rdm_seed", type=int, default=42069)
-    parser.add_argument("--num_gpus", type=int, default=1)
-    parser.add_argument(
-        "--checkpoint_path",
-        type=str,
-        default="/h/mchoi/SpatioStuff/models/checkpoints/")
+    parser.add_argument("--checkpoint_path", type=str, default="/h/mchoi/SpatioStuff/models/checkpoints/")
     parser.add_argument("--checkpoint_filename", type=str, default="metnet2_default_chk")
-    parser.add_argument(
-        "--sample_output_path",
-        type=str,
-        default="/h/mchoi/SpatioStuff/samples_metnet2_default/")
+    parser.add_argument("--sample_output_path", type=str, default="/h/mchoi/SpatioStuff/samples_metnet2_default/")
 
     # Wandb params
     parser.add_argument("--project_name", type=str, default="Default_project")
@@ -63,14 +56,13 @@ def setup_dataloaders(
     transform = transforms.Compose([
         #transforms.Normalize((0.1307, ), (0.3081, )),
     ])
-    train_dset = get_dataset_implementation(args.dset)(args.dset_path,
+    train_dset = get_dataset_implementation(args.dset)(src=args.dset_path,
                                                        split="train",
-                                                       div=args.div,
                                                        transform=transform)
-    val_dset = get_dataset_implementation(args.dset)(args.dset_path,
+    val_dset = get_dataset_implementation(args.dset)(src=args.dset_path,
                                                      split="val",
                                                      transform=transform)
-    test_dset = get_dataset_implementation(args.dset)(args.dset_path,
+    test_dset = get_dataset_implementation(args.dset)(src=args.dset_path,
                                                       split="test",
                                                       transform=transform)
     train_dl = DataLoader(dataset=train_dset,
@@ -90,6 +82,19 @@ def setup_dataloaders(
                          pin_memory=True)
     return train_dl, val_dl, test_dl
 
+def get_val_samples(args, num_samples: int):
+    val_dset = get_dataset_implementation(args.dset)(src=args.dset_path, 
+                                                     split="val")
+    xs = []
+    targets = []
+    leadtime_vecs = []
+    for i in range(num_samples):
+        x, target, leadtime_vec = val_dset[i]
+        xs.append(x.unsqueeze(0))   # Unsqueeze sample batch dimension
+        targets.append(target.unsqueeze(0))
+        leadtime_vecs.append(leadtime_vec.unsqueeze(0))
+    return torch.cat(xs, dim=0), torch.cat(targets, dim=0), torch.cat(leadtime_vecs, dim=0)
+
 def setup_model(args: Namespace) -> pl.LightningModule:
     dict_args = vars(args)
     pp = pprint.PrettyPrinter(indent=4)
@@ -98,7 +103,9 @@ def setup_model(args: Namespace) -> pl.LightningModule:
     checkpoint_file = args.checkpoint_path + f"{args.checkpoint_filename}_div{args.div}.ckpt"
     if os.path.isfile(checkpoint_file):
         model = MetNet2.load_from_checkpoint(checkpoint_file)
+        print("*" * 40)
         print(f"Loaded from checkpoint: {checkpoint_file}")
+        print("*" * 40)
     else:
         model = MetNet2(**dict_args)
     return model
@@ -110,26 +117,27 @@ def main(args: Namespace) -> None:
     wandb_logger = WandbLogger(project=args.project_name)
 
     # Init callbacks
+    val_samples = get_val_samples(args, 1)
     callbacks = [LearningRateMonitor(logging_interval="step"),
-                 ModelCheckpoint(dirpath=args.checkpoint_path, filename=f"{args.checkpoint_filename}_div{args.div}", every_n_train_steps=500)]
+                 ModelCheckpoint(dirpath=args.checkpoint_path, filename=f"{args.checkpoint_filename}_div{args.div}", every_n_train_steps=500),
+                 WandbImageCallback(val_samples)
+    ]
 
     # Get dataloaders
     train_dl, val_dl, test_dl = setup_dataloaders(args)
 
     # Init model
     model = setup_model(args)
+    print(model)
 
     # Init trainer
     trainer = pl.Trainer.from_argparse_args(
         args,
         callbacks=callbacks,
-        gpus=args.num_gpus,
         logger=wandb_logger,
-        max_epochs=args.num_epochs, # I think this is not necessary if args has max_epochs
     )
     
     # Train
-    import pdb; pdb.set_trace()
     trainer.fit(model,
                 train_dataloaders=train_dl,
                 val_dataloaders=val_dl,)
