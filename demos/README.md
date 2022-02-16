@@ -13,7 +13,7 @@ The demos in this directory have been tested using Google Colab Pro. In order to
 ### Step-by-Step Instructions
 
 - Download the provided datasets from this [Google Drive Link](https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing).
-- Upload these files to your personal Google Drive.
+- Upload these files to your personal Google Drive, noting their location.
 - Download demo notebooks from this GitHub directory.
 - Navigate to [Google Colab](https://colab.research.google.com/)
 - From the **File** menu, select **Upload notebook**. You will be prompted to sign in to a Google account.
