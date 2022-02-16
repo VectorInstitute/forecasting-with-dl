@@ -16,7 +16,7 @@ The demos in this directory have been tested using Google Colab Pro. In order to
 - Upload these files to your personal Google Drive, noting their location.
 - Navigate to [Google Colab](https://colab.research.google.com/)
 - From the **File** menu, select **Upload notebook**. You will be prompted to sign in to a Google account.
-- Navigate to the **GitHub** tab. You will be prompted to connect Colab with your GitHub account. 
+- Navigate to the **GitHub** tab. You will be prompted to connect Colab with your GitHub account. (**Note** Your GitHub account must be registered with the forecasting-bootcamp repository in order to access it.)
 - Ensure that the **Include private repos** checkbox is checked.
 - Select the Repository: VectorInstitute/forecasting-bootcamp
 - Click on the notebook you would like to open (e.g. `demos/demo1_prophet_neuralprophet_testset.ipynb`)
