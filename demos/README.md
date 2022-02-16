@@ -8,7 +8,23 @@ In testing, we have identified version incompatibilities with Pandas. Please ens
 
 ## Running on Google Colab
 
-The demos in this directory have been tested using Google Colab Pro. In order to run a demo, you can either connect your Colab account to GitHub, or download a copy of the notebook and upload it directly to Colab. To make use of provided datasets, you will also need to either connect Colab to your personal Google Drive, or directly upload data files to your Colab instance. Provided datasets are available here: [Google Drive Link](https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing).
+The demos in this directory have been tested using Google Colab Pro. In order to run a demo, you can connect your Colab account to GitHub. To make use of provided datasets, you will also need to either connect Colab to your personal Google Drive, or directly upload data files to your Colab instance. 
+
+### Step-by-Step Instructions
+
+- Download the provided datasets from this [Google Drive Link](https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing).
+- Upload these files to your personal Google Drive.
+- Download demo notebooks from this GitHub directory.
+- Navigate to [Google Colab](https://colab.research.google.com/)
+- From the **File** menu, select **Upload notebook**. You will be prompted to sign in to a Google account.
+- Navigate to the **GitHub** tab. You will be prompted to connect Colab with your GitHub account. 
+- Ensure that the **Include private repos** checkbox is checked.
+- Select the Repository: VectorInstitute/forecasting-bootcamp
+- Click on the notebook you would like to open (e.g. `demos/demo1_prophet_neuralprophet_testset.ipynb`)
+- Begin execution of the notebook.
+- The second code cell mounts your Google Drive. Follow the on-screen prompts.
+- Note that in the third code cell, you will need change the file path according to your Google Drive's file structure. Use the **Files** button on the side bar to navigate the file structure. Locate your dataset, right click on it, and select **Copy path**. 
+- Continue execution of the notebook. Wherever other files are read or written, be sure to customize file paths according to your Google Drive's file structure.
 
 ## Demos
 
