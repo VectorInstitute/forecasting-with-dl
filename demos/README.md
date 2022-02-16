@@ -1,4 +1,4 @@
-# Multivariate Forecasting Demo Notebooks
+# Univariate and Multivariate Forecasting Demo Notebooks
 
 This directory contains a number of Jupyter notebooks designed to help you experiment with a variety of forecasting problems.
 
