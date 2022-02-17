@@ -20,3 +20,4 @@ gifs*
 # misc
 archive*
 wandb*
+*.DS_Store
