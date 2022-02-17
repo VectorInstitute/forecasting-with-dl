@@ -1,12 +1,15 @@
 # dunder folders
 __pycache__
 
+
 # datasets
 *.npy
-
+datasets/exchange_rate
+datasets/electricity
 # checkpoints
 *.pt
-
+multivariate_demos/checkpoints
+*.ipynb_checkpoints*
 # samples
 samples*
 gifs*

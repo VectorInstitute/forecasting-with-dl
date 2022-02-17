@@ -53,6 +53,7 @@ class DecoderLayer(nn.Module):
 
         residual_trend = trend1 + trend2 + trend3
         residual_trend = self.projection(residual_trend.permute(0, 2, 1)).transpose(1, 2)
+
         return x, residual_trend
 
 
@@ -61,7 +62,7 @@ class Decoder(nn.Module):
     Autoformer encoder
     """
     def __init__(self,
-                 n_attn_layers, # Number of Attention Layers
+                 n_layers, # Number of Attention Layers
                  n_heads, # Number of attention heads
                  d_model, # Dimension of model features
                  d_ff, # Dimension of Feed Forward Layer
@@ -75,7 +76,7 @@ class Decoder(nn.Module):
                  ):
         super(Decoder, self).__init__()
 
-        self.n_attn_layers = n_attn_layers
+        self.n_layers = n_layers
         self.d_model = d_model
         self.d_ff = d_ff
         self.ma_window_size = ma_window_size
@@ -86,7 +87,7 @@ class Decoder(nn.Module):
         self.projection = nn.Linear(d_model, c_out, bias=True)
 
         decoder_layers = []
-        for l in range(n_attn_layers):
+        for l in range(n_layers):
             decoder_layer = DecoderLayer(n_heads,
                                          d_model,
                                          d_ff,
