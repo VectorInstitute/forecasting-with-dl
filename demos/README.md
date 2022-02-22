@@ -33,7 +33,7 @@ Prophet and NeuralProphet applied to exchange rate forecasting. One configuratio
 
 ### Demo 2: PyTorch Forecasting
 
-*In development*: N-BEATS, DeepAR, and Temporal Fusion Transformer applied to exchange rate forecasting.
+N-BEATS and DeepAR applied to exchange rate forecasting.
 
 ### Demo 3: Rolling Cross-Validation
 
