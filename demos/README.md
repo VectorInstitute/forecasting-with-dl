@@ -33,8 +33,8 @@ Prophet and NeuralProphet applied to exchange rate forecasting. One configuratio
 
 ### Demo 2: PyTorch Forecasting
 
-N-BEATS and DeepAR applied to exchange rate forecasting.
+N-BEATS and DeepAR applied to exchange rate forecasting. This demo continues the experiment from Demo 1, bringing in two popular deep learning based forecasting methods. The demo provides working examples of how to configure multivariate datasets for univariate, 'global model' forecasting tasks. 
 
 ### Demo 3: Rolling Cross-Validation
 
-*In development*: Alternative data splitting and experimental design using rolling cross-validation and NeuralProphet. Applied to exchange rate forecasting.
+*In development*: Alternative data splitting and experimental design using rolling cross-validation and NeuralProphet. Applied to consumer price index forecasting. 
