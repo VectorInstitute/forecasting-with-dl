@@ -35,6 +35,6 @@ Prophet and NeuralProphet applied to exchange rate forecasting. One configuratio
 
 N-BEATS and DeepAR applied to exchange rate forecasting. This demo continues the experiment from Demo 1, bringing in two popular deep learning based forecasting methods. The demo provides working examples of how to configure multivariate datasets for univariate, 'global model' forecasting tasks. 
 
-### Demo 3: Rolling Cross-Validation
+### Demo 3: Rolling Cross-Validation with Prophet for CPI Forecasting
 
-*In development*: Alternative data splitting and experimental design using rolling cross-validation and NeuralProphet. Applied to consumer price index forecasting. 
+This notebook demonstrates a rolling cross validation experiment using Prophet. The demo was adapted from part of Vector's contribution to the 2022 edition of Canada's Food Price Report. Rolling cross validation can be used to evaluate a forecasting strategy where all available data up to a cutoff point are used to train a model. This is useful in situations where data are scarce or where it is important to train using the most recently available data.
