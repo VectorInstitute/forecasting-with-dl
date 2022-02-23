@@ -15,4 +15,4 @@ Note that very large datasets (e.g. WeatherBench) are not included, and that mor
 
 ## Main and dev branches
 
-The AI Engineering team are using dev branches (e.g. [dev_demos](https://github.com/VectorInstitute/forecasting-bootcamp/tree/dev_demos)) to indicate works-in-progress. We invite you to view and begin experimenting with these resources, but please note that all meterial currently in development is subject to be modified, perhaps significantly, ahead of the bootcamp. 
+The AI Engineering team are using dev branches (e.g. [dev_demos](https://github.com/VectorInstitute/forecasting-bootcamp/tree/dev_demos)) to indicate works-in-progress. We invite you to view and begin experimenting with these resources, but please note that all material currently in development is subject to be modified, perhaps significantly, ahead of the bootcamp. 
