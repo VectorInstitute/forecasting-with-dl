@@ -60,6 +60,7 @@ def val_step(af_model, val_loader, criterion, device, pred_len, start_token_len,
 
             pred = outputs.detach().cpu()
             true = batch_y.detach().cpu()
+            
 
             loss = criterion(pred, true)
 
@@ -75,9 +76,6 @@ def test(af_model, test_loader, run_name, device, pred_len, start_token_len, fea
     preds = []
     trues = []
     inputs = []
-    folder_path = './test_results/' + run_name + '/'
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
 
     af_model.eval()
     with torch.no_grad():

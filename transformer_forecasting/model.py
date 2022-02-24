@@ -37,6 +37,7 @@ class AutoFormer(nn.Module):
         self.output_attention = output_attention
 
         self.c_out = c_out
+        
 
         self.decomp = SeriesDecomp(ma_window_size)
 
@@ -69,6 +70,8 @@ class AutoFormer(nn.Module):
             norm_layer=True,
             projection=True
         )
+        
+
 
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec,
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
@@ -88,6 +91,7 @@ class AutoFormer(nn.Module):
         dec_out = self.dec_embedding(seasonal_init, x_mark_dec)
         seasonal_part, trend_part = self.decoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask,
                                                    trend=trend_init)
+        
         # final
         dec_out = trend_part + seasonal_part
 
