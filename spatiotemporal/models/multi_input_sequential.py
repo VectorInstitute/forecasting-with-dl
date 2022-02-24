@@ -10,3 +10,9 @@ class MultiInputSequential(nn.Sequential):
             else:
                 inputs = module(inputs)
         return inputs
+
+def boolean_string(s: str) -> bool:
+    if s not in {"True", "False"}:
+        raise ValueError("Not a proper boolean string")
+    else:
+        return s == "True"
