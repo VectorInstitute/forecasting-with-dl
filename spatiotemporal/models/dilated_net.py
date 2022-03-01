@@ -7,16 +7,6 @@ from torch import Tensor
 from .multi_input_sequential import MultiInputSequential
 
 
-class MultiInputSequential(nn.Sequential):
-    def forward(self, *inputs):
-        for module in self._modules.values():
-            if isinstance(inputs, tuple):
-                inputs = module(*inputs)
-            else:
-                inputs = module(inputs)
-        return inputs
-
-
 class DilatedBlock(nn.Module):
     def __init__(
         self,
@@ -57,7 +47,7 @@ class DilatedBlock(nn.Module):
                                          stride=1,
                                          padding=0,
                                          bias=True)
-        self.scale_bias_cn = nn.Sequential(
+        self.scale_bias_mlp = nn.Sequential(
             nn.Linear(self.lt_features, self.lt_features, bias=False),
             nn.Linear(self.lt_features, self.hidden_channels * 2, bias=False)
         )
@@ -66,20 +56,21 @@ class DilatedBlock(nn.Module):
         self.relu = nn.ReLU()
 
     def forward(self, x: Tensor, scale_bias: Tensor) -> Tuple[Tensor, Tensor]:
-        s, b = self.scale_bias_cn(scale_bias).view(x.shape[0], -1, 1, 1).chunk(2, dim=-3)
+        """Forward pass for a dilated convolution layer
+        Args:
+            x (Tensor): Input to be convolved
+            scale_bias (Tensor): (1, 2D) tensor containing D-dimensional scale and bias vectors 
+        """
+        s, b = self.scale_bias_mlp(scale_bias).view(x.shape[0], -1, 1, 1).chunk(2, dim=-3)  # Unsqueeze dimensions for addition and mutiplication
         identity = x
-        x = self.cn1(x)
-        x = self.layer_norm(x)
-        x = x * s + b
-        x = self.relu(x)
-        x = self.cn2(x)
-        x = self.layer_norm(x)
-        x = x * s + b
-        x = self.relu(x)
+        out = self.layer_norm(self.cn1(x) * s + b)
+        out = self.relu(out)
+        out = self.layer_norm(self.cn2(out) * s + b)
+        out = self.relu(out)
         if self.scale_bias_index == 0:
             identity = self.upsample_cn(identity)
-        out = x + identity
-        return out, scale_bias
+        result = out + identity
+        return result, scale_bias
 
 
 class DilatedEncoder(nn.Module):
@@ -105,6 +96,9 @@ class DilatedEncoder(nn.Module):
         self.layers = self._make_layers()
 
     def _make_layers(self):
+        """Create all dilated convolution layers
+        Args:
+        """
         layers = []
         for i, dl in enumerate(self.dilations * 2):
             layers.append(
@@ -112,5 +106,10 @@ class DilatedEncoder(nn.Module):
         return MultiInputSequential(*layers)
 
     def forward(self, x: Tensor, scale_bias: list) -> Tensor:
+        """Forward pass for dilated convolution stack 
+        Args:
+            x (Tensor): Input to be convolved
+            scale_bias (Tensor): Concatenated scale and bias vectors from the master MLP
+        """
         out, _ = self.layers(x, scale_bias)
         return out

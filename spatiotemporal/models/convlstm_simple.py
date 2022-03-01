@@ -21,9 +21,11 @@ class ConvLSTMLayer(nn.Module):
                              stride=1,
                              padding=1)
 
-    def forward(self, x: Tensor) -> Tuple[Tensor, Tensor]:
-        assert x.shape[1] == self.in_channels + self.hidden_channels * 2
-
+    def forward(self, x: Tensor) -> Tensor:
+        """Forward pass for single LSTM layer
+        Args:
+            x (Tensor): Combination of input, hidden, and cell inputs
+        """
         x_and_hidden, cell = torch.split(x, self.in_channels + self.hidden_channels, dim=1)
 
         x_and_hidden = self.cns(x_and_hidden)
@@ -33,7 +35,7 @@ class ConvLSTMLayer(nn.Module):
         c_t = torch.sigmoid(xh_f) * cell + torch.sigmoid(xh_i) * torch.tanh(xh_c)
         h_t = torch.sigmoid(xh_o) * torch.tanh(c_t)
 
-        return torch.cat((h_t, c_t), dim=1)
+        return torch.cat((h_t, c_t), dim=-3)
 
 
 class ConvLSTMEncoder(nn.Module):
@@ -49,11 +51,18 @@ class ConvLSTMEncoder(nn.Module):
         self.lstm_net = self._make_lstms()
 
     def _make_lstms(self) -> nn.ModuleList:
+        """Create lstm layers
+        Args:
+        """
         all_in_channels = [self.in_channels, *self.network_hidden_channels[:-1]]
         lstms = nn.ModuleList([ConvLSTMLayer(c, h) for c, h in zip(all_in_channels, self.network_hidden_channels)])
         return lstms
 
     def forward(self, x: Tensor) -> Tensor:
+        """Forward pass through all lstm layers for all timesteps
+        Args:
+            x (Tensor): Context tensor containing all timesteps
+        """
         B, T, _, H, W = x.shape
         new_states = [0] * len(self.network_hidden_channels)
 
@@ -63,4 +72,4 @@ class ConvLSTMEncoder(nn.Module):
                 hc = torch.zeros((B, self.network_hidden_channels[i] * 2, H, W)).type_as(x) if t == 0 else new_states[i]
                 new_states[i] = lstm(torch.cat((x_in, hc), dim=1))
 
-        return new_states[-1].chunk(2, dim=1)[0]
+        return new_states[-1].chunk(2, dim=-3)[0]

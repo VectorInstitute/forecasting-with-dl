@@ -1,6 +1,7 @@
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 import torch
+import torch.nn as nn
 import torchvision
 import wandb
 
@@ -19,17 +20,19 @@ class WandbImageCallback(pl.Callback):
         examples_batch = self.val_imgs.to(device=pl_module.device)
         targets_batch = self.targets.to(device=pl_module.device)
         leadtime_vecs_batch = self.leadtime_vecs.to(device=pl_module.device)
+
+        pad = nn.ZeroPad2d((16, 16, 16, 16))
     
         print("**Creating sample**")
         samples = []
         for x, target, leadtime_vec in zip(examples_batch, targets_batch, leadtime_vecs_batch):
             x = x.unsqueeze(0)
             target = target.unsqueeze(0)
-            leadtime_vec = leadtime_vec.unsqueeze(0)    # Manually add batch dimensions
             pred = pl_module(x, leadtime_vec)
-            sample = torch.cat((x.squeeze(0), target, pred), dim=0)
+            ex, land = x.squeeze(0).chunk(2, dim=-3)
+            sample = torch.cat((ex, pad(target), pad(pred), land))
             samples.append(sample)
-        grid_images = torchvision.utils.make_grid(samples, nrow=6)
+        grid_images = torchvision.utils.make_grid(samples, nrow=6, value_range=(0, 1), normalize=True)
         #torchvision.utils.save_image(grid_images, "wandb_sample.png")
 
         caption = "Epoch sample"

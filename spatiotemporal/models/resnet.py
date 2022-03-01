@@ -12,20 +12,23 @@ class Block(nn.Module):
         self,
         in_channels: int,
         out_channels: int,
+        h_dim: int,
+        w_dim: int,
         lt_features: int,
         expand_residual: bool = False,
     ) -> None:
         super().__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
+        self.h_dim = h_dim
+        self.w_dim = w_dim
         self.lt_features = lt_features
         self.expand_residual = expand_residual
 
         self.cn1 = nn.Conv2d(self.in_channels, self.out_channels, (3, 3), stride=1, padding=1)
-        self.bn1 = nn.BatchNorm2d(self.out_channels)
         self.cn2 = nn.Conv2d(self.out_channels, self.out_channels, (3, 3), stride=1, padding=1)
-        self.bn2 = nn.BatchNorm2d(self.out_channels)
         self.relu = nn.ReLU()
+        self.ln = nn.LayerNorm([self.out_channels, self.h_dim, self.w_dim])
 
         if expand_residual is True:
             self.expandres_cn = MultiInputSequential(
@@ -39,19 +42,22 @@ class Block(nn.Module):
         )
 
     def forward(self, x: Tensor, scale_bias: Tensor) -> Tensor:
+        """Forward pass through one ResNet block
+        Args:
+            x (Tensor): Input tensor
+            scale_bias: Concatenated scale and bias vectors from the master MLP
+        """
         s1, b1, s2, b2 = self.scale_bias_cn(scale_bias).view(x.shape[0], -1, 1, 1).chunk(4, dim=-3)
         identity = x
         
-        x = self.relu(self.bn1(self.cn1(x) * s1 + b1))
-        x = self.bn2(self.cn2(x) * s2 + b2)
+        out = self.relu(self.ln(self.cn1(x) * s1 + b1))
+        out = self.ln(self.cn2(out) * s2 + b2)
 
         if self.expand_residual is True:
             identity = self.expandres_cn(identity)
 
-        out = x + identity
-        out = self.relu(out)
-        return out, scale_bias
-
+        result = out + identity
+        return result, scale_bias
 
 
 class ResNet10(nn.Module):
@@ -59,12 +65,16 @@ class ResNet10(nn.Module):
         self,
         in_channels: int,
         out_channels: int,
+        h_dim: int,
+        w_dim: int,
         n_layers: int,
         lt_features: int
     ) -> None:
         super().__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
+        self.h_dim = h_dim
+        self.w_dim = w_dim
         self.lt_features = lt_features
 
         #TODO: Variable number of resnet layers
@@ -73,20 +83,20 @@ class ResNet10(nn.Module):
                                     kernel_size=7,
                                     padding=3,)
         self.block1 = MultiInputSequential(
-            Block(self.in_channels, self.in_channels * 2, self.lt_features, expand_residual=True),
-            Block(self.in_channels * 2, self.in_channels * 2, self.lt_features)
+            Block(self.in_channels, self.in_channels * 2, self.h_dim, self.w_dim, self.lt_features, expand_residual=True),
+            Block(self.in_channels * 2, self.in_channels * 2, self.h_dim, self.w_dim, self.lt_features)
         )
         self.block2 = MultiInputSequential(
-            Block(self.in_channels * 2, self.in_channels * 4, self.lt_features, expand_residual=True),
-            Block(self.in_channels * 4, self.in_channels * 4, self.lt_features)
+            Block(self.in_channels * 2, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features, expand_residual=True),
+            Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features)
         )
         self.block3 = MultiInputSequential(
-            Block(self.in_channels * 4, self.in_channels * 8, self.lt_features, expand_residual=True),
-            Block(self.in_channels * 8, self.in_channels * 8, self.lt_features)
+            Block(self.in_channels * 4, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features, expand_residual=True),
+            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features)
         )
         self.block4 = MultiInputSequential(
-            Block(self.in_channels * 8, self.in_channels * 8, self.lt_features, expand_residual=False),
-            Block(self.in_channels * 8, self.in_channels * 8, self.lt_features)
+            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features, expand_residual=False),
+            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features)
         )
         self.final_cn = nn.Conv2d(in_channels=self.in_channels * 8,
                                   out_channels=self.out_channels,
@@ -94,10 +104,15 @@ class ResNet10(nn.Module):
                                   padding=0,)
 
     def forward(self, x: Tensor, scale_bias: Tensor) -> Tensor:
-        x = self.initial_cn(x)
-        x, _ = self.block1(x, scale_bias)
-        x, _ = self.block2(x, scale_bias)
-        x, _ = self.block3(x, scale_bias)
-        x, _ = self.block4(x, scale_bias)
-        out = self.final_cn(x)
+        """Forward pass through ResNet stack
+        Args:
+            x (Tensor): Input tensor
+            scale_bias: Concatenated scale and bias vectors from the master MLP
+        """
+        out = self.initial_cn(x)
+        out, _ = self.block1(out, scale_bias)
+        out, _ = self.block2(out, scale_bias)
+        out, _ = self.block3(out, scale_bias)
+        out, _ = self.block4(out, scale_bias)
+        out = self.final_cn(out)
         return out
