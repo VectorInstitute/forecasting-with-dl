@@ -25,6 +25,7 @@ For a brief description about each dataset and their format you can refer to the
 | [WeatherBench](https://github.com/pangeo-data/WeatherBench) | Y | N | Global scale **spatiotemporal** weather forecasting dataset. | Low resolution world wide atmospheric data|
 | ConnexOntario Call Volumes | Y | N | Metadata about >500K contacts to mental health services referral program from 2015 to 2020. | Data from Connex Ontario mental health line including date, location, substance abuse, mental health status ,and etc.|
 | [(Grocery) Store Sales (Corporación Favorita)](https://www.kaggle.com/c/store-sales-time-series-forecasting/data) | Y | Y | In this competition, you will predict sales for the thousands of product families sold at Favorita stores located in Ecuador. The training data includes dates, store and product information, whether that item was being promoted, as well as the sales numbers. Additional files include supplementary information that may be useful in building your models. | 3 features (product sales data), 1 possible output (target sales)|
+| Economic Data with Food CPI | Y | Y | Monthly observations of economic variables from FRED and StatCan, 1986 to 2021, used in forecasting models for Canada's Food Price Report. | 332 economic variables with 430 monthly values, any column(s) as targets. |
 
 
 ## Main and dev branches
