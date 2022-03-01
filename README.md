@@ -11,7 +11,7 @@ During the bootcamp, all reference datasets are available on the Vector cluster 
 For external use, we are providing the following link for downloading datasets:
 - [Google Drive Link](https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing)
 
-For a brief description about each dataset and their format you can refer to the table below. Note that very large datasets (e.g. WeatherBench) are not included, and that more datasets will be added over time.\
+For a brief description about each dataset and their format you can refer to the table below. Note that very large datasets (e.g. WeatherBench) are not included, and that more datasets will be added over time.
 
 | Dataset      | On Vector Cluster (Y/N) | On Google Drive (Y/N) | Description | Format |
 | :------------ | :----------------- | :--------------- | :----------- | :---- | 
