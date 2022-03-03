@@ -13,6 +13,10 @@ multivariate_demos/wandb
 multivariate_demos/checkpoints
 multivariate_demos/test_results
 *.ipynb_checkpoints*
+
+multivariate_lstf_demos/data
+multivariate_lstf_demos/autoformer_data
+multivariate_lstf_demos/lightning_logs
 # samples
 samples*
 gifs*
