@@ -75,6 +75,13 @@ class MetNet2(pl.LightningModule):
                                               self.dilated_w_dim,
                                               self.lt_master_out_features,
         )
+        self.dilated_encoder2 = DilatedEncoder(self.dilated_hidden_channels,
+                                              self.dilated_hidden_channels,
+                                              self.dilated_dilations,
+                                              self.dilated_h_dim,
+                                              self.dilated_w_dim,
+                                              self.lt_master_out_features,
+        )
         self.leadtime_system = LeadTimeMLPSystem(
             self.lt_lead_timesteps, 
             self.lt_master_layers,
@@ -114,6 +121,7 @@ class MetNet2(pl.LightningModule):
 
         # Dilated convolution set 1
         output = self.dilated_encoder1(output, master_leadtime_vec)
+        output = self.dilated_encoder2(output, master_leadtime_vec)
 
         # Crop and tile
         output = self.cropandtile(output)
@@ -142,19 +150,21 @@ class MetNet2(pl.LightningModule):
         loss = self.loss(pred, target)
         return loss, pred, target
 
-    def training_step(self, batch: Tensor) -> Tensor:
+    def training_step(self, batch: Tensor, batch_idx: int) -> Tensor:
         """Training step for batch of inputs
         Args:
             batch (Tensor): Batch of inputs to net
+            batch_idx (int): Batch index
         """
         loss, pred, target = self.shared_step(batch)
         self.log("train_loss", loss, prog_bar=True, on_epoch=True, sync_dist=True)
         return loss
 
-    def validation_step(self, batch: Tensor) -> Tensor:
+    def validation_step(self, batch: Tensor, batch_idx: int) -> Tensor:
         """Validation step for batch of inputs
         Args:
             batch (Tensor): Batch of inputs to net
+            batch_idx (int): Batch index
         """
         loss, pred, target = self.shared_step(batch)
         self.log("val_loss", loss, prog_bar=True, on_epoch=True, sync_dist=True)

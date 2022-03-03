@@ -1,3 +1,5 @@
+"""PL VERSION OF MAIN FILE FOR METNET2"""
+
 import os
 import argparse
 from argparse import Namespace
@@ -36,7 +38,6 @@ def prepare_args() -> Namespace:
     parser.add_argument("--rdm_seed", type=int, default=42069)
     parser.add_argument("--checkpoint_path", type=str, default="/h/mchoi/SpatioStuff/models/checkpoints/")
     parser.add_argument("--checkpoint_filename", type=str, default="metnet2_default_chk")
-    parser.add_argument("--sample_output_path", type=str, default="/h/mchoi/SpatioStuff/samples_metnet2_default/")
 
     # Wandb params
     parser.add_argument("--project_name", type=str, default="Default_project")
