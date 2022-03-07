@@ -33,7 +33,7 @@ class Block(nn.Module):
         if expand_residual is True:
             self.expandres_cn = MultiInputSequential(
                 nn.Conv2d(self.in_channels, self.out_channels, (1, 1), stride=1, padding=0),
-                nn.BatchNorm2d(self.out_channels),
+                nn.LayerNorm([self.out_channels, self.h_dim, self.w_dim])
             )
 
         self.scale_bias_cn = nn.Sequential(
@@ -91,14 +91,14 @@ class ResNet10(nn.Module):
             Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features)
         )
         self.block3 = MultiInputSequential(
-            Block(self.in_channels * 4, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features, expand_residual=True),
-            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features)
+            Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features, expand_residual=True),
+            Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features)
         )
         self.block4 = MultiInputSequential(
-            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features, expand_residual=False),
-            Block(self.in_channels * 8, self.in_channels * 8, self.h_dim, self.w_dim, self.lt_features)
+            Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features, expand_residual=False),
+            Block(self.in_channels * 4, self.in_channels * 4, self.h_dim, self.w_dim, self.lt_features)
         )
-        self.final_cn = nn.Conv2d(in_channels=self.in_channels * 8,
+        self.final_cn = nn.Conv2d(in_channels=self.in_channels * 4,
                                   out_channels=self.out_channels,
                                   kernel_size=1,
                                   padding=0,)

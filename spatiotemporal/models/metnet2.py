@@ -11,7 +11,7 @@ from .convlstm_simple import ConvLSTMEncoder
 from .dilated_net import DilatedEncoder
 from .lead_time_system import LeadTimeMLPSystem
 from .resnet import ResNet10
-from .custom_loss_fns import CRPSLoss
+#from .custom_loss_fns import CRPSLoss
 from .multi_input_sequential import MultiInputSequential, boolean_string
 
 
@@ -22,7 +22,7 @@ class MetNet2(pl.LightningModule):
         wd: float,
         context_timesteps: int,
         lstm_in_channels: int,
-        lstm_network_hidden_channels: list,    # Mutable, be careful
+        lstm_network_hidden_channels: list,    
         h_dim: int,
         w_dim: int,
         dilated_num_dilations: int,
@@ -36,7 +36,6 @@ class MetNet2(pl.LightningModule):
         **kwargs,
     ) -> None:
         super().__init__()
-        # MetNet-2 params
         self.context_timesteps = context_timesteps
 
         # Downsample, crop, and tile operations
@@ -119,7 +118,7 @@ class MetNet2(pl.LightningModule):
         # ConvLSTM network taking x and producing hidden
         output = self.convlstm_network(output)
 
-        # Dilated convolution set 1
+        # Dilated convolution sets
         output = self.dilated_encoder1(output, master_leadtime_vec)
         output = self.dilated_encoder2(output, master_leadtime_vec)
 
@@ -176,7 +175,7 @@ class MetNet2(pl.LightningModule):
             parent_parser (ArgumentParser): Parent parser which receives extra model arguments
         """
         parser = parent_parser.add_argument_group("MetNet2")
-        parser.add_argument('--lr', type=float, default=2e-3 / 8)   # Scale down for distributed
+        parser.add_argument('--lr', type=float, default=2e-5)   # Scale down for distributed
         parser.add_argument("--wd", type=float, default=0)
         parser.add_argument("--context_timesteps", type=int, default=12)
         parser.add_argument("--lstm_in_channels", type=int, default=1)
