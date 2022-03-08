@@ -27,6 +27,25 @@ For a brief description about each dataset and their format you can refer to the
 | [(Grocery) Store Sales (Corporación Favorita)](https://www.kaggle.com/c/store-sales-time-series-forecasting/data) | Y | Y | In this competition, you will predict sales for product families sold at Favorita stores located in Ecuador. The training data includes dates, store and product information, whether that item was being promoted, as well as the sales numbers. Additional files include supplementary information that may be useful in building your models. | 33 product families, 54 stores, 3 features (product sales data), 1 possible output (target sales)|
 | Economic Data with Food CPI | Y | Y | Monthly observations of economic variables from FRED and StatCan, 1986 to 2021, used in forecasting models for Canada's Food Price Report. | 332 economic variables with 430 monthly values, any column(s) as targets. |
 
+## Models
+The demos contain reference applications of the following methods. 
+
+| Model      | Lagged Covariates | Future Covariates | Multiple Targets | Probabilistic | Interpretable |
+| :------------ | :------------ | :------------ | :------------ | :------------ | :------------ | 
+| [Prophet](https://facebook.github.io/prophet/)        |        | &check;     |            |  |&check; | 
+| [Neural Prophet](https://neuralprophet.com/html/index.html) | &check; | &check; |  |  | &check; |
+| [NBEATS](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.nbeats.NBeats.html) |  |  | &check; |  | &check; |
+| [DeepAR](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.deepar.DeepAR.html) | | &check; | &check; | &check; |  |
+| [Autoformer](https://arxiv.org/abs/2106.13008) | &check; | &check; | &check; |  | &check;|
+| [NHITS](https://arxiv.org/abs/2106.13008) |  |  | &check; |  | &check;|
+
+
+## Demos 
+The demos for the bootcamp are available in the following directories:
+- **demos:** Outlines the application of Prophet, Neural Prophet, NBEATS, DeepAR and simple baseline methods to forecast exhange rates. The focus of these demos is to explore univariate forecasting. Lagged and/or future covariates are leveraged by methods that support them. Additionally, techniques for cross-validation are discussed. 
+- **multivariate_demos:** Outlines the application of NBEATS and DeepAR to forecast hourly electricity consumption for a set of households based on past observations. The focus of this series of demos is to explore DeepAR and NBEATS in the multivariate forecasting setting. 
+- **multivariate_lstf_demos:** Outlines the application of Autoformer and NHITS to forecasting a set of traffic sensors. The focus of these demos is too explore a multivariate time series forecasting problem where the desired input and ouput sequences are very large. 
+
 
 ## Main and dev branches
 
