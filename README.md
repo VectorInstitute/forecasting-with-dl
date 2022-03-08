@@ -37,7 +37,7 @@ The demos contain reference applications of the following methods.
 | [NBEATS](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.nbeats.NBeats.html) |  |  | &check; |  | &check; |
 | [DeepAR](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.deepar.DeepAR.html) | | &check; | &check; | &check; |  |
 | [Autoformer](https://arxiv.org/abs/2106.13008) | &check; | &check; | &check; |  | &check;|
-| [NHITS](https://arxiv.org/abs/2106.13008) |  |  | &check; |  | &check;|
+| [NHITS](https://arxiv.org/abs/2201.12886) |  |  | &check; |  | &check;|
 
 
 ## Demos 
