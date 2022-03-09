@@ -29,3 +29,8 @@ archive*
 wandb*
 *.DS_Store
 
+# model
+*.pkl
+
+#logs
+*lightning_logs*
