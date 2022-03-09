@@ -1,11 +1,17 @@
 # dunder folders
 __pycache__
 
+# model files
+*.pkl
+*lightning_logs*
+*NBEATS_MODEL*
 
 # datasets
 *.npy
+*.csv
 datasets/exchange_rate
 datasets/electricity
+
 # checkpoints
 *.pt
 multivariate_demos/lightning_logs
