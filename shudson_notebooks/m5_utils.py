@@ -5,6 +5,7 @@ def m5_evaluation(forecast, truth=None, method='rmse'):
     
     if truth is None:
         try:
+            # m5_truth.py was generated in test_models.ipynb
             truth = pd.read_csv('m5_truth.csv').set_index('id')
         except:
             raise FileNotFoundError('m5_truth.csv could not be found. It is required when the truth dataframe is not provided.')
