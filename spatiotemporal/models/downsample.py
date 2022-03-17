@@ -4,12 +4,10 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
+
 class Downsample2d(nn.Module):
     def __init__(
-        self,
-        pool_type: str,
-        kernel_size: Union[Tuple[int, int], int],
-        padding: int
+        self, pool_type: str, kernel_size: Union[Tuple[int, int], int], padding: int
     ) -> None:
         super().__init__()
         self.kernel_size = kernel_size
@@ -26,16 +24,17 @@ class Downsample2d(nn.Module):
         Args:
             x (Tensor): Input to be downsampled via selected downsampling function
         """
-        x = x.transpose(0, 1)   # BTCHW -> TBCHW
+        x = x.transpose(0, 1)  # BTCHW -> TBCHW
         result = []
-        for time_frame in x:
+        for time_frame in x:    # Torch doesn't support 5-dim input
             result.append(self.pool(time_frame))
         return torch.stack(result).transpose(0, 1)  # TBCHW -> BTCHW
+
 
 class ParameterizedDownsample2d(nn.Module):
     def __init__(
         self,
-        hidden_channels: int, 
+        hidden_channels: int,
         kernel_size: Union[Tuple[int, int], int],
         stride: Union[Tuple[int, int], int],
         padding: Union[Tuple[int, int], int],
@@ -46,18 +45,20 @@ class ParameterizedDownsample2d(nn.Module):
         self.stride = stride
         self.padding = padding
 
-        self.downsample = nn.Conv2d(self.hidden_channels,
-                                    self.hidden_channels,
-                                    kernel_size=self.kernel_size,
-                                    stride=self.stride,
-                                    padding=self.padding)
+        self.downsample = nn.Conv2d(
+            self.hidden_channels,
+            self.hidden_channels,
+            kernel_size=self.kernel_size,
+            stride=self.stride,
+            padding=self.padding,
+        )
 
     def forward(self, x: Tensor) -> Tensor:
         """Forward pass for a parameterized (convolutional) 2d downsampling layer
         Args:
             x (Tensor): Input to be downsampled
         """
-        x = x.transpose(0, 1)   # BTCHW -> TBCHW
+        x = x.transpose(0, 1)  # BTCHW -> TBCHW
         result = []
         for time_frame in x:
             result.append(self.downsample(time_frame))
@@ -66,10 +67,7 @@ class ParameterizedDownsample2d(nn.Module):
 
 class CropAndTile(nn.Module):
     def __init__(
-        self,
-        crop_height: int,
-        crop_width: int,
-        tile: Tuple[int, int]
+        self, crop_height: int, crop_width: int, tile: Tuple[int, int]
     ) -> None:
         super().__init__()
         self.crop_height = crop_height
@@ -81,7 +79,7 @@ class CropAndTile(nn.Module):
         Args:
             x (Tensor): Input to be cropped and tiled
         """
-        assert len(x.shape) == 4    # B, C, H, W input tensor
+        assert len(x.shape) == 4  # B, C, H, W input tensor
         _, _, H, W = x.shape
         y_low = (H - self.crop_height) // 2
         y_high = y_low + self.crop_height

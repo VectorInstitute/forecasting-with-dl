@@ -15,6 +15,7 @@ class MultiInputSequential(nn.Sequential):
                 inputs = module(inputs)
         return inputs
 
+
 def boolean_string(s: str) -> bool:
     """Function for proper processing of bools passed in through argparse + commandline"""
     if s not in {"True", "False"}:
