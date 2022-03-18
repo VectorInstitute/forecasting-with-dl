@@ -30,7 +30,7 @@ class WeatherBench():
         """
         # Constants
         self.land_constants = self._extract_from_xarray("constants_1.40625deg.nc", "lsm", time=None, change_axes=True)
-        self.land_constants = torch.Tensor(self.land_constants.values)
+        self.land_constants = Tensor(self.land_constants.values)
 
         # Variable
         self.dataset = self._extract_from_xarray("*.nc", self.dset_attr, time=slice("2000-01-01", "2018-12-30"), change_axes=True, combine="by_coords")
@@ -76,6 +76,36 @@ class WeatherBench():
         dset = self._latlon_to_cartesian(dset_data) if change_axes is True else dset_data   # Convert to cartesian coords if necessary
         return dset
 
+    def _get_idxs(self, idx: int) -> Tuple[int, int]:
+        """Retrieve the location and leadtime indexes for the given dataset scheme
+        Args:
+            idx (int): Index of dataset
+        """
+        loc_idx = idx % 2   # Grid 0 or 1
+        lt_idx = idx // 2 % self.n_target   # Timestep from 0-11 inclusive
+        return loc_idx, lt_idx
+
+    def _get_slice(self, idx: int, loc_idx: int, lt_idx: int):
+        """Slice into the netCDF/xarray obj
+        Args:
+            loc_idx (int): The location index
+            lt_idx (int): The leadtime index
+        """
+        context_y_low, context_y_high, context_x_low, context_x_high = self.context_shape[loc_idx]
+        target_y_low, target_y_high, target_x_low, target_x_high = self.target_shape[loc_idx]
+
+        # Slice example into context (n_obs) and target (n_target)
+        data_range = self.data_idxs[idx // 24][self.n_blackout:]
+        context = self.dataset[data_range[:self.n_obs]]
+        target = self.dataset[data_range[self.n_obs + lt_idx]]
+
+        # Slice into xarray obj
+        context = context[:, context_y_low:context_y_high, context_x_low:context_x_high]
+        land_constant = self.land_constants[context_y_low:context_y_high, context_x_low:context_x_high]
+        target = target[target_y_low:target_y_high, target_x_low:target_x_high]
+
+        return context, land_constant, target
+
     def __getitem__(self, idx: int) -> Tuple[Tensor, Tensor, Tensor]:
         """Retrieve example from dataset, where each example=[n_blackout, n_obs, n_target]
         Args:
@@ -85,26 +115,15 @@ class WeatherBench():
             target (Tensor): Target tensor of shape (C, H, W)
             leadtime_vec (Tensor): Leadtime vector of shape (1, T)
         """
-        loc_idx = idx % 2   # Grid 0 or 1
-        lt_idx = idx // 2 % 12  # Timestep from 0-11 inclusive
+        loc_idx, lt_idx = self._get_idxs(idx)
 
-        context_y_low, context_y_high, context_x_low, context_x_high = self.context_shape[loc_idx]
-        target_y_low, target_y_high, target_x_low, target_x_high = self.target_shape[loc_idx]
+        context, land_constant, target = self._get_slice(idx, loc_idx, lt_idx)
+        context = Tensor(context.values).unsqueeze(-3)
+        target = Tensor(target.values).unsqueeze(-3)
+        leadtime_vec = F.one_hot(Tensor([lt_idx]).long(), num_classes=self.n_target).float() 
 
-        # Slice example into context (n_obs) and target (n_target)
-        data_range = self.data_idxs[idx // 24][self.n_blackout:]
-        context = self.dataset[data_range[:self.n_obs]]
-        target = self.dataset[data_range[self.n_obs + lt_idx]]
-        leadtime_vec = F.one_hot(torch.Tensor([lt_idx]).long(), num_classes=self.n_target).float() # F.one_hot only takes LongTensor
-
-        context = torch.Tensor(context[:, context_y_low:context_y_high, context_x_low:context_x_high].values).unsqueeze(-3)
-        land_constant = self.land_constants[context_y_low:context_y_high, context_x_low:context_x_high]                            
-        context = torch.cat((context, land_constant.view(1, *context.shape[1:]).tile(12, 1, 1, 1)), dim=-3) # Add land_constant to channel dimension of context tensor
-        context = self.zeropad(context) # Pad top of the tensor with zeros to get full 64 pix in y dimension
-
-        target = torch.Tensor(target[target_y_low:target_y_high, target_x_low:target_x_high].values).unsqueeze(-3)
-
-        leadtime_vec = leadtime_vec.float()                                                   
+        context = torch.cat((context, land_constant.view(1, *context.shape[1:]).tile(12, 1, 1, 1)), dim=      -3)
+        context = self.zeropad(context)
 
         return context, target, leadtime_vec
 
