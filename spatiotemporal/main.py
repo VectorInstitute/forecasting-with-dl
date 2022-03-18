@@ -40,7 +40,7 @@ def prepare_args() -> Namespace:
 
     # Training params
     parser.add_argument("--rdm_seed", type=int, default=42069)
-    parser.add_argument("--checkpoint_path", type=str, default="/h/mchoi/spatiostuff/models/checkpoints/")
+    parser.add_argument("--checkpoint_path", type=str, default="./models/checkpoints/")
     parser.add_argument("--checkpoint_filename", type=str, default="metnet2_default_chk")
 
     # Wandb params

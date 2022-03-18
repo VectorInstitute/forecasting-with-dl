@@ -1,11 +1,11 @@
 # dunder folders
 __pycache__
 
-
 # datasets
 *.npy
 datasets/exchange_rate
 datasets/electricity
+
 # checkpoints
 *.pt
 multivariate_demos/lightning_logs
@@ -13,6 +13,7 @@ multivariate_demos/wandb
 multivariate_demos/checkpoints
 multivariate_demos/test_results
 *.ipynb_checkpoints*
+
 # samples
 samples*
 gifs*
@@ -20,8 +21,9 @@ gifs*
 # scripts
 *.slrm
 
-# misc
+# arhives and logs
 archive*
 wandb*
 *.DS_Store
+*.log
 
