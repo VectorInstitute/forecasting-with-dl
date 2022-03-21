@@ -6,6 +6,7 @@ from dataset_impls.weatherbench import WeatherBench
 
 """
 Testing the dataset(s) is quite difficult, and it's recommended to visualize the data going into the network and coming out of it.
+Note that all tests here are very hard-coded for the specific dataset use case.
 """
 
 

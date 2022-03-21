@@ -2,8 +2,7 @@
 
 import os
 import argparse
-from argparse import Namespace
-from typing import Tuple, List, Dict, Any
+from typing import Tuple, Dict, Any
 import pprint
 import time
 
@@ -26,8 +25,9 @@ from models.multi_input_sequential import boolean_string
 from utils.metnet2_image_callback import WandbImageCallback
 
 
-def prepare_args() -> Namespace:
-    """Prepare commandline args"""
+def prepare_args():
+    """Prepare commandline arguments
+    """
     parser = argparse.ArgumentParser(description="Args for training")
     # Data Module params
     parser.add_argument("--data_dir", type=str, default="/ssd003/projects/aieng/datasets/forecasting")
@@ -55,7 +55,7 @@ def prepare_args() -> Namespace:
 def get_val_samples(args, num_samples: int) -> Tuple[Tensor, Tensor, Tensor]:
     """Retrieve validation samples from dataset
     Args:
-        args (namespace): 
+        args (namespace): Training arguments
         num_samples (int): The number of validation samples (batch size) returned
     """
     val_dset = WeatherBench(src=args.data_dir, 
@@ -88,7 +88,7 @@ def setup_model(dict_args: Dict[str, Any]) -> pl.LightningModule:
         model = MetNet2(**dict_args)
     return model
 
-def main(args: Namespace) -> None:
+def main(args):
     pl.seed_everything(args.rdm_seed)
 
     # Init logger, True is default tensorboard logger
@@ -108,7 +108,7 @@ def main(args: Namespace) -> None:
     dict_args = vars(args)  
     weatherbench_dset = WeatherBenchDataModule(**dict_args)
     model = setup_model(dict_args)
-    print(model)
+    print(model)    # Print model repr in stdout
 
     # Init trainer
     trainer = pl.Trainer.from_argparse_args(
