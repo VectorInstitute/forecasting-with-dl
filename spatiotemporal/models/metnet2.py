@@ -186,7 +186,7 @@ class MetNet2(pl.LightningModule):
         self.log("val_loss", loss, prog_bar=True, on_epoch=True, sync_dist=True)
 
     @staticmethod
-    def add_model_specific_args(parent_parser: argparse.ArgumentParser) -> argparse.Argument_parser:
+    def add_model_specific_args(parent_parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
         """Prepares arguments specific to the model architecture and optimizers
         Args:
             parent_parser (ArgumentParser): Parent parser which receives extra model arguments
