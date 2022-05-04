@@ -10,7 +10,7 @@ The demos in this directory are easily run on the Vector cluster. First, downloa
 ### DeepAR
 DeepAR, a recently proposed probabilistic forecasting method, is applied to forecast hourly energy consumption accross a set of households. First, the demo outlines how to load the data and split it into train, validation and test sets. An autoformer model is subsequently initialized with an appropriate set of hyperparmeters given the dataset. The model is trained using the training data and evaluated at regular intervals using the validation data. Once the model is finished training, the model is evaluated on the test set and the predicitons are visualized. 
 
-### NHITS
+### NBEATS
 NBEATS, a recently proposed interpretable forecasting method, is applied to forecast hourly energy consumption accross a set of households. First, the demo outlines how to load the data and split it into train, validation and test sets. An autoformer model is subsequently initialized with an appropriate set of hyperparmeters given the dataset. The model is trained using the training data and evaluated at regular intervals using the validation data. Once the model is finished training, the model is evaluated on the test set and the predicitons are visualized. 
 
 
