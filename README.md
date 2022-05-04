@@ -56,4 +56,4 @@ In order to configure a Python 3.7 environment with the appropriate packages to 
 - `conda create -n forecasting python=3.7`
 - `conda activate forecasting`
 - `conda install pip`
-- `pip install -r forecasting_requirements.txt`
+- `pip install -r forecasting_requirements.txt --user`
