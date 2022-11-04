@@ -29,3 +29,6 @@ archive*
 wandb*
 *.DS_Store
 
+# jupyter
+*.err
+*.log
