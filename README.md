@@ -52,8 +52,10 @@ The demos for the bootcamp are available in the following directories:
 The AI Engineering team are using dev branches (e.g. [dev_demos](https://github.com/VectorInstitute/forecasting-bootcamp/tree/dev_demos)) to indicate works-in-progress. We invite you to view and begin experimenting with these resources, but please note that all material currently in development is subject to be modified, perhaps significantly, ahead of the bootcamp. 
 
 ## Environment 
-In order to configure a Python 3.7 environment with the appropriate packages to run the demos, use the following sequence of commands on the command line:
-- `conda create -n forecasting python=3.7`
+In order to configure a Python 3.8 environment with the appropriate packages to run the demos, use the following sequence of commands on the command line:
+- `conda create -n forecasting python=3.8`
 - `conda activate forecasting`
 - `conda install pip`
 - `pip install -r forecasting_requirements.txt --user`
+
+*NOTE* If you are going to be using notebooks launched on our cluster, there is an issue with kernels associated with conda environments and cluster launched Jupyter notebooks. Thus, you should create an environment through `python3 -m venv` and source that in your slurm launch script.
