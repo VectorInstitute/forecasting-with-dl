@@ -58,4 +58,4 @@ In order to configure a Python 3.8 environment with the appropriate packages to 
 - `conda install pip`
 - `pip install -r forecasting_requirements.txt --user`
 
-*NOTE* If you are going to be using notebooks launched on our cluster, there is an issue with kernels associated with conda environments and cluster launched Jupyter notebooks. Thus, you should create an environment through `python3 -m venv` and source that in your slurm launch script.
+*NOTE*: If you are going to be using notebooks launched on our cluster, there is an issue with kernels associated with conda environments and cluster launched Jupyter notebooks. Thus, you should create an environment through `python3 -m venv` and source that in your slurm launch script.
