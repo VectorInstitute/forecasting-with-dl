@@ -6,6 +6,7 @@ __pycache__
 *.npy
 datasets/exchange_rate
 datasets/electricity
+datasets/**
 # checkpoints
 *.pt
 multivariate_demos/lightning_logs
