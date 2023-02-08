@@ -37,11 +37,12 @@ The demos contain reference applications of the following methods.
 | [NBEATS](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.nbeats.NBeats.html) |  |  | &check; |  | &check; |
 | [DeepAR](https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.deepar.DeepAR.html) | | &check; | &check; | &check; |  |
 | [Autoformer](https://arxiv.org/abs/2106.13008) | &check; | &check; | &check; |  | &check;|
-| [NHITS](https://arxiv.org/abs/2201.12886) |  |  | &check; |  | &check;|
+| [NHITS](https://arxiv.org/abs/2201.12886) |   &check;|  &check; | &check; |  | &check;|
 
 
 ## Demos 
 The demos for the bootcamp are available in the following directories:
+- **intro_to_forecasting:** Two notebooks that overview the basics for time series analysis and time series forecasting. 
 - **demos:** Outlines the application of Prophet, Neural Prophet, NBEATS, DeepAR and simple baseline methods to forecast exhange rates. The focus of these demos is to explore univariate forecasting. Lagged and/or future covariates are leveraged by methods that support them. Additionally, techniques for cross-validation are discussed. 
 - **multivariate_demos:** Outlines the application of NBEATS and DeepAR to forecast hourly electricity consumption for a set of households based on past observations. The focus of this series of demos is to explore DeepAR and NBEATS in the multivariate forecasting setting. 
 - **multivariate_lstf_demos:** Outlines the application of Autoformer and NHITS to forecasting a set of traffic sensors. The focus of these demos is too explore a multivariate time series forecasting problem where the desired input and ouput sequences are very large. 
