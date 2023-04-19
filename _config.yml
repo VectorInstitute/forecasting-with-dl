@@ -1,0 +1,29 @@
+# Book settings
+title: "Forecasting Workshop"
+author: "Vector Institute"
+copyright: "2023"
+logo: "_static/img/logo.jpg"
+# Patterns to skip when building the book. Can be glob-style (e.g. "*skip.ipynb")
+exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
+# Auto-exclude files not in the toc
+only_build_toc_files: true
+
+# Execution settings
+execute:
+  execute_notebooks: "off"
+
+# HTML-specific settings
+html:
+  use_repository_button: true
+  use_edit_page_button: true
+  use_issues_button: true
+
+# Launch button settings
+launch_buttons:
+  notebook_interface: jupyterlab
+  colab_url: "https://colab.research.google.com"
+
+repository:
+  url: https://github.com/josephmje/forecasting-bootcamp
+  path_to_book: .
+  branch: jupyter-book

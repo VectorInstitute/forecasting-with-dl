@@ -1,0 +1,28 @@
+format: jb-book
+root: README
+parts:
+- caption: Datasets
+  chapters:
+  - file: datasets/boc_exchange/prepare_boc_exchange.ipynb
+  - file: datasets/can_climate_data/load_raw_data.ipynb
+  - file: datasets/can_climate_data/data_explore.ipynb
+  - file: datasets/m5/load_m5_dataset.ipynb
+- caption: Introduction
+  chapters:
+  - file: intro_to_forecasting/intro_time_series.ipynb
+  - file: intro_to_forecasting/intro_time_series_2.ipynb
+- caption: Univariate Forecasting
+  chapters:
+  - file: demos/demo1_prophet_neuralprophet_testset.ipynb
+  - file: demos/demo2_pytorch_forecasting-NBEATS-CPI.ipynb
+  - file: demos/demo2_pytorch_forecasting.ipynb
+  - file: demos/demo3_rolling_cv_prophet.ipynb
+- caption: Multivariate Forecasting
+  chapters:
+  - file: multivariate_demos/deepar_electricity.ipynb
+  - file: multivariate_demos/nbeats_electricity.ipynb
+  - file: multivariate_demos/nhits_quantile.ipynb
+- caption: Multivariate Long Sequence Timeseries Forecasting
+  chapters:
+  - file: autoformer_traffic.ipynb
+  - file: nhits_traffic.ipynb
