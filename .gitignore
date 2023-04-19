@@ -32,3 +32,5 @@ wandb*
 # jupyter
 *.err
 *.log
+
+_build/
