@@ -1,5 +1,3 @@
-<a href="https://vectorinstitute.ai/"><img src="../media-assets-do-not-merge/vector-logo-black.svg?raw=true)" width="175" align="right" /></a>
-
 # Forecasting Bootcamp
 
 This repository contains demos and reference implementations for a variety of forecasting techniques that will be highlighted at Vector Institute's upcoming Forecasting Using Deep Learning Bootcamp in March 2022.

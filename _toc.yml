@@ -1,12 +1,6 @@
 format: jb-book
 root: README
 parts:
-- caption: Datasets
-  chapters:
-  - file: datasets/boc_exchange/prepare_boc_exchange.ipynb
-  - file: datasets/can_climate_data/load_raw_data.ipynb
-  - file: datasets/can_climate_data/data_explore.ipynb
-  - file: datasets/m5/load_m5_dataset.ipynb
 - caption: Introduction
   chapters:
   - file: intro_to_forecasting/intro_time_series.ipynb
@@ -19,10 +13,18 @@ parts:
   - file: demos/demo3_rolling_cv_prophet.ipynb
 - caption: Multivariate Forecasting
   chapters:
-  - file: multivariate_demos/deepar_electricity.ipynb
+  - file: multivariate_demos/deepar_electricty.ipynb
   - file: multivariate_demos/nbeats_electricity.ipynb
   - file: multivariate_demos/nhits_quantile.ipynb
 - caption: Multivariate Long Sequence Timeseries Forecasting
   chapters:
-  - file: autoformer_traffic.ipynb
-  - file: nhits_traffic.ipynb
+  - file: multivariate_lstf_demos/autoformer_traffic.ipynb
+  - file: multivariate_lstf_demos/nhits_traffic.ipynb
+- caption: Appendix
+  chapters: 
+  - file: datasets/datasets_intro
+    sections:
+    - file: datasets/boc_exchange/prepare_boc_exchange.ipynb
+    - file: datasets/can_climate_data/load_raw_data.ipynb
+    - file: datasets/can_climate_data/data_explore.ipynb
+    - file: datasets/m5/load_m5_dataset.ipynb
