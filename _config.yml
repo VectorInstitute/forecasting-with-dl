@@ -24,6 +24,6 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 repository:
-  url: https://github.com/josephmje/forecasting-bootcamp
+  url: https://github.com/VectorInstitute/forecasting-bootcamp
   path_to_book: .
   branch: jupyter-book
