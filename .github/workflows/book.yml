@@ -4,7 +4,7 @@ name: deploy-book
 on:
   push:
     branches:
-    - jupyter-book
+    - main
   release:
     types: [published]
 
@@ -25,7 +25,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install -r book-requirements.txt
+        pip install ghp-import jupyter-book
 
     # Build the book
     - name: Build the book
