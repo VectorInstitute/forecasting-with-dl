@@ -61,6 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'demos/demo1_prophet_neuralprophet_testset';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -543,7 +545,7 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="data-loading">
+<section class="tex2jax_ignore mathjax_ignore" id="data-loading">
 <h1>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this heading">#</a></h1>
 <section id="load-exchange-rate-data-file">
 <h2>Load exchange rate data file<a class="headerlink" href="#load-exchange-rate-data-file" title="Permalink to this heading">#</a></h2>
@@ -642,7 +644,7 @@ document.write(`
 </div>
 </section>
 </section>
-<section id="evaluation-metrics">
+<section class="tex2jax_ignore mathjax_ignore" id="evaluation-metrics">
 <h1>Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h1>
 <p>In order to objectively compare the performance of this and other models on out-of-sample forecasting performance, we will need to collect output in a consistent format and apply a suite of standard evaluation metrics:</p>
 <ul class="simple">
@@ -679,7 +681,7 @@ document.write(`
 </div>
 </div>
 </section>
-<section id="baseline-forecasts">
+<section class="tex2jax_ignore mathjax_ignore" id="baseline-forecasts">
 <h1>Baseline Forecasts<a class="headerlink" href="#baseline-forecasts" title="Permalink to this heading">#</a></h1>
 <p>Let’s begin our experiments by producing forecasts using naïve estimators. A common baseline is <em>persistence forecasting</em>, where the forecast is simply an extension of the last known observation of the time series. A second baseline is the <em>mean window forecast</em>, where we take the mean over a window of observations and use this value for forecasts. The following code produces and collects the baseline forecasts into lists.</p>
 <div class="cell docutils container">
@@ -826,12 +828,12 @@ document.write(`
 </section>
 </section>
 </section>
-<section id="prophet">
+<section class="tex2jax_ignore mathjax_ignore" id="prophet">
 <h1>Prophet<a class="headerlink" href="#prophet" title="Permalink to this heading">#</a></h1>
 <p>Univariate forecasting that supports additional <em>future</em> regressors. Prophet does not support the inclusion of <em>lagged regressors</em>, i.e. it does not support the use of historical values of multiple series to predict a single target series. We include it as a baseline because it is popular, lightweight, interpretable, and performs very well in some domains.</p>
 <p>Prophet is based on a Generalized Additive Model (GAM):</p>
-<p>$ y(t) = g(t) + s(t) + h(t) + \epsilon_t$</p>
-<p>where $y(t)$ is the target series, $g(t)$ is the trend function, $s(t)$ is the seasonality or periodic function, $h(t)$ is a function reflecting holidays or other irregular events, and $\epsilon_t$ is an error term that is assumed to be normally distributed.</p>
+<p><span class="math notranslate nohighlight">\( y(t) = g(t) + s(t) + h(t) + \epsilon_t\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(y(t)\)</span> is the target series, <span class="math notranslate nohighlight">\(g(t)\)</span> is the trend function, <span class="math notranslate nohighlight">\(s(t)\)</span> is the seasonality or periodic function, <span class="math notranslate nohighlight">\(h(t)\)</span> is a function reflecting holidays or other irregular events, and <span class="math notranslate nohighlight">\(\epsilon_t\)</span> is an error term that is assumed to be normally distributed.</p>
 <p>Despite being formulated as an additive model, multiplicative interaction between seasonality and trend components is supported (using a log transform). In the implementation, this is easily configurable using a constructor parameter. See the <a class="reference external" href="https://facebook.github.io/prophet/docs/multiplicative_seasonality.html">documentation</a> for more details.</p>
 <section id="data-preparation">
 <h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
@@ -984,7 +986,7 @@ document.write(`
 </div>
 </section>
 </section>
-<section id="neuralprophet">
+<section class="tex2jax_ignore mathjax_ignore" id="neuralprophet">
 <h1>NeuralProphet<a class="headerlink" href="#neuralprophet" title="Permalink to this heading">#</a></h1>
 <p>Let’s proceed to explore the <a class="reference external" href="https://neuralprophet.com/html/index.html">NeuralProphet</a> model. Please review the following resources to learn more:</p>
 <ul class="simple">
@@ -1341,7 +1343,7 @@ document.write(`
 </section>
 </section>
 </section>
-<section id="reflections-and-next-steps">
+<section class="tex2jax_ignore mathjax_ignore" id="reflections-and-next-steps">
 <h1>Reflections and Next Steps<a class="headerlink" href="#reflections-and-next-steps" title="Permalink to this heading">#</a></h1>
 <p>So far, the best performing ‘model’ is the persistence forecasting model. This is, of course, an unsatisfactory result. The best performing experimental model on the exchange rates dataset is the restricted NeuralProphet model that uses only the last observation of lagged regressors as features. Of course, we have only considered a very small number of configurations using NeuralProphet, many more model and hyperparameter configurations are possible. Please refer to the <a class="reference external" href="https://neuralprophet.com/html/contents.html">NeuralProphet documentation</a> for detailed information. However, to <em>find</em> a better configuration may require significant effort, either manual or automated (via a hyperparameter search, for example). In practical forecasting use cases, it may be important to consider the time, resources, and effort that are needed to find a forecasting model that is better than  baseline.</p>
 <p>The following notebooks in this series will cover additional models (N-BEATS and DeepAR) as well as rolling cross validation using NeuralProphet. In order to compare the out-of-sample forecasts produced by this notebook to others, the <code class="docutils literal notranslate"><span class="pre">results_df</span></code> DataFrame is saved below. Hopefully we will find a model that performs better than baseline in a continued out-of-sample evaluation experiment!</p>

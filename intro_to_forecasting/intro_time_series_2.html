@@ -61,7 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro_to_forecasting/intro_time_series_2';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -498,7 +499,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="intro-to-time-series-forecasting-and-evaluation">
+  <section class="tex2jax_ignore mathjax_ignore" id="intro-to-time-series-forecasting-and-evaluation">
 <h1>Intro to Time Series Forecasting and Evaluation<a class="headerlink" href="#intro-to-time-series-forecasting-and-evaluation" title="Permalink to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
@@ -569,13 +570,13 @@ document.write(`
 <h2>Intro to Time Series Forecasting<a class="headerlink" href="#intro-to-time-series-forecasting" title="Permalink to this heading">#</a></h2>
 <section id="univariate-time-series-forecasting">
 <h3>Univariate Time Series Forecasting<a class="headerlink" href="#univariate-time-series-forecasting" title="Permalink to this heading">#</a></h3>
-<p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length $T$ and a forecasting horizon of length $H$, the univariate time series forecasting problem is to find  function $f: \mathbb{R}^{T} \to \mathbb{R}^H$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-69fa9bee-b4e2-47e8-9f6b-253925649f2f">
-<span class="eqno">(8)<a class="headerlink" href="#equation-69fa9bee-b4e2-47e8-9f6b-253925649f2f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span> and a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span>, the univariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{T} \to \mathbb{R}^H\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-856673c4-2b57-474f-98ca-095f01ee643a">
+<span class="eqno">(8)<a class="headerlink" href="#equation-856673c4-2b57-474f-98ca-095f01ee643a" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{y} = f(x) \approx y
 \end{align}\]</div>
-<p>where $x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]$ is an input vector of observations over the lookback window, $y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]$ is the output vector. $f$ is parametized by $\theta$ which determine the output $\hat{y}$ given an input $x$. $\theta$ is learned to mimimize the prediction loss of the model $L$ over training portion of the time series. The resulting model $f$ is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
-<p>To solidify this notion, we will train and evaluate an Exponential Smoothing Forecasting model on the Air Passenger Dataset. The Air Passenger dataset tracks the amount of commerical airplane passengers $x_i$ by month $i$. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
+<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]\)</span> is an input vector of observations over the lookback window, <span class="math notranslate nohighlight">\(y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]\)</span> is the output vector. <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>To solidify this notion, we will train and evaluate an Exponential Smoothing Forecasting model on the Air Passenger Dataset. The Air Passenger dataset tracks the amount of commerical airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">AirPassengersDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -590,66 +591,66 @@ document.write(`
 <p>With our dataset in place, we can select a univariate forecasting model to train and evaluate. For this example, we consider an <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_smoothing">Exponential Smoothing Forecasting model</a> a seminal approach to time series forecasting.</p>
 <section id="aside-exponential-smoothing">
 <h4>Aside: Exponential Smoothing<a class="headerlink" href="#aside-exponential-smoothing" title="Permalink to this heading">#</a></h4>
-<p>Exponential smoothing (ES) models generate predictions $\hat{y}$ as linear combination of past observations $x_1 ,\cdots, x_T$ with exponentially decreasing weights. The implicit assumption of ES models is that the dependence of current observation on previous observations decays across time. In this way, ES models are extremely efficient - requiring only the previous smoothed value and the current time series value to compute a given prediction. This makes them favourable for use cases with low latency requirements. In the following, we will explore some common variation of ES models.</p>
+<p>Exponential smoothing (ES) models generate predictions <span class="math notranslate nohighlight">\(\hat{y}\)</span> as linear combination of past observations <span class="math notranslate nohighlight">\(x_1 ,\cdots, x_T\)</span> with exponentially decreasing weights. The implicit assumption of ES models is that the dependence of current observation on previous observations decays across time. In this way, ES models are extremely efficient - requiring only the previous smoothed value and the current time series value to compute a given prediction. This makes them favourable for use cases with low latency requirements. In the following, we will explore some common variation of ES models.</p>
 </section>
 <section id="simple-exponential-smoothing-brown-method">
 <h4>Simple Exponential Smoothing (Brown Method)<a class="headerlink" href="#simple-exponential-smoothing-brown-method" title="Permalink to this heading">#</a></h4>
-<p>In the simplest case, the smoothed series value at time $t$,  $l_t$,  is a weighted average of the previous smoothed value $l_{t-1}$ and the current time series value $x_t$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-494cc42f-4536-48cb-a2f1-525aa1d1864a">
-<span class="eqno">(9)<a class="headerlink" href="#equation-494cc42f-4536-48cb-a2f1-525aa1d1864a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>In the simplest case, the smoothed series value at time <span class="math notranslate nohighlight">\(t\)</span>,  <span class="math notranslate nohighlight">\(l_t\)</span>,  is a weighted average of the previous smoothed value <span class="math notranslate nohighlight">\(l_{t-1}\)</span> and the current time series value <span class="math notranslate nohighlight">\(x_t\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a3e84d55-8aaa-45f6-a2f7-336ca22013c5">
+<span class="eqno">(9)<a class="headerlink" href="#equation-a3e84d55-8aaa-45f6-a2f7-336ca22013c5" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 \end{equation}\]</div>
-<p>Given this, The forecast $h$ steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3b48c6b4-0364-43bf-99bc-2cb49a39d700">
-<span class="eqno">(10)<a class="headerlink" href="#equation-3b48c6b4-0364-43bf-99bc-2cb49a39d700" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Given this, The forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a45ad224-6291-4558-85b6-1a36010b7d6c">
+<span class="eqno">(10)<a class="headerlink" href="#equation-a45ad224-6291-4558-85b6-1a36010b7d6c" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t
 \end{equation}\]</div>
 <p>which means simply that out of sample, our forecast is equal to the most recent value of the smoothed series. A few things to note about Simple Exponential Smoothing:</p>
 <ul class="simple">
-<li><p>Smoothing factor $\alpha$ controls tradeoff between recency and smoothing</p></li>
-<li><p>$\alpha$ can be set manually or estimated</p></li>
-<li><p>Smoothing needs some time to catch up with the dynamics of your time series. A rule of thumb for a reasonable sample size is that you need $\frac{3}{\alpha}$ observations.</p></li>
+<li><p>Smoothing factor <span class="math notranslate nohighlight">\(\alpha\)</span> controls tradeoff between recency and smoothing</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> can be set manually or estimated</p></li>
+<li><p>Smoothing needs some time to catch up with the dynamics of your time series. A rule of thumb for a reasonable sample size is that you need <span class="math notranslate nohighlight">\(\frac{3}{\alpha}\)</span> observations.</p></li>
 </ul>
 </section>
 <section id="double-exponential-smoothing-holt-method">
 <h4>Double Exponential Smoothing (Holt Method)<a class="headerlink" href="#double-exponential-smoothing-holt-method" title="Permalink to this heading">#</a></h4>
 <p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecastng function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expresed as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e9164430-304c-45fe-9408-5f87b0cde4d8">
-<span class="eqno">(11)<a class="headerlink" href="#equation-e9164430-304c-45fe-9408-5f87b0cde4d8" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-16589046-7bb8-4bae-828e-e108b109db5d">
+<span class="eqno">(11)<a class="headerlink" href="#equation-16589046-7bb8-4bae-828e-e108b109db5d" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1)
 \end{equation}\]</div>
-<p>Given this, the forecast $h$ steps ahead is defined by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-917fe27e-eb04-4993-8f29-94a54ee74304">
-<span class="eqno">(12)<a class="headerlink" href="#equation-917fe27e-eb04-4993-8f29-94a54ee74304" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-a0ac52c6-ef2a-41fd-a5db-c2fcc918b5e1">
+<span class="eqno">(12)<a class="headerlink" href="#equation-a0ac52c6-ef2a-41fd-a5db-c2fcc918b5e1" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t
 \end{equation}\]</div>
-<p>The forecast function is no longer flat but trending: $h$-step-ahead forecast is equal to the last estimated level plus $h$ times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
+<p>The forecast function is no longer flat but trending: <span class="math notranslate nohighlight">\(h\)</span>-step-ahead forecast is equal to the last estimated level plus <span class="math notranslate nohighlight">\(h\)</span> times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
 <ul class="simple">
 <li><p>The first equation describes the level of the series which depends on the current value of the series, the previous level value and the previous trend value.</p></li>
 <li><p>The second equation describes the trend, which depends on the level changes at the current step and on the previous value of the trend.</p></li>
-<li><p>The values of $\alpha$ and $\beta$ are set based on expert judgement or estimated (jointly) from the data.</p></li>
+<li><p>The values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are set based on expert judgement or estimated (jointly) from the data.</p></li>
 </ul>
 </section>
 <section id="triple-exponential-smoothing-holt-winters-method">
 <h4>Triple Exponential Smoothing (Holt-Winters Method)<a class="headerlink" href="#triple-exponential-smoothing-holt-winters-method" title="Permalink to this heading">#</a></h4>
-<p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond $L$ into the forcasting function:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-73807631-30ec-4772-884b-6cdc4f69d1c0">
-<span class="eqno">(13)<a class="headerlink" href="#equation-73807631-30ec-4772-884b-6cdc4f69d1c0" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond <span class="math notranslate nohighlight">\(L\)</span> into the forcasting function:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-043f7eb4-59f5-4ff1-a392-63952c4e8be7">
+<span class="eqno">(13)<a class="headerlink" href="#equation-043f7eb4-59f5-4ff1-a392-63952c4e8be7" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha (x_t - s_{t - L}) + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1 - \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1) \\
 s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} \quad \gamma \in (0,1)
 \end{equation}\]</div>
-<p>Given this, the forecast $h$ steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-dd98d80a-136e-4e82-8972-1cc641229c25">
-<span class="eqno">(14)<a class="headerlink" href="#equation-dd98d80a-136e-4e82-8972-1cc641229c25" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f956607d-4d3e-48b6-986d-3cb45ddd124b">
+<span class="eqno">(14)<a class="headerlink" href="#equation-f956607d-4d3e-48b6-986d-3cb45ddd124b" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t + s_{(t-L + h) \;\; mod \;\;  L }
 \end{equation}\]</div>
 <p>The forecast function consists of a level, trend and seasonal component. A few things to note about Triple Exponential Smoothing:</p>
 <ul class="simple">
 <li><p>The seasonal component explains repeated variations around intercept and trend, and it will be specified by the period.</p></li>
 <li><p>For each observation in the season, there is a separate component; for example, if the length of the season is 7 days (a weekly seasonality), we will have 7 seasonal components value of the trend.</p></li>
-<li><p>The values of $\alpha$, $\beta$ and $\gamma$ are set based on expert judgement or estimated (jointly) from the data.</p></li>
+<li><p>The values of <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> are set based on expert judgement or estimated (jointly) from the data.</p></li>
 </ul>
 <p>We can create an Holt Winters Exponential Smoothing Forecasting Model by initializing the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.exponential_smoothing.html"><code class="docutils literal notranslate"><span class="pre">darts.models.ExponentialSmoothing</span></code></a> object. Subsequently, the model can be fit by passing the <code class="docutils literal notranslate"><span class="pre">TimeSeries</span></code> object to the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method of the initialized model.</p>
 <div class="cell docutils container">
@@ -682,13 +683,13 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 </section>
 <section id="multivariate-forecasting">
 <h3>Multivariate Forecasting<a class="headerlink" href="#multivariate-forecasting" title="Permalink to this heading">#</a></h3>
-<p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length $T$, a forecasting horizon of length $H$ and a set of $K$ time series, the multivariate time series forecasting problem is to find  function $f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-07cb2214-614d-4fb2-89af-108801fd8219">
-<span class="eqno">(15)<a class="headerlink" href="#equation-07cb2214-614d-4fb2-89af-108801fd8219" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span>, a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span> and a set of <span class="math notranslate nohighlight">\(K\)</span> time series, the multivariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-51692086-b253-4d84-9a30-20692c8f6ae5">
+<span class="eqno">(15)<a class="headerlink" href="#equation-51692086-b253-4d84-9a30-20692c8f6ae5" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{Y} = f(X) \approx Y
 \end{align}\]</div>
-<p>where $X \in \mathbb{R}^{TxK}$ is a matrix where each column is a sequence of observations over the lookback window for a specific time series and $Y \in \mathbb{R}^{HxK} $ is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
-<p>Similar to univariate forecasting, $f$ is parametized by $\theta$ which determine the output $\hat{y}$ given an input $x$. $\theta$ is learned to mimimize the prediction loss of the model $L$ over training portion of the time series. The resulting model $f$ is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>where <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{TxK}\)</span> is a matrix where each column is a sequence of observations over the lookback window for a specific time series and <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{HxK} \)</span> is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
+<p>Similar to univariate forecasting, <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
 <p>This serves as a preliminary discussion of multivariate forecasting. In the following session, methods for multivariate forecasting will be discussed in detail.</p>
 </section>
 <section id="covariates">
@@ -709,7 +710,7 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <h2>Forecasting Evaluation<a class="headerlink" href="#forecasting-evaluation" title="Permalink to this heading">#</a></h2>
 <section id="metrics">
 <h3>Metrics<a class="headerlink" href="#metrics" title="Permalink to this heading">#</a></h3>
-<p>Once the chosen model has been fit to the dataset, it must evaluated on unseen data to assess the out of sample performance. There are numerous metrics that are used including <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_error">Mean Absolute Error (MAE)</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error (MSE)</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_percentage_error">Mean Absolute Percentage Error</a>. Given a forecast $y \in R^N$ and corresponding ground truth $\hat{y} \in R^N$, the metrics are defined as follows:</p>
+<p>Once the chosen model has been fit to the dataset, it must evaluated on unseen data to assess the out of sample performance. There are numerous metrics that are used including <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_error">Mean Absolute Error (MAE)</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error (MSE)</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_percentage_error">Mean Absolute Percentage Error</a>. Given a forecast <span class="math notranslate nohighlight">\(y \in R^N\)</span> and corresponding ground truth <span class="math notranslate nohighlight">\(\hat{y} \in R^N\)</span>, the metrics are defined as follows:</p>
 <p align="center">
 <img width="1000" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211632073-40e73186-39f3-4b7f-9fa2-b629cb55af66.png"> 
 </p>

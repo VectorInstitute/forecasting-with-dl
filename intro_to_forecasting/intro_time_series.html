@@ -61,7 +61,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro_to_forecasting/intro_time_series';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -502,7 +503,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="introduction-to-time-series-analysis">
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-time-series-analysis">
 <h1>Introduction to Time Series Analysis<a class="headerlink" href="#introduction-to-time-series-analysis" title="Permalink to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
@@ -581,14 +582,14 @@ document.write(`
 </section>
 <section id="intro-to-time-series">
 <h2>Intro to Time Series<a class="headerlink" href="#intro-to-time-series" title="Permalink to this heading">#</a></h2>
-<p>Time Series data is a sequence of data points indexed by time.  In the simplest case, each datapoint $x_i$ is a scalar in whats referred to as a univariate time series. We can represent a univariate time series with N observations using a value vector $\mathbf{x} \in R^N$ where the index $i \dots N$ represent the time step:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f0ac3755-a6b7-4397-8049-35a04a5ec65b">
-<span class="eqno">(1)<a class="headerlink" href="#equation-f0ac3755-a6b7-4397-8049-35a04a5ec65b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>Time Series data is a sequence of data points indexed by time.  In the simplest case, each datapoint <span class="math notranslate nohighlight">\(x_i\)</span> is a scalar in whats referred to as a univariate time series. We can represent a univariate time series with N observations using a value vector <span class="math notranslate nohighlight">\(\mathbf{x} \in R^N\)</span> where the index <span class="math notranslate nohighlight">\(i \dots N\)</span> represent the time step:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-056bad08-9c36-4782-81d8-c819754d1f47">
+<span class="eqno">(1)<a class="headerlink" href="#equation-056bad08-9c36-4782-81d8-c819754d1f47" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{x} = \begin{bmatrix} x_{1} \\ \vdots \\ x_{N} \end{bmatrix}
 \end{align}\]</div>
-<p>In contrast, a multivariate time series has a vector $X_ i \in R^{M}$ of observations at each time step. In this way, a multivariate time series is a set of time series over the same indices. It follows that multivariate time series are represented as matrices $X \in R^{NxM}$ where the row index $i \dots N$ is the time step and the column index $j \dots M$ is the time series:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1c71b892-caa9-41a9-9366-94fa739e3f28">
-<span class="eqno">(2)<a class="headerlink" href="#equation-1c71b892-caa9-41a9-9366-94fa739e3f28" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>In contrast, a multivariate time series has a vector <span class="math notranslate nohighlight">\(X_ i \in R^{M}\)</span> of observations at each time step. In this way, a multivariate time series is a set of time series over the same indices. It follows that multivariate time series are represented as matrices <span class="math notranslate nohighlight">\(X \in R^{NxM}\)</span> where the row index <span class="math notranslate nohighlight">\(i \dots N\)</span> is the time step and the column index <span class="math notranslate nohighlight">\(j \dots M\)</span> is the time series:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-62327303-65cd-437c-acb0-2ba458f163f9">
+<span class="eqno">(2)<a class="headerlink" href="#equation-62327303-65cd-437c-acb0-2ba458f163f9" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{x} = 
 \begin{bmatrix} 
 x_{1, 1}  &amp; \cdots &amp; x_{1, M}\\
@@ -598,7 +599,7 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 \end{align}\]</div>
 <section id="load-univariate-data">
 <h3>Load Univariate Data<a class="headerlink" href="#load-univariate-data" title="Permalink to this heading">#</a></h3>
-<p>To solidify this notion, we will use the Air Passenger Dataset which is a univariate time series that tracks the amount of commerical airplane passengers $x_i$ by month $i$. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
+<p>To solidify this notion, we will use the Air Passenger Dataset which is a univariate time series that tracks the amount of commerical airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">AirPassengersDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -795,7 +796,7 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 <h2>Time Series Operations<a class="headerlink" href="#time-series-operations" title="Permalink to this heading">#</a></h2>
 <section id="missing-values">
 <h3>Missing Values<a class="headerlink" href="#missing-values" title="Permalink to this heading">#</a></h3>
-<p>As evidenced by the above plot, their are missing values at some indexes $i$ in the time series. In general, missing values $x_i$ can be filled with a previous non missing value $x_i$ (forward fill) or a function (average, etc.) of previous non missing values. It is important to note that missing values should always be filled using a function of previous values to avoid introducting a look ahead bias. We can apply the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.ffill.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame.ffill</span></code></a> method to the underlying <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> in order generate the forward filled series:</p>
+<p>As evidenced by the above plot, their are missing values at some indexes <span class="math notranslate nohighlight">\(i\)</span> in the time series. In general, missing values <span class="math notranslate nohighlight">\(x_i\)</span> can be filled with a previous non missing value <span class="math notranslate nohighlight">\(x_i\)</span> (forward fill) or a function (average, etc.) of previous non missing values. It is important to note that missing values should always be filled using a function of previous values to avoid introducting a look ahead bias. We can apply the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.ffill.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame.ffill</span></code></a> method to the underlying <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> in order generate the forward filled series:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffill_df</span> <span class="o">=</span> <span class="n">mv_df</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
@@ -816,7 +817,7 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 <p align="center">
 <img width="433" alt="Screen Shot 2021-09-28 at 5 41 20 PM" src="https://user-images.githubusercontent.com/34798787/161643733-d811dd99-6ac8-4ce8-b736-74441e13a8b0.png">  
 </p>
-<p><strong>Downsampling:</strong> Decreases frequency of observations by reducing the sampling rate of the input time series. This involves omitting intermediate values $x_j$ that lie between points $x_i$ and $x_k$. More formally, the downsampling operation maps the original time series $\mathbf{x} \in R^{N}$ to a lower resolution time series $\mathbf{\hat{x}} \in R^{D}$.</p>
+<p><strong>Downsampling:</strong> Decreases frequency of observations by reducing the sampling rate of the input time series. This involves omitting intermediate values <span class="math notranslate nohighlight">\(x_j\)</span> that lie between points <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>. More formally, the downsampling operation maps the original time series <span class="math notranslate nohighlight">\(\mathbf{x} \in R^{N}\)</span> to a lower resolution time series <span class="math notranslate nohighlight">\(\mathbf{\hat{x}} \in R^{D}\)</span>.</p>
 <p>We can downsample the monthly time series to quarterly using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.resample"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries.resample</span></code></a> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -829,7 +830,7 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 <img alt="../_images/9be21bde0d6aea486d8d54fc806ed86aaf1cbe1979c92e69f2d1bae19fa2055a.png" src="../_images/9be21bde0d6aea486d8d54fc806ed86aaf1cbe1979c92e69f2d1bae19fa2055a.png" />
 </div>
 </div>
-<p><strong>Upsampling:</strong> Increases frequency of observations by genarating intermediate values $x_j$ by interpolating/filling between adjacent time series values $x_i$ and $x_k$. More formally, the upsampling operation maps the original time series $\mathbf{x} \in R^{D}$ to a higher resolution time series $\mathbf{\hat{x}} \in R^{N}$.</p>
+<p><strong>Upsampling:</strong> Increases frequency of observations by genarating intermediate values <span class="math notranslate nohighlight">\(x_j\)</span> by interpolating/filling between adjacent time series values <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>. More formally, the upsampling operation maps the original time series <span class="math notranslate nohighlight">\(\mathbf{x} \in R^{D}\)</span> to a higher resolution time series <span class="math notranslate nohighlight">\(\mathbf{\hat{x}} \in R^{N}\)</span>.</p>
 <p>Similar to downsampling, we can upsample the time series from monthly to weekly data using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.resample"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries.resample</span></code></a> method:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -890,8 +891,8 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 <h3>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading">#</a></h3>
 <p>As a stochastic process, time series are vulnerable to noise. It is often helpful to denoise data - a process that involves filtering out noise to extract the underlying signal. There are <a class="reference external" href="https://www.kaggle.com/code/residentmario/denoising-algorithms/notebook">many approaches</a> to denoising time series data, we will explore just one - Average Smoothing.</p>
 <p><strong>Average Smoothing:</strong> Average smoothing involves iteratively computing the average over a sliding window of observations that is incremented by a stride accross the entire time series. This computation can be realized using average pooling on input time series with padding to ensure the output time series has the same dimensionality:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-db9937bc-7418-4afd-8191-3f4fb2b7dbf6">
-<span class="eqno">(3)<a class="headerlink" href="#equation-db9937bc-7418-4afd-8191-3f4fb2b7dbf6" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-cd5c9468-4120-4962-a7f4-614fa507678e">
+<span class="eqno">(3)<a class="headerlink" href="#equation-cd5c9468-4120-4962-a7f4-614fa507678e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{x} = AvgPool(Padding(x)) 
 \end{align}\]</div>
 <p>We can write a custom function to perform the operation on a column of the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> underlying the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object. A new time series can be initialized with the updated dataframe:</p>
@@ -961,11 +962,11 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 </p> 
 <p>It is worth noting that the trend and cyclical components are often lumped together when realizing the decomposition of the underlying time series. With this assumption in place, we can formally specify the interaction of the sub components of the time series. Two simple models for time series deomposition include additive decomposition and multiplicative decomposition.</p>
 <p><strong>Additive Decomposition:</strong> Assumes additive interaction between sub components of time series. Additive decomposition are most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not vary with time. The additive decomposition can be formally specified as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9dc3d3f4-758a-495b-8f75-d908deb6c9df">
-<span class="eqno">(4)<a class="headerlink" href="#equation-9dc3d3f4-758a-495b-8f75-d908deb6c9df" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-fe180903-55ce-47c1-869e-adc37fb56dfb">
+<span class="eqno">(4)<a class="headerlink" href="#equation-fe180903-55ce-47c1-869e-adc37fb56dfb" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_{i} = s_{i} + t_{i} + r_{i}
 \end{align}\]</div>
-<p>where $x_{i}$ is the time series value, $s_{i}$ is the seasonal componemt, $t_{i}$ is the trend compenent and $r_i$ is the residual component, all at time $i$.</p>
+<p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <p>In the case of the Air Passenger time series, the additive decomposition  can be performed with the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html"><code class="docutils literal notranslate"><span class="pre">sm.tsa.seasonal_decompose</span></code></a> function with <code class="docutils literal notranslate"><span class="pre">model=&quot;additive&quot;</span></code>as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -991,11 +992,11 @@ x_{i} = s_{i} + t_{i} + r_{i}
 </div>
 </div>
 <p><strong>Multiplicative Decomposition:</strong> Assumes multiplicative interaction between sub components of the time series. Multiplivative decomposition is most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not very with time. The multiplicative decomposition can be formally specified as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0a0d77de-40d5-46b6-a573-fea2b35381ec">
-<span class="eqno">(5)<a class="headerlink" href="#equation-0a0d77de-40d5-46b6-a573-fea2b35381ec" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-667092cc-bdc1-4689-87a5-e0b720094680">
+<span class="eqno">(5)<a class="headerlink" href="#equation-667092cc-bdc1-4689-87a5-e0b720094680" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_{i} = s_{i} \times t_{i} \times r_{i}
 \end{align}\]</div>
-<p>where $x_{i}$ is the time series value, $s_{i}$ is the seasonal componemt, $t_{i}$ is the trend compenent and $r_i$ is the residual component, all at time $i$.</p>
+<p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <p>In the case of the Air Passenger time series, the multiplicative decomposition  can be performed with the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html"><code class="docutils literal notranslate"><span class="pre">sm.tsa.seasonal_decompose</span></code></a> function <code class="docutils literal notranslate"><span class="pre">model=&quot;multiplicative&quot;</span></code> as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1013,13 +1014,13 @@ x_{i} = s_{i} \times t_{i} \times r_{i}
 <section id="autocorrelation-and-partial-autocorrelation">
 <h3>Autocorrelation and Partial Autocorrelation<a class="headerlink" href="#autocorrelation-and-partial-autocorrelation" title="Permalink to this heading">#</a></h3>
 <p>One central component in time series analysis is discovering the relative depencies among indices of the time series. To this end, <a class="reference external" href="https://en.wikipedia.org/wiki/Autocorrelation">autocorrelation</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Partial_autocorrelation_function">partial autocorrelation</a> are two metrics that measure this.</p>
-<p><strong>Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay. Given a time seres $\mathbf{^{t}x}$ and its $k$ lagged series $\mathbf{^{t-k}x}$, the autocorrelation $a_{k}$  can be calculated as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0d12deef-d033-4907-b6b1-ac2c7a4d115d">
-<span class="eqno">(6)<a class="headerlink" href="#equation-0d12deef-d033-4907-b6b1-ac2c7a4d115d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p><strong>Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the autocorrelation <span class="math notranslate nohighlight">\(a_{k}\)</span>  can be calculated as follows:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-eea853c1-cd32-4b8f-a4a4-379054814617">
+<span class="eqno">(6)<a class="headerlink" href="#equation-eea853c1-cd32-4b8f-a4a4-379054814617" title="Permalink to this equation">#</a></span>\[\begin{align}
 a_{k} = \frac{\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})(\mathbf{^{t-k}x} - \mu_{x})]}{\sqrt{(\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})^2])\cdot \mathbb{E}[(\mathbf{^{t-k}x} - \mu_{x})^2])}} = \
 \frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x})}{\sqrt{var(\mathbf{^{t}x}) \cdot var(\mathbf{^{t-k}x})}}
 \end{align}\]</div>
-<p>where $cov$ is a function that computes covariance and  $var$ is a function that computes the variance. By computing the $A_k$ for all lags from $1$ to $K$, we generate a  vector $A \in R^K$ where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the autocorrelation with $K=25$ can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_acf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_acf</span></code></a> function.</p>
+<p>where <span class="math notranslate nohighlight">\(cov\)</span> is a function that computes covariance and  <span class="math notranslate nohighlight">\(var\)</span> is a function that computes the variance. By computing the <span class="math notranslate nohighlight">\(A_k\)</span> for all lags from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(K\)</span>, we generate a  vector <span class="math notranslate nohighlight">\(A \in R^K\)</span> where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the autocorrelation with <span class="math notranslate nohighlight">\(K=25\)</span> can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_acf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_acf</span></code></a> function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autocorrelation </span>
@@ -1035,14 +1036,14 @@ a_{k} = \frac{\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})(\mathbf{^{t-k}x} - \mu_{x})]
 <img alt="../_images/5ea549c7a32bc24f2ebd3ca11203e2e29befa020e9fce0344eec79e376da33e6.png" src="../_images/5ea549c7a32bc24f2ebd3ca11203e2e29befa020e9fce0344eec79e376da33e6.png" />
 </div>
 </div>
-<p>The autocorrelation ranges from -1 (tend to move in same direction) and 1 (tend to move in different directions). From the above plot, the lag series $\mathbf{^{t-k}x}$ has the highest autocorrelation, 1, when $k=0$. This makes sense intuitively because $\mathbf{^{t}x}$ and $\mathbf{^{t-k}x}$ are equivalent when $k=0$. You will also notice a shaded area which corresponds to the confidence interval. If an autocorrelation value exceeds the confidence interval region, the autocorrelation value is statistically significant.</p>
-<p><strong>Partial Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay with the relationships of intervening observations removed.  Using partial correlation helps derive the depencies among time steps more accurately by controlling for the effects of other lags. Given a time seres $\mathbf{^{t}x}$ and its $k$ lagged series $\mathbf{^{t-k}x}$, the partial autocorrelation $p_{k}$  can be calculated as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d6cc7444-497f-4e7e-be11-04f48d2534cc">
-<span class="eqno">(7)<a class="headerlink" href="#equation-d6cc7444-497f-4e7e-be11-04f48d2534cc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<p>The autocorrelation ranges from -1 (tend to move in same direction) and 1 (tend to move in different directions). From the above plot, the lag series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> has the highest autocorrelation, 1, when <span class="math notranslate nohighlight">\(k=0\)</span>. This makes sense intuitively because <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> are equivalent when <span class="math notranslate nohighlight">\(k=0\)</span>. You will also notice a shaded area which corresponds to the confidence interval. If an autocorrelation value exceeds the confidence interval region, the autocorrelation value is statistically significant.</p>
+<p><strong>Partial Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay with the relationships of intervening observations removed.  Using partial correlation helps derive the depencies among time steps more accurately by controlling for the effects of other lags. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the partial autocorrelation <span class="math notranslate nohighlight">\(p_{k}\)</span>  can be calculated as follows:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f3a5a40a-d750-4a84-82ef-bd6fd2cd260b">
+<span class="eqno">(7)<a class="headerlink" href="#equation-f3a5a40a-d750-4a84-82ef-bd6fd2cd260b" title="Permalink to this equation">#</a></span>\[\begin{align}
 p_{k} = 
 \frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x}| \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}{\sqrt{var(\mathbf{^{t}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x}) \cdot var(\mathbf{^{t-k}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}}
 \end{align}\]</div>
-<p>where $cov$ is a function that computes covariance between $\mathbf{^{t}x}$ and $\mathbf{^{t-k}x}$ conditioned on intermediate values and $var$ is a function that computes the variance of $\mathbf{^{t}x}$ and $\mathbf{^{t}x}$ conditioned on intermediate values. By computing the  $p_k$  for all lags from  1  to  𝐾 , we generate a vector  $\mathbf{p}  \in 𝑅^𝐾$  where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the partial autocorrelation with  𝐾=25  can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_pacf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_pacf</span></code></a> function:</p>
+<p>where <span class="math notranslate nohighlight">\(cov\)</span> is a function that computes covariance between <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> conditioned on intermediate values and <span class="math notranslate nohighlight">\(var\)</span> is a function that computes the variance of <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> conditioned on intermediate values. By computing the  <span class="math notranslate nohighlight">\(p_k\)</span>  for all lags from  1  to  𝐾 , we generate a vector  <span class="math notranslate nohighlight">\(\mathbf{p}  \in 𝑅^𝐾\)</span>  where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the partial autocorrelation with  𝐾=25  can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_pacf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_pacf</span></code></a> function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Partial Autocorrelation </span>
@@ -1067,7 +1068,7 @@ p_{k} =
 <section id="cross-correlation">
 <h3>Cross Correlation<a class="headerlink" href="#cross-correlation" title="Permalink to this heading">#</a></h3>
 <p>Often it is beneficial to compare multiple time series to discover what relationships exist. By generalizing the notion of autocorrelation, we are able to define <a class="reference external" href="https://en.wikipedia.org/wiki/Cross-correlation">cross correlation</a> which describes the relationship between a pair of time series at different lags. To account for the fact that we can compute lags on each time series independently, we have defined positive and negative lags to evaulate the correlation of the two time series. A positive lag in one time series is a negative lag in the other time series and vice versa.</p>
-<p>To illustate the concept of cross correlation, we can compute an affine transformation on the AirPassenger time series and compute the cross correlation between the two time series at different lags with a maximum lag of $ K = \pm 10 $. The function <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.xcorr.html"><code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.xcorr</span></code></a> is useful for generating a cross correlation plot for a pair of time series:</p>
+<p>To illustate the concept of cross correlation, we can compute an affine transformation on the AirPassenger time series and compute the cross correlation between the two time series at different lags with a maximum lag of <span class="math notranslate nohighlight">\( K = \pm 10 \)</span>. The function <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.xcorr.html"><code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.xcorr</span></code></a> is useful for generating a cross correlation plot for a pair of time series:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">passengers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span>
