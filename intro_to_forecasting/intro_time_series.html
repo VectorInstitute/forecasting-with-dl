@@ -1,0 +1,1407 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Introduction to Time Series Analysis &#8212; Forecasting Workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro_to_forecasting/intro_time_series';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Intro to Time Series Forecasting and Evaluation" href="intro_time_series_2.html" />
+    <link rel="prev" title="Forecasting Bootcamp" href="../README.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Forecasting Bootcamp
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_time_series_2.html">Intro to Time Series Forecasting and Evaluation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/deepar_electricty.html">Multivariate Forecasting with DeepAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nbeats_electricity.html">Multivariate Forecasting with NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nhits_quantile.html">Multivariate quantiles and long horizon forecasting with N-HiTS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Long Sequence Timeseries Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/autoformer_traffic.html">Multivariate Forecasting Long Sequence Time Series with Autoformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/nhits_traffic.html">Multivariate Forecasting Long Sequence Time Series with NHITS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datasets/datasets_intro.html">Datasets Description</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/load_raw_data.html">Load data files</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/data_explore.html">Load weather data and station metadata</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/m5/load_m5_dataset.html">M5 Data Preparation</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/VectorInstitute/forecasting-bootcamp/blob/jupyter-book/./intro_to_forecasting/intro_time_series.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/edit/jupyter-book/./intro_to_forecasting/intro_time_series.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/issues/new?title=Issue%20on%20page%20%2Fintro_to_forecasting/intro_time_series.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/intro_to_forecasting/intro_time_series.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to Time Series Analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-imports">Environment Configuration and Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-time-series">Intro to Time Series</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-univariate-data">Load Univariate Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-missing-value-df">Generate Missing Value DF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-operations">Time Series Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values">Missing Values</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Resampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#denoising">Denoising</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-analysis">Time Series Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-decomposition">Time Series Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelation-and-partial-autocorrelation">Autocorrelation and Partial Autocorrelation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-correlation">Cross Correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stationairity">Stationairity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-data-stationairy">Making Data Stationairy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-time-series-analysis">
+<h1>Introduction to Time Series Analysis<a class="headerlink" href="#introduction-to-time-series-analysis" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>With the advent of big data, an increasing amount of information is being captured by organizations to optimize their operations and enhance their product offerings. Often this data forms a time series - a sequence of data points indexed by time. Forecasting involves predicting future values given past observations of a time series. Common applications of time series forecasting include predicting future sales, patient outcomes, asset prices and resourcing needs.</p>
+<p align="center">
+<img width="750" alt="Time Series with Missing Values" src="https://user-images.githubusercontent.com/34798787/164544735-ad5d3da7-df84-4fbf-ab1b-dbc2722684e7.jpeg">  
+</p>
+<p>This two part notebook series provides an overview machine learning for time series forecasting. Throughout the series, we will discuss exploratory analysis, data preprocessing, modelling and evaluation. In doing so, we will encounter several time series forecasting methods from classical statistical approaches (<a class="reference external" href="https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average">ARIMA</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_smoothing">Exponential Smoothing</a>, etc.) to state-of-the-art neural network-based methods (<a class="reference external" href="https://github.com/cchallu/n-hits">NHITS</a>, <a class="reference external" href="https://arxiv.org/pdf/1912.09363.pdf">Temporal Fusion Transformer</a>, etc.). To illustrate concepts, we will use Python packages such as <a class="reference external" href="https://pandas.pydata.org/"><code class="docutils literal notranslate"><span class="pre">pandas</span></code></a>, <a class="reference external" href="https://www.statsmodels.org/stable/index.html"><code class="docutils literal notranslate"><span class="pre">statsmodels</span></code></a> and <a class="reference external" href="https://unit8co.github.io/darts/"><code class="docutils literal notranslate"><span class="pre">darts</span></code></a>. The outline for this notebook - Intro to Time Series is below:</p>
+</section>
+<section id="outline">
+<h2>Outline<a class="headerlink" href="#outline" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Intro to Time Series</strong></p></li>
+<li><p><strong>Basic Time Series Operations</strong></p>
+<ul>
+<li><p>Missing Values</p></li>
+<li><p>Resampling</p></li>
+<li><p>Denoising</p></li>
+</ul>
+</li>
+<li><p><strong>Time Series Analysis</strong></p>
+<ul>
+<li><p>Autocorrelation and Partial Autocorrelation</p></li>
+<li><p>Cross Correlation</p></li>
+<li><p>Time Series Decomposition</p></li>
+<li><p>Stationairy Data</p></li>
+<li><p>Making Data Stationairy</p></li>
+</ul>
+</li>
+<li><p><strong>Conclusion</strong></p></li>
+<li><p><strong>References</strong></p></li>
+<li><p><strong>Next Steps</strong></p></li>
+</ul>
+</section>
+<section id="environment-configuration-and-imports">
+<h2>Environment Configuration and Imports<a class="headerlink" href="#environment-configuration-and-imports" title="Permalink to this heading">#</a></h2>
+<p><strong>IF USING COLAB: After installing the dependencies into the notebook you must restart the kernel. Simply, go under the Runtime tab and select Restart and Run All. This must be done only after the first time executing the notebook in a given session.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">in_colab</span> <span class="o">=</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
+
+<span class="k">if</span> <span class="n">in_colab</span><span class="p">:</span> 
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>darts
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pyyaml</span><span class="o">==</span><span class="m">5</span>.4.1
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">pywt</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">adfuller</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_acf</span><span class="p">,</span> <span class="n">plot_pacf</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">darts</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
+<span class="kn">from</span> <span class="nn">darts.datasets</span> <span class="kn">import</span> <span class="n">GasRateCO2Dataset</span>
+<span class="kn">from</span> <span class="nn">darts.datasets</span> <span class="kn">import</span> <span class="n">AirPassengersDataset</span>
+<span class="kn">from</span> <span class="nn">darts.dataprocessing.transformers</span> <span class="kn">import</span> <span class="n">MissingValuesFiller</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="intro-to-time-series">
+<h2>Intro to Time Series<a class="headerlink" href="#intro-to-time-series" title="Permalink to this heading">#</a></h2>
+<p>Time Series data is a sequence of data points indexed by time.  In the simplest case, each datapoint <span class="math notranslate nohighlight">\(x_i\)</span> is a scalar in whats referred to as a univariate time series. We can represent a univariate time series with N observations using a value vector <span class="math notranslate nohighlight">\(\mathbf{x} \in R^N\)</span> where the index <span class="math notranslate nohighlight">\(i \dots N\)</span> represent the time step:</p>
+<p>\begin{align}
+\mathbf{x} = \begin{bmatrix} x_{1} \ \vdots \ x_{N} \end{bmatrix}
+\end{align}</p>
+<p>In contrast, a multivariate time series has a vector <span class="math notranslate nohighlight">\(X_ i \in R^{M}\)</span> of observations at each time step. In this way, a multivariate time series is a set of time series over the same indices. It follows that multivariate time series are represented as matrices <span class="math notranslate nohighlight">\(X \in R^{NxM}\)</span> where the row index <span class="math notranslate nohighlight">\(i \dots N\)</span> is the time step and the column index <span class="math notranslate nohighlight">\(j \dots M\)</span> is the time series:</p>
+<p>\begin{align}
+\mathbf{x} =
+\begin{bmatrix}
+x_{1, 1}  &amp; \cdots &amp; x_{1, M}\
+\vdots &amp; \cdots &amp; \vdots\
+x_{N, 1}  &amp; \cdots &amp; x_{N, M}\<br />
+\end{bmatrix}
+\end{align}</p>
+<section id="load-univariate-data">
+<h3>Load Univariate Data<a class="headerlink" href="#load-univariate-data" title="Permalink to this heading">#</a></h3>
+<p>To solidify this notion, we will use the Air Passenger Dataset which is a univariate time series that tracks the amount of commerical airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">AirPassengersDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">pd_dataframe</span><span class="p">()</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>component</th>
+      <th>#Passengers</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1949-01-01</th>
+      <td>112.0</td>
+    </tr>
+    <tr>
+      <th>1949-02-01</th>
+      <td>118.0</td>
+    </tr>
+    <tr>
+      <th>1949-03-01</th>
+      <td>132.0</td>
+    </tr>
+    <tr>
+      <th>1949-04-01</th>
+      <td>129.0</td>
+    </tr>
+    <tr>
+      <th>1949-05-01</th>
+      <td>121.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1960-08-01</th>
+      <td>606.0</td>
+    </tr>
+    <tr>
+      <th>1960-09-01</th>
+      <td>508.0</td>
+    </tr>
+    <tr>
+      <th>1960-10-01</th>
+      <td>461.0</td>
+    </tr>
+    <tr>
+      <th>1960-11-01</th>
+      <td>390.0</td>
+    </tr>
+    <tr>
+      <th>1960-12-01</th>
+      <td>432.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>144 rows × 1 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="generate-missing-value-df">
+<h2>Generate Missing Value DF<a class="headerlink" href="#generate-missing-value-df" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">val_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">null_index_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">8</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mv_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">mv_df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">][</span><span class="n">null_index_list</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">mv_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>component</th>
+      <th>#Passengers</th>
+    </tr>
+    <tr>
+      <th>Month</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1949-01-01</th>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1949-02-01</th>
+      <td>118.0</td>
+    </tr>
+    <tr>
+      <th>1949-03-01</th>
+      <td>132.0</td>
+    </tr>
+    <tr>
+      <th>1949-04-01</th>
+      <td>129.0</td>
+    </tr>
+    <tr>
+      <th>1949-05-01</th>
+      <td>121.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1960-08-01</th>
+      <td>606.0</td>
+    </tr>
+    <tr>
+      <th>1960-09-01</th>
+      <td>508.0</td>
+    </tr>
+    <tr>
+      <th>1960-10-01</th>
+      <td>461.0</td>
+    </tr>
+    <tr>
+      <th>1960-11-01</th>
+      <td>390.0</td>
+    </tr>
+    <tr>
+      <th>1960-12-01</th>
+      <td>432.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>144 rows × 1 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mv_ts</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">mv_df</span><span class="p">)</span>
+<span class="n">mv_ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/09acf6060fa3d11d02ab5373392f4a055eb3d4215238a01430ab70f9f054dbad.png" src="../_images/09acf6060fa3d11d02ab5373392f4a055eb3d4215238a01430ab70f9f054dbad.png" />
+</div>
+</div>
+</section>
+<section id="time-series-operations">
+<h2>Time Series Operations<a class="headerlink" href="#time-series-operations" title="Permalink to this heading">#</a></h2>
+<section id="missing-values">
+<h3>Missing Values<a class="headerlink" href="#missing-values" title="Permalink to this heading">#</a></h3>
+<p>As evidenced by the above plot, their are missing values at some indexes <span class="math notranslate nohighlight">\(i\)</span> in the time series. In general, missing values <span class="math notranslate nohighlight">\(x_i\)</span> can be filled with a previous non missing value <span class="math notranslate nohighlight">\(x_i\)</span> (forward fill) or a function (average, etc.) of previous non missing values. It is important to note that missing values should always be filled using a function of previous values to avoid introducting a look ahead bias. We can apply the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.ffill.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame.ffill</span></code></a> method to the underlying <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> in order generate the forward filled series:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ffill_df</span> <span class="o">=</span> <span class="n">mv_df</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">ffill_df</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/180965a70e9bdfe38f0b52ea5ef3b311446367fcea378e7e8e853eded20e62d5.png" src="../_images/180965a70e9bdfe38f0b52ea5ef3b311446367fcea378e7e8e853eded20e62d5.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="resampling">
+<h2>Resampling<a class="headerlink" href="#resampling" title="Permalink to this heading">#</a></h2>
+<p>The temporal resolution is the frequency at which the observations in the time series occur. Common temporal resolution include hourly, daily and weekly data. It is generally assumed the temporal resolution of the time series is constant accross observations. We can use resampling to change the temporal cadence of the time series by using upsampling or downsampling.</p>
+<p align="center">
+<img width="433" alt="Screen Shot 2021-09-28 at 5 41 20 PM" src="https://user-images.githubusercontent.com/34798787/161643733-d811dd99-6ac8-4ce8-b736-74441e13a8b0.png">  
+</p>
+<p><strong>Downsampling:</strong> Decreases frequency of observations by reducing the sampling rate of the input time series. This involves omitting intermediate values <span class="math notranslate nohighlight">\(x_j\)</span> that lie between points <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>. More formally, the downsampling operation maps the original time series <span class="math notranslate nohighlight">\(\mathbf{x} \in R^{N}\)</span> to a lower resolution time series <span class="math notranslate nohighlight">\(\mathbf{\hat{x}} \in R^{D}\)</span>.</p>
+<p>We can downsample the monthly time series to quarterly using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.resample"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries.resample</span></code></a> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">quarterly_series</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;3M&quot;</span><span class="p">)</span>
+<span class="n">quarterly_series</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/9be21bde0d6aea486d8d54fc806ed86aaf1cbe1979c92e69f2d1bae19fa2055a.png" src="../_images/9be21bde0d6aea486d8d54fc806ed86aaf1cbe1979c92e69f2d1bae19fa2055a.png" />
+</div>
+</div>
+<p><strong>Upsampling:</strong> Increases frequency of observations by genarating intermediate values <span class="math notranslate nohighlight">\(x_j\)</span> by interpolating/filling between adjacent time series values <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(x_k\)</span>. More formally, the upsampling operation maps the original time series <span class="math notranslate nohighlight">\(\mathbf{x} \in R^{D}\)</span> to a higher resolution time series <span class="math notranslate nohighlight">\(\mathbf{\hat{x}} \in R^{N}\)</span>.</p>
+<p>Similar to downsampling, we can upsample the time series from monthly to weekly data using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.resample"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries.resample</span></code></a> method:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">weekly_series</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;1W&quot;</span><span class="p">)</span>
+<span class="n">weekly_series</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/86033879f7f445b203b775629b68becae6a5b5f0a8e16b09b25b964d8662dc83.png" src="../_images/86033879f7f445b203b775629b68becae6a5b5f0a8e16b09b25b964d8662dc83.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;3M&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ds_df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ds_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Quarter&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;#Passengers&#39;], dtype=&#39;object&#39;, name=&#39;component&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_ts</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">ds_df</span><span class="p">)</span>
+<span class="n">ds_ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/8c116a8006cee8608b07f6134481bd5fd5a4bcf4af7e5c6192f3917493e1de4b.png" src="../_images/8c116a8006cee8608b07f6134481bd5fd5a4bcf4af7e5c6192f3917493e1de4b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">us_df</span> <span class="o">=</span> <span class="n">ds_df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;1M&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span> 
+<span class="n">us_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Day&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">us_ts</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">us_df</span><span class="p">)</span>
+<span class="n">us_ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7bd87406c2cc2ca94d9a68f1c6d82dd63565e0a98ec2b84e27d1caaac354fbec.png" src="../_images/7bd87406c2cc2ca94d9a68f1c6d82dd63565e0a98ec2b84e27d1caaac354fbec.png" />
+</div>
+</div>
+<section id="denoising">
+<h3>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading">#</a></h3>
+<p>As a stochastic process, time series are vulnerable to noise. It is often helpful to denoise data - a process that involves filtering out noise to extract the underlying signal. There are <a class="reference external" href="https://www.kaggle.com/code/residentmario/denoising-algorithms/notebook">many approaches</a> to denoising time series data, we will explore just one - Average Smoothing.</p>
+<p><strong>Average Smoothing:</strong> Average smoothing involves iteratively computing the average over a sliding window of observations that is incremented by a stride accross the entire time series. This computation can be realized using average pooling on input time series with padding to ensure the output time series has the same dimensionality:</p>
+<p>\begin{align}
+\hat{x} = AvgPool(Padding(x))
+\end{align}</p>
+<p>We can write a custom function to perform the operation on a column of the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> underlying the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object. A new time series can be initialized with the updated dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_smoothing</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">padding_size</span> <span class="o">=</span> <span class="n">kernel_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">padded_signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">padding_size</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span> 
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">kernel_size</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">padded_signal</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">start</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">padded_signal</span><span class="p">):</span>
+            <span class="k">break</span> 
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get index and time series</span>
+<span class="n">np_ts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span>
+
+<span class="c1"># Average Smoothing </span>
+<span class="n">dn_as</span> <span class="o">=</span> <span class="n">average_smoothing</span><span class="p">(</span><span class="n">np_ts</span><span class="p">)</span>
+<span class="n">dn_as_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">dn_as_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span> 
+<span class="n">dn_as_df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dn_as</span>
+
+<span class="c1"># Plot new time series</span>
+<span class="n">dn_as_ts</span> <span class="o">=</span> <span class="n">TimeSeries</span><span class="o">.</span><span class="n">from_dataframe</span><span class="o">=</span><span class="p">(</span><span class="n">dn_as_df</span><span class="p">)</span>
+<span class="n">dn_as_ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot: xlabel=&#39;Month&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/6a66afc9d4e93a131085c769fd9ceb41375ca804222cad61304a837e97a1a42d.png" src="../_images/6a66afc9d4e93a131085c769fd9ceb41375ca804222cad61304a837e97a1a42d.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="time-series-analysis">
+<h2>Time Series Analysis<a class="headerlink" href="#time-series-analysis" title="Permalink to this heading">#</a></h2>
+<section id="time-series-decomposition">
+<h3>Time Series Decomposition<a class="headerlink" href="#time-series-decomposition" title="Permalink to this heading">#</a></h3>
+<p>In time series analysis, it is common to decompose a time series into multiple components representing difference factors of variation. These includes the trend, cyclical, seasonal and residual (irregular) component.</p>
+<ul class="simple">
+<li><p><strong>Trend:</strong> General tendency of the time series to increase or decrease over time.</p></li>
+<li><p><strong>Cyclical:</strong> Fluctuations in the values of the time series occuring at irregular intervals.</p></li>
+<li><p><strong>Periodic:</strong> Fluctuations in the values of time series occuring at regular intervals.</p></li>
+<li><p><strong>Residual:</strong> Fluctuations in the values of time series which are a result of unforeseen and unpredictable forces.</p></li>
+</ul>
+<p>The following figure illustrates the various components of a time series:</p>
+<p align="center">
+<img width="600" alt="Time Series Decomposed" src="https://user-images.githubusercontent.com/34798787/162814965-36e19675-c439-4636-bf40-88dc1e99c416.png"> 
+</p> 
+<p>It is worth noting that the trend and cyclical components are often lumped together when realizing the decomposition of the underlying time series. With this assumption in place, we can formally specify the interaction of the sub components of the time series. Two simple models for time series deomposition include additive decomposition and multiplicative decomposition.</p>
+<p><strong>Additive Decomposition:</strong> Assumes additive interaction between sub components of time series. Additive decomposition are most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not vary with time. The additive decomposition can be formally specified as follows:</p>
+<p>\begin{align}
+x_{i} = s_{i} + t_{i} + r_{i}
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>In the case of the Air Passenger time series, the additive decomposition  can be performed with the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html"><code class="docutils literal notranslate"><span class="pre">sm.tsa.seasonal_decompose</span></code></a> function with <code class="docutils literal notranslate"><span class="pre">model=&quot;additive&quot;</span></code>as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># graphs to show seasonal_decompose</span>
+<span class="k">def</span> <span class="nf">seasonal_decompose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+    <span class="n">decomposition</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">extrapolate_trend</span><span class="o">=</span><span class="s1">&#39;freq&#39;</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">decomposition</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decompose Air Passenger additive</span>
+<span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;additive&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fa97d555cb77eae3d779938edd75eaec24e3c34b737e7dea2d8a11e858ba3366.png" src="../_images/fa97d555cb77eae3d779938edd75eaec24e3c34b737e7dea2d8a11e858ba3366.png" />
+</div>
+</div>
+<p><strong>Multiplicative Decomposition:</strong> Assumes multiplicative interaction between sub components of the time series. Multiplivative decomposition is most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not very with time. The multiplicative decomposition can be formally specified as follows:</p>
+<p>\begin{align}
+x_{i} = s_{i} \times t_{i} \times r_{i}
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>In the case of the Air Passenger time series, the multiplicative decomposition  can be performed with the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.tsa.seasonal.seasonal_decompose.html"><code class="docutils literal notranslate"><span class="pre">sm.tsa.seasonal_decompose</span></code></a> function <code class="docutils literal notranslate"><span class="pre">model=&quot;multiplicative&quot;</span></code> as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Decompose Ait Passenger Multiplicative </span>
+<span class="n">seasonal_decompose</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;multiplicative&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2e19f3be5f5e8e43d98c7e6b4684b3a83a8bc138a6007cfee2a2ae89381d9e14.png" src="../_images/2e19f3be5f5e8e43d98c7e6b4684b3a83a8bc138a6007cfee2a2ae89381d9e14.png" />
+</div>
+</div>
+<p>By looking at the plots of the residuals, it is evident that the multiplicative decomposition is more appropriate for this time series. This is due to the fact that the residuals approximate a normal distribution with mean 0. In the case of the additive decomposition, the residuals seem to have underlying patterns, indicating they are not exclusively noise.</p>
+</section>
+<section id="autocorrelation-and-partial-autocorrelation">
+<h3>Autocorrelation and Partial Autocorrelation<a class="headerlink" href="#autocorrelation-and-partial-autocorrelation" title="Permalink to this heading">#</a></h3>
+<p>One central component in time series analysis is discovering the relative depencies among indices of the time series. To this end, <a class="reference external" href="https://en.wikipedia.org/wiki/Autocorrelation">autocorrelation</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Partial_autocorrelation_function">partial autocorrelation</a> are two metrics that measure this.</p>
+<p><strong>Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the autocorrelation <span class="math notranslate nohighlight">\(a_{k}\)</span>  can be calculated as follows:</p>
+<p>\begin{align}
+a_{k} = \frac{\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})(\mathbf{^{t-k}x} - \mu_{x})]}{\sqrt{(\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})^2])\cdot \mathbb{E}[(\mathbf{^{t-k}x} - \mu_{x})^2])}} = <br />
+\frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x})}{\sqrt{var(\mathbf{^{t}x}) \cdot var(\mathbf{^{t-k}x})}}
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(cov\)</span> is a function that computes covariance and  <span class="math notranslate nohighlight">\(var\)</span> is a function that computes the variance. By computing the <span class="math notranslate nohighlight">\(A_k\)</span> for all lags from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(K\)</span>, we generate a  vector <span class="math notranslate nohighlight">\(A \in R^K\)</span> where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the autocorrelation with <span class="math notranslate nohighlight">\(K=25\)</span> can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_acf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_acf</span></code></a> function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Autocorrelation </span>
+<span class="n">plot_acf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;#Passengers&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<img alt="../_images/5ea549c7a32bc24f2ebd3ca11203e2e29befa020e9fce0344eec79e376da33e6.png" src="../_images/5ea549c7a32bc24f2ebd3ca11203e2e29befa020e9fce0344eec79e376da33e6.png" />
+</div>
+</div>
+<p>The autocorrelation ranges from -1 (tend to move in same direction) and 1 (tend to move in different directions). From the above plot, the lag series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> has the highest autocorrelation, 1, when <span class="math notranslate nohighlight">\(k=0\)</span>. This makes sense intuitively because <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> are equivalent when <span class="math notranslate nohighlight">\(k=0\)</span>. You will also notice a shaded area which corresponds to the confidence interval. If an autocorrelation value exceeds the confidence interval region, the autocorrelation value is statistically significant.</p>
+<p><strong>Partial Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay with the relationships of intervening observations removed.  Using partial correlation helps derive the depencies among time steps more accurately by controlling for the effects of other lags. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the partial autocorrelation <span class="math notranslate nohighlight">\(p_{k}\)</span>  can be calculated as follows:</p>
+<p>\begin{align}
+p_{k} =
+\frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x}| \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}{\sqrt{var(\mathbf{^{t}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x}) \cdot var(\mathbf{^{t-k}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}}
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(cov\)</span> is a function that computes covariance between <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> conditioned on intermediate values and <span class="math notranslate nohighlight">\(var\)</span> is a function that computes the variance of <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> conditioned on intermediate values. By computing the  <span class="math notranslate nohighlight">\(p_k\)</span>  for all lags from  1  to  𝐾 , we generate a vector  <span class="math notranslate nohighlight">\(\mathbf{p}  \in 𝑅^𝐾\)</span>  where each entry represents the autocorrelation for a specific lag. In the case of the Air Passenger Dataset, the partial autocorrelation with  𝐾=25  can be plotted using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.graphics.tsaplots.plot_pacf.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.graphics.tsaplots.plot_pacf</span></code></a> function:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Partial Autocorrelation </span>
+<span class="n">plot_pacf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;#Passengers&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ssd003/projects/aieng/public/forecasting_unified/lib/python3.8/site-packages/statsmodels/graphics/tsaplots.py:348: FutureWarning: The default method &#39;yw&#39; can produce PACF values outside of the [-1,1] interval. After 0.13, the default will change tounadjusted Yule-Walker (&#39;ywm&#39;). You can use this method now by setting method=&#39;ywm&#39;.
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<img alt="../_images/03dbdc07a00a797e65e56f4aac811b044693294e6471117fd7eff52818533fa4.png" src="../_images/03dbdc07a00a797e65e56f4aac811b044693294e6471117fd7eff52818533fa4.png" />
+</div>
+</div>
+<p>The partial autocorrelation ranges from -1 (tend to move in same direction) and 1 (tend to move in different directions). In contrast to the autocorrelation plot, the partial autocorrelation plot highlights dependicies based solely on their contribution. You will also notice a shaded area which corresponds to the confidence interval. If an partial autocorrelation value exceeds the confidence interval region, the partial autocorrelation value is statistically significant.</p>
+</section>
+<section id="cross-correlation">
+<h3>Cross Correlation<a class="headerlink" href="#cross-correlation" title="Permalink to this heading">#</a></h3>
+<p>Often it is beneficial to compare multiple time series to discover what relationships exist. By generalizing the notion of autocorrelation, we are able to define <a class="reference external" href="https://en.wikipedia.org/wiki/Cross-correlation">cross correlation</a> which describes the relationship between a pair of time series at different lags. To account for the fact that we can compute lags on each time series independently, we have defined positive and negative lags to evaulate the correlation of the two time series. A positive lag in one time series is a negative lag in the other time series and vice versa.</p>
+<p>To illustate the concept of cross correlation, we can compute an affine transformation on the AirPassenger time series and compute the cross correlation between the two time series at different lags with a maximum lag of <span class="math notranslate nohighlight">\( K = \pm 10 \)</span>. The function <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.xcorr.html"><code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.xcorr</span></code></a> is useful for generating a cross correlation plot for a pair of time series:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">passengers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span>
+<span class="n">passengers_shifted</span> <span class="o">=</span> <span class="n">passengers</span> <span class="o">+</span> <span class="mi">10</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">axarr</span><span class="o">.</span><span class="n">xcorr</span><span class="p">(</span><span class="n">passengers</span><span class="p">,</span> <span class="n">passengers_shifted</span><span class="p">,</span> <span class="n">maxlags</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">axarr</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Cross Correlation Plot&quot;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Lag&quot;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Correlation&quot;</span><span class="p">)</span>
+<span class="n">axarr</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+<img alt="../_images/b5a259e87350f322d2e46c1d8d1a173aeb04f458af50d79d5657e62c4f298a15.png" src="../_images/b5a259e87350f322d2e46c1d8d1a173aeb04f458af50d79d5657e62c4f298a15.png" />
+</div>
+</div>
+</section>
+<section id="stationairity">
+<h3>Stationairity<a class="headerlink" href="#stationairity" title="Permalink to this heading">#</a></h3>
+<p>Many techniques for time series forecasting assume that the underlying time series is stationairy. A stationairy time series has constant mean and variance over time. In many cases, time series are not stationairy. As a quick check, we can determine if a given time series is stationariy by visualizing the mean and variance as a function of time.</p>
+<p>In the case of the Air Passenger time series, the visualization can be generated as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### plot for Rolling Statistic for testing Stationarity</span>
+<span class="k">def</span> <span class="nf">test_stationarity</span><span class="p">(</span><span class="n">timeseries</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    
+    <span class="c1">#Determing rolling statistics</span>
+    <span class="n">rolmean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> 
+    <span class="n">rolstd</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">timeseries</span><span class="p">)</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">timeseries</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span> <span class="n">title</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rolmean</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rolling mean&#39;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rolstd</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;rolling std (x10)&#39;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_stationarity</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4cffb50b70a74040afa99e704b84340ee71fef0aad36db7cbbc2d5dfa3e291fb.png" src="../_images/4cffb50b70a74040afa99e704b84340ee71fef0aad36db7cbbc2d5dfa3e291fb.png" />
+</div>
+</div>
+<p>Clearly, the time series is not stationairy because both the standard deviation and the mean change accross time. In some cases, it may not be apparent from such a visualiztion so we can resort to statistical tests to determine whether or not the time series is stationairy. On such statistical test is the <a class="reference external" href="https://en.wikipedia.org/wiki/Augmented_Dickey%E2%80%93Fuller_test">Augmented Dickey-Fuller Test</a> which can be implented using the <a class="reference external" href="https://www.statsmodels.org/dev/generated/statsmodels.tsa.stattools.adfuller.html"><code class="docutils literal notranslate"><span class="pre">statsmodels.tsa.stattools.adfuller</span></code></a> function as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Augmented Dickey-Fuller Test</span>
+
+<span class="k">def</span> <span class="nf">ADF_test</span><span class="p">(</span><span class="n">timeseries</span><span class="p">,</span> <span class="n">dataDesc</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; &gt; Is the </span><span class="si">{}</span><span class="s1"> stationary ?&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dataDesc</span><span class="p">))</span>
+    <span class="n">dftest</span> <span class="o">=</span> <span class="n">adfuller</span><span class="p">(</span><span class="n">timeseries</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">autolag</span><span class="o">=</span><span class="s1">&#39;AIC&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test statistic = </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dftest</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;P-value = </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dftest</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Critical values :&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dftest</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1"> - The data is </span><span class="si">{}</span><span class="s1"> stationary with </span><span class="si">{}% c</span><span class="s1">onfidence&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="s1">&#39;not&#39;</span> <span class="k">if</span> <span class="n">v</span><span class="o">&lt;</span><span class="n">dftest</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ADF_test</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">],</span> <span class="s2">&quot;Air Passenger Time Series&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &gt; Is the Air Passenger Time Series stationary ?
+Test statistic = 0.815
+P-value = 0.992
+Critical values :
+	1%: -3.4816817173418295 - The data is not stationary with 99% confidence
+	5%: -2.8840418343195267 - The data is not stationary with 95% confidence
+	10%: -2.578770059171598 - The data is not stationary with 90% confidence
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="making-data-stationairy">
+<h3>Making Data Stationairy<a class="headerlink" href="#making-data-stationairy" title="Permalink to this heading">#</a></h3>
+<p>Their are several methods to make time series data stationairy. This is required in cases that you are employing a time series analysis method that assumes their is constant mean and covariance accross the entire time series. The time series methods explored in this section are <a class="reference external" href="https://machinelearningmastery.com/time-series-trends-in-python/">detrending</a> and <a class="reference external" href="https://machinelearningmastery.com/time-series-trends-in-python/">differencing</a>.</p>
+<p><strong>Detrending:</strong> Involves subtracting out the underlying trend in the time series to generate the detrended series. The trend can be determined using a average smoothing or other methods. In the case of the Air Pasender Dataset, we can process the time series by detrending it. Subsequently, we can evaluate whether the detrended time series is stationairy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Detrending</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;#Passengers&quot;</span><span class="p">]</span>
+<span class="n">y_detrend</span> <span class="o">=</span>  <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="n">y</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+
+<span class="n">test_stationarity</span><span class="p">(</span><span class="n">y_detrend</span><span class="p">,</span><span class="s1">&#39;de-trended data&#39;</span><span class="p">)</span>
+<span class="n">ADF_test</span><span class="p">(</span><span class="n">y_detrend</span><span class="p">,</span><span class="s1">&#39;de-trended data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &gt; Is the de-trended data stationary ?
+Test statistic = -2.481
+P-value = 0.120
+Critical values :
+	1%: -3.4865346059036564 - The data is not stationary with 99% confidence
+	5%: -2.8861509858476264 - The data is not stationary with 95% confidence
+	10%: -2.579896092790057 - The data is not stationary with 90% confidence
+</pre></div>
+</div>
+<img alt="../_images/4ef57a6b8f3b6cadce77b02909ddd9239eb89fde20409cf52daf8e139b2c42a7.png" src="../_images/4ef57a6b8f3b6cadce77b02909ddd9239eb89fde20409cf52daf8e139b2c42a7.png" />
+</div>
+</div>
+<p>Although, the ADF test does not currently consider the time series to be stationairy, it is a significant improvement over the otiginal time series.</p>
+<p><strong>Differencing:</strong> Removes underlying cyclical and seasonal patterns by substracting out a lagged value of the series.  In the case of the Air Pasender Dataset, we can process the time series by differencing it. Subsequently, we can evaluate whether the differenced time series is stationairy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Differencing </span>
+<span class="n">y_12lag</span> <span class="o">=</span>  <span class="n">y</span> <span class="o">-</span> <span class="n">y</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">test_stationarity</span><span class="p">(</span><span class="n">y_12lag</span><span class="p">,</span><span class="s1">&#39;12 lag differenced data&#39;</span><span class="p">)</span>
+<span class="n">ADF_test</span><span class="p">(</span><span class="n">y_12lag</span><span class="p">,</span><span class="s1">&#39;12 lag differenced data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &gt; Is the 12 lag differenced data stationary ?
+Test statistic = -3.383
+P-value = 0.012
+Critical values :
+	1%: -3.4816817173418295 - The data is not stationary with 99% confidence
+	5%: -2.8840418343195267 - The data is  stationary with 95% confidence
+	10%: -2.578770059171598 - The data is  stationary with 90% confidence
+</pre></div>
+</div>
+<img alt="../_images/55697bac032094c2188fbd9522b579d3a62af5623c5097c82ef9496ef3b67305.png" src="../_images/55697bac032094c2188fbd9522b579d3a62af5623c5097c82ef9496ef3b67305.png" />
+</div>
+</div>
+<p>By using differencing, the processed time series is considered stationairy. Although for the highest confidence interval, it is not deemed stationairy. To mitigate this we can explore other methods for making the data stationairy or combining differencing and detrending to hopefully yield more robust results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Detrending and Differencing </span>
+<span class="n">y_12lag_detrend</span> <span class="o">=</span>  <span class="n">y_detrend</span> <span class="o">-</span> <span class="n">y_detrend</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">test_stationarity</span><span class="p">(</span><span class="n">y_12lag_detrend</span><span class="p">,</span><span class="s1">&#39;12 lag differenced de-trended data&#39;</span><span class="p">)</span>
+<span class="n">ADF_test</span><span class="p">(</span><span class="n">y_12lag_detrend</span><span class="p">,</span><span class="s1">&#39;12 lag differenced de-trended data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &gt; Is the 12 lag differenced de-trended data stationary ?
+Test statistic = -3.181
+P-value = 0.021
+Critical values :
+	1%: -3.4924012594942333 - The data is not stationary with 99% confidence
+	5%: -2.8886968193364835 - The data is  stationary with 95% confidence
+	10%: -2.5812552709190673 - The data is  stationary with 90% confidence
+</pre></div>
+</div>
+<img alt="../_images/7c3c72ed7967ae62cd67c37c2a7a7f5e7e02240e1f57f6bebd97cdcfda8bd951.png" src="../_images/7c3c72ed7967ae62cd67c37c2a7a7f5e7e02240e1f57f6bebd97cdcfda8bd951.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>In this notebook univariate time series analysis is explored. Topics we covered include:</p>
+<ul class="simple">
+<li><p>Basic Time Series operations such as imputing missing values, resampling and denoising.</p></li>
+<li><p>Discovering dependencies between steps of a time series with autocorrelation and partial autocorrelation.</p></li>
+<li><p>Discovering dependencies between steps of a pair of time series with cross-correlation.</p></li>
+<li><p>Decomposing a time series into trend, seasonal, cyclical and residual components</p></li>
+<li><p>Determining if a series is stationary and methods for making data stationairy.</p></li>
+</ul>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.bounteous.com/insights/2020/09/15/forecasting-time-series-model-using-python-part-one/">Forecasting with a Time Series Model using Python: Part One</a></p></li>
+<li><p><a class="reference external" href="https://www.analyticsvidhya.com/blog/2021/10/a-comprehensive-guide-to-time-series-analysis/">A Comprehensive Guide to Time Series Analysis</a></p></li>
+<li><p><a class="reference external" href="https://www.kaggle.com/code/kashnitsky/topic-9-part-1-time-series-analysis-in-python/notebook#Conclusion">Time series analysis in Python</a></p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Apply techniques for time series analysis to dataset for use case (or similar open source dataset)</p></li>
+<li><p>Dive deeper into the topics we explored in the following notebook: <a class="reference external" href="https://www.kaggle.com/code/konradb/ts-0-the-basics/notebook">TS-0: The Basics</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "forecasting"
+        },
+        kernelOptions: {
+            name: "forecasting",
+            path: "./intro_to_forecasting"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'forecasting'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Forecasting Bootcamp</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="intro_time_series_2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Intro to Time Series Forecasting and Evaluation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-imports">Environment Configuration and Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-time-series">Intro to Time Series</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-univariate-data">Load Univariate Data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-missing-value-df">Generate Missing Value DF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-operations">Time Series Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values">Missing Values</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Resampling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#denoising">Denoising</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-analysis">Time Series Analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-decomposition">Time Series Decomposition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autocorrelation-and-partial-autocorrelation">Autocorrelation and Partial Autocorrelation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-correlation">Cross Correlation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stationairity">Stationairity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-data-stationairy">Making Data Stationairy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vector Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

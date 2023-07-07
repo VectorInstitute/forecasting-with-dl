@@ -1,0 +1,1269 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Multivariate Forecasting Long Sequence Time Series with Autoformer &#8212; Forecasting Workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'multivariate_lstf_demos/autoformer_traffic';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multivariate Forecasting Long Sequence Time Series with NHITS" href="nhits_traffic.html" />
+    <link rel="prev" title="Multivariate quantiles and long horizon forecasting with N-HiTS" href="../multivariate_demos/nhits_quantile.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Forecasting Bootcamp
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../intro_to_forecasting/intro_time_series.html">Introduction to Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_to_forecasting/intro_time_series_2.html">Intro to Time Series Forecasting and Evaluation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/deepar_electricty.html">Multivariate Forecasting with DeepAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nbeats_electricity.html">Multivariate Forecasting with NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nhits_quantile.html">Multivariate quantiles and long horizon forecasting with N-HiTS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Long Sequence Timeseries Forecasting</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multivariate Forecasting Long Sequence Time Series with Autoformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nhits_traffic.html">Multivariate Forecasting Long Sequence Time Series with NHITS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datasets/datasets_intro.html">Datasets Description</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/load_raw_data.html">Load data files</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/data_explore.html">Load weather data and station metadata</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/m5/load_m5_dataset.html">M5 Data Preparation</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/VectorInstitute/forecasting-bootcamp/blob/jupyter-book/./multivariate_lstf_demos/autoformer_traffic.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/edit/jupyter-book/./multivariate_lstf_demos/autoformer_traffic.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/issues/new?title=Issue%20on%20page%20%2Fmultivariate_lstf_demos/autoformer_traffic.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/multivariate_lstf_demos/autoformer_traffic.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multivariate Forecasting Long Sequence Time Series with Autoformer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-package-imports">Environment Configuration and Package Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-definitions">Hyperparameter Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-dataloader">Defining Dataloader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoformer-overview">Autoformer Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test">Test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-resutls">Quantitative Resutls</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multivariate-forecasting-long-sequence-time-series-with-autoformer">
+<h1>Multivariate Forecasting Long Sequence Time Series with Autoformer<a class="headerlink" href="#multivariate-forecasting-long-sequence-time-series-with-autoformer" title="Permalink to this heading">#</a></h1>
+<p>This notebook outlines the application of <a class="reference external" href="https://arxiv.org/abs/2106.13008">Autoformer</a>, a recently-proposed model for time series forecasting, to a collection of hourly data
+from California Department of Transportation, which describes the road occupancy rates measured
+by 862 different sensors on San Francisco Bay area freeways.</p>
+<p>This demo uses an implementation of NHTIS from the neuralforecast package. <a class="reference external" href="https://github.com/jdb78/pytorch-forecasting">neuralforecast</a> is a package/repository that provides implementations of several state-of-the-art deep learning-based forecasting models, namely <a class="reference external" href="https://arxiv.org/abs/2106.13008">Autoformer</a>, <a class="reference external" href="https://arxiv.org/abs/2012.07436">Informer</a>, <a class="reference external" href="https://arxiv.org/abs/2201.12886">NHITS</a> and <a class="reference external" href="https://www.sciencedirect.com/science/article/abs/pii/S0169207019301153">ES-RNN</a>. Similar to PyTorch Forecasting, neuralforecast is built using <a class="reference external" href="https://pytorch-lightning.readthedocs.io/">PyTorch Lightning</a>, making it easier to train in multi-GPU compute environments, out-of-the-box.</p>
+<p><strong>Note:</strong> neuralforecast is a relatively new package that has been gaining traction because, unlike more mature packages, it supports recent state-of-the-art methods like NHITS and Autoformer. That being said, the documentation is sparse and the package is not as mature as others we have used in other demos (<a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/stable/">PyTorch Forecasting</a>, <a class="reference external" href="https://facebook.github.io/prophet/">Prophet</a>). In any event, neuralforecast provides a great oppurtunity to explore bleeding edge time series forecasting methods.</p>
+<section id="environment-configuration-and-package-imports">
+<h2>Environment Configuration and Package Imports<a class="headerlink" href="#environment-configuration-and-package-imports" title="Permalink to this heading">#</a></h2>
+<p><strong>Note for Colab users:</strong> Run the following cell to install PyTorch Forecasting. After installation completes, you will likely need to restart the Colab runtime. If this is the case, a button RESTART RUNTIME will appear at the bottom of the next cell’s output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pytorch_lightning
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>neuralforecast
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+
+<span class="kn">import</span> <span class="nn">neuralforecast</span> <span class="k">as</span> <span class="nn">nf</span>
+<span class="kn">from</span> <span class="nn">neuralforecast.data.datasets.epf</span> <span class="kn">import</span> <span class="n">EPF</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span>
+<span class="kn">from</span> <span class="nn">neuralforecast.data.tsloader</span> <span class="kn">import</span> <span class="n">TimeSeriesLoader</span>
+<span class="kn">from</span> <span class="nn">neuralforecast.experiments.utils</span> <span class="kn">import</span> <span class="n">create_datasets</span>
+<span class="kn">from</span> <span class="nn">neuralforecast.data.tsdataset</span> <span class="kn">import</span> <span class="n">IterateWindowsDataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="c1"># Comment out </span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hyperparameter-definitions">
+<h2>Hyperparameter Definitions<a class="headerlink" href="#hyperparameter-definitions" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">VAL_PERC</span> <span class="o">=</span> <span class="mf">.1</span>
+<span class="n">TEST_PERC</span> <span class="o">=</span> <span class="mf">.1</span>
+<span class="n">N_TIME_SERIES</span> <span class="o">=</span> <span class="mi">862</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc_model</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">96</span> <span class="c1"># Input sequence size.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;label_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">96</span> <span class="o">//</span> <span class="mi">2</span> <span class="c1"># Label sequence size. (Input buffer length for decoder)</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;pred_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">96</span> <span class="c1"># Prediction sequence size.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;output_attention&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># If true use output attention for Transformer model.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;enc_in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_TIME_SERIES</span> <span class="c1">#  Number of encoders in data embedding layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;dec_in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_TIME_SERIES</span> <span class="c1">#  Number of decoders in data embedding layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;d_model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">512</span> <span class="c1">#  Number of nodes for embedding layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;c_out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">N_TIME_SERIES</span> <span class="c1"># Number of output nodes in projection layer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;embed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;timeF&#39;</span> <span class="c1">#  Type of embedding layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;h&#39;</span> <span class="c1"># Frequency for embedding layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;dropout&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="c1"># Float between (0, 1). Dropout for Transformer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Factor for attention layer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;n_heads&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1">#  Number of heads in attention layer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;d_ff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2_048</span> <span class="c1">#  Number of inputs in encoder layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;moving_avg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">25</span>  <span class="c1">#  Moving average for encoder and decoder layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;activation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gelu&#39;</span> <span class="c1">#  Activation function for encoder layer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;e_layers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Number of encoder layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;d_layers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Number of decoder layers.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;loss_train&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MAE&#39;</span> <span class="c1"># Loss to optimize. An item from [&#39;MAPE&#39;, &#39;MASE&#39;, &#39;SMAPE&#39;, &#39;MSE&#39;, &#39;MAE&#39;, &#39;QUANTILE&#39;, &#39;QUANTILE2&#39;]. </span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;loss_hypar&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># Hyperparameter for chosen loss.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;loss_valid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MAE&#39;</span><span class="c1"># Validation loss.An item from [&#39;MAPE&#39;, &#39;MASE&#39;, &#39;SMAPE&#39;, &#39;RMSE&#39;, &#39;MAE&#39;, &#39;QUANTILE&#39;].</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1"># Learning rate between (0, 1).</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;lr_decay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c1"># Decreasing multiplier for the learning rate.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;weight_decay&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span> <span class="c1"># L2 penalty for optimizer.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;lr_decay_step_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Steps between each learning rate decay.</span>
+<span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;random_seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># random_seed for pseudo random pytorch initializer and numpy random generator.</span>
+
+<span class="c1"># Dataset parameters</span>
+<span class="n">mc_data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;iterate_windows&#39;</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;n_time_in&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="c1"># Input sequence length</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;n_time_out&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;pred_len&#39;</span><span class="p">]</span> <span class="c1"># Prediction sequence length</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Batch size </span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;normalizer_y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> 
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;normalizer_x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;max_epochs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Maximum number of training epochs</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;max_steps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># maximum number of training steps</span>
+<span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;early_stop_patience&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1">#Number of consecutive violations of early stopping criteria to end training</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<p>We start by loading the data. neuralforecast provides utilities for loading a <a class="reference external" href="https://nixtla.github.io/neuralforecast/data_datasets__long_horizon.html">variety of different datasets</a> popular in the time series forecasting domain. Conveniently, the loaded data is in the format that is expected by the model that we define in the subsequent section. In particular, we call the <code class="docutils literal notranslate"><span class="pre">load</span></code> function with an argument specifying the dataset to load three dataframes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Y_df</span></code>: (pd.DataFrame) Target time series with columns [‘unique_id’, ‘ds’, ‘y’]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X_df</span></code>: (pd.DataFrame) Exogenous time series with columns [‘unique_id’, ‘ds’, ‘y’]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">S_df</span></code> (pd.DataFrame) Static exogenous variables with columns [‘unique_id’] and static variables.</p></li>
+</ul>
+<p>The columns referenced above are defined as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">unique_id</span></code>: column used to identify which time series the dataframe row corresponds to. The number of unique values in the column is the number of time series in the dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds</span></code>: column used to identify the time stamp the dataframe row corresponds to.</p></li>
+</ul>
+<p>In this way, a combination of <code class="docutils literal notranslate"><span class="pre">unique_id</span></code> and <code class="docutils literal notranslate"><span class="pre">ds</span></code> identify a sample in  <code class="docutils literal notranslate"><span class="pre">Y_df</span></code> and <code class="docutils literal notranslate"><span class="pre">X_df</span></code>. Thus, the total number of rows they contain is the product of the unique observations in <code class="docutils literal notranslate"><span class="pre">unique_id</span></code> and <code class="docutils literal notranslate"><span class="pre">ds</span></code>. On the other hand, <code class="docutils literal notranslate"><span class="pre">S_df</span></code> contains a row for each exogneous variable-time series pairing. If no exogenous varables exist for any of the time sereis, <code class="docutils literal notranslate"><span class="pre">S_df</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>For datasets that are not supported out of the box for the package, we must construct these dataframes ourselves with the format specified above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y_df</span><span class="p">,</span> <span class="n">X_df</span><span class="p">,</span> <span class="n">S_df</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">long_horizon</span><span class="o">.</span><span class="n">LongHorizon</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;autoformer_data&#39;</span><span class="p">,</span> <span class="s1">&#39;TrafficL&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unique_id</th>
+      <th>ds</th>
+      <th>y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>2016-07-01 02:00:00</td>
+      <td>-0.711224</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>2016-07-01 03:00:00</td>
+      <td>-0.672014</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>2016-07-01 04:00:00</td>
+      <td>-0.724294</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>2016-07-01 05:00:00</td>
+      <td>-0.725928</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>2016-07-01 06:00:00</td>
+      <td>-0.721027</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>15122923</th>
+      <td>OT</td>
+      <td>2018-07-01 21:00:00</td>
+      <td>0.765917</td>
+    </tr>
+    <tr>
+      <th>15122924</th>
+      <td>OT</td>
+      <td>2018-07-01 22:00:00</td>
+      <td>0.389237</td>
+    </tr>
+    <tr>
+      <th>15122925</th>
+      <td>OT</td>
+      <td>2018-07-01 23:00:00</td>
+      <td>0.172360</td>
+    </tr>
+    <tr>
+      <th>15122926</th>
+      <td>OT</td>
+      <td>2018-07-02 00:00:00</td>
+      <td>-0.090175</td>
+    </tr>
+    <tr>
+      <th>15122927</th>
+      <td>OT</td>
+      <td>2018-07-02 01:00:00</td>
+      <td>-0.495391</td>
+    </tr>
+  </tbody>
+</table>
+<p>15122928 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>unique_id</th>
+      <th>ds</th>
+      <th>ex_1</th>
+      <th>ex_2</th>
+      <th>ex_3</th>
+      <th>ex_4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>2016-07-01 02:00:00</td>
+      <td>-0.413043</td>
+      <td>0.166667</td>
+      <td>-0.500000</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>2016-07-01 03:00:00</td>
+      <td>-0.369565</td>
+      <td>0.166667</td>
+      <td>-0.500000</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>2016-07-01 04:00:00</td>
+      <td>-0.326087</td>
+      <td>0.166667</td>
+      <td>-0.500000</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>2016-07-01 05:00:00</td>
+      <td>-0.282609</td>
+      <td>0.166667</td>
+      <td>-0.500000</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>2016-07-01 06:00:00</td>
+      <td>-0.239130</td>
+      <td>0.166667</td>
+      <td>-0.500000</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>15122923</th>
+      <td>OT</td>
+      <td>2018-07-01 21:00:00</td>
+      <td>0.413043</td>
+      <td>0.500000</td>
+      <td>-0.500000</td>
+      <td>-0.00411</td>
+    </tr>
+    <tr>
+      <th>15122924</th>
+      <td>OT</td>
+      <td>2018-07-01 22:00:00</td>
+      <td>0.456522</td>
+      <td>0.500000</td>
+      <td>-0.500000</td>
+      <td>-0.00411</td>
+    </tr>
+    <tr>
+      <th>15122925</th>
+      <td>OT</td>
+      <td>2018-07-01 23:00:00</td>
+      <td>0.500000</td>
+      <td>0.500000</td>
+      <td>-0.500000</td>
+      <td>-0.00411</td>
+    </tr>
+    <tr>
+      <th>15122926</th>
+      <td>OT</td>
+      <td>2018-07-02 00:00:00</td>
+      <td>-0.500000</td>
+      <td>-0.500000</td>
+      <td>-0.466667</td>
+      <td>-0.00137</td>
+    </tr>
+    <tr>
+      <th>15122927</th>
+      <td>OT</td>
+      <td>2018-07-02 01:00:00</td>
+      <td>-0.456522</td>
+      <td>-0.500000</td>
+      <td>-0.466667</td>
+      <td>-0.00137</td>
+    </tr>
+  </tbody>
+</table>
+<p>15122928 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">S_df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Y_df</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">Y_df</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">])</span> <span class="c1"># Convert ds column to datetime format</span>
+<span class="n">X_df</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">X_df</span><span class="p">[</span><span class="s1">&#39;ds&#39;</span><span class="p">])</span> <span class="c1"># Convert ds column to datetime format</span>
+<span class="n">f_cols</span> <span class="o">=</span> <span class="n">X_df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;unique_id&#39;</span><span class="p">,</span> <span class="s1">&#39;ds&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="data-splitting">
+<h2>Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this heading">#</a></h2>
+<p>The data is split sequentially into train, validation and test based on <code class="docutils literal notranslate"><span class="pre">VAL_PERC</span></code> and <code class="docutils literal notranslate"><span class="pre">TEST_PERC</span></code> global variables. We will withhold the last <code class="docutils literal notranslate"><span class="pre">TEST_PERC</span></code> of data for testing. In the code below, we are very careful to ensure that when training and validating the model, it does not have access to the withheld data.</p>
+<p>The neuralforecast package’s function <a class="reference external" href="https://nixtla.github.io/neuralforecast/experiments__utils.html#create_datasets">create_datasets</a> allows us to generate a <a class="reference external" href="https://nixtla.github.io/neuralforecast/data__tsdataset.html">TSDataset</a> for the train, validation and test sets by passing <code class="docutils literal notranslate"><span class="pre">Y_df</span></code>, <code class="docutils literal notranslate"><span class="pre">X_df</span></code> and <code class="docutils literal notranslate"><span class="pre">S_df</span></code> that we defined above. Additionally, we specify the amount of time steps we want in the validation and test datasets, <code class="docutils literal notranslate"><span class="pre">ds_in_val</span></code> and <code class="docutils literal notranslate"><span class="pre">ds_in_test</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_ds</span> <span class="o">=</span> <span class="n">Y_df</span><span class="p">[</span><span class="s2">&quot;ds&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="n">n_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">VAL_PERC</span> <span class="o">*</span> <span class="n">n_ds</span><span class="p">)</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">TEST_PERC</span> <span class="o">*</span> <span class="n">n_ds</span><span class="p">)</span>
+
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">,</span> <span class="n">scaler_y</span> <span class="o">=</span> <span class="n">create_datasets</span><span class="p">(</span><span class="n">mc</span><span class="o">=</span><span class="n">mc_data</span><span class="p">,</span>
+                                                                     <span class="n">S_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                                                     <span class="n">Y_df</span><span class="o">=</span><span class="n">Y_df</span><span class="p">,</span> <span class="n">X_df</span><span class="o">=</span><span class="n">X_df</span><span class="p">,</span>
+                                                                     <span class="n">f_cols</span><span class="o">=</span><span class="n">f_cols</span><span class="p">,</span>
+                                                                     <span class="n">ds_in_val</span><span class="o">=</span><span class="n">n_val</span><span class="p">,</span>
+                                                                     <span class="n">ds_in_test</span><span class="o">=</span><span class="n">n_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO:root:Train Validation splits
+
+INFO:root:                             ds                    
+                            min                 max
+sample_mask                                        
+0           2018-02-05 22:00:00 2018-07-02 01:00:00
+1           2016-07-01 02:00:00 2018-02-05 21:00:00
+INFO:root:
+Total data 			15122928 time stamps 
+Available percentage=100.0, 	15122928 time stamps 
+Insample  percentage=80.0, 	12099032 time stamps 
+Outsample percentage=20.0, 	3023896 time stamps 
+
+INFO:root:Train Validation splits
+
+INFO:root:                             ds                    
+                            min                 max
+sample_mask                                        
+0           2016-07-01 02:00:00 2018-07-02 01:00:00
+1           2018-02-05 22:00:00 2018-04-19 23:00:00
+INFO:root:
+Total data 			15122928 time stamps 
+Available percentage=100.0, 	15122928 time stamps 
+Insample  percentage=10.0, 	1511948 time stamps 
+Outsample percentage=90.0, 	13610980 time stamps 
+
+INFO:root:Train Validation splits
+
+INFO:root:                             ds                    
+                            min                 max
+sample_mask                                        
+0           2016-07-01 02:00:00 2018-04-19 23:00:00
+1           2018-04-20 00:00:00 2018-07-02 01:00:00
+INFO:root:
+Total data 			15122928 time stamps 
+Available percentage=100.0, 	15122928 time stamps 
+Insample  percentage=10.0, 	1511948 time stamps 
+Outsample percentage=90.0, 	13610980 time stamps 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="defining-dataloader">
+<h2>Defining Dataloader<a class="headerlink" href="#defining-dataloader" title="Permalink to this heading">#</a></h2>
+<p>The next step is to define a PyTorch dataloader by passing a dataset, batch size and other paraneters that inform how each batch of data is loaded.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+                          <span class="n">batch_size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]),</span>
+                          <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">drop_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">val_dataset</span><span class="p">,</span>
+                        <span class="n">batch_size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]),</span>
+                        <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span>
+                         <span class="n">batch_size</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]),</span>
+                         <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h2>
+<section id="autoformer-overview">
+<h3>Autoformer Overview<a class="headerlink" href="#autoformer-overview" title="Permalink to this heading">#</a></h3>
+<p>Autoformer is a tranformer architecture for LSTF that aims to surmount the quadratic complexity of the attention mechanism and enhance prediction accuracy. In doing so, the Autoformer proposes two novel components, the Series Deocmposition Block and the Autocorrelation Block, that function as follows:</p>
+<ul class="simple">
+<li><p><strong>Series Decomposition Block:</strong> Block that decomposes series into seasonal and trend-cyclical components. Used throughout the architecture to allow for the progressive decomposition of complex time series.</p></li>
+<li><p><strong>Autocorrelation Block:</strong> Self attention mechanism that conducts dependecy discovery and representation aggregation at the subseries level. Assuming that sub-series at the same phase position exhibit similar temporal processes, the Autocorrelation block construct series level connections based on the process similarity which is derived using series periodicity.</p></li>
+</ul>
+<p>At the top level, autoformer consists of an encoder and a decoder, each of which is composed sets of Auto-Correlation, Series Decomposition and Feed Forward Blocks with residual connections.</p>
+<p align="center">
+<img width="800" alt="Screen Shot 2021-09-28 at 5 41 20 PM" src="https://user-images.githubusercontent.com/34798787/149202576-720856f7-c827-4e3d-85d7-0053328e1c8d.png">  
+</p>
+</section>
+</section>
+<section id="model-definition">
+<h2>Model Definition<a class="headerlink" href="#model-definition" title="Permalink to this heading">#</a></h2>
+<p>Using the neuralforecast package, an Autoformer model can be initialized using the <code class="docutils literal notranslate"><span class="pre">Autoformer</span></code> class. This returns a Pytorch Lighnting model that we will subsequently train and evaluate. There is a large amount of parameters involved in the definition which are passed via a dictionary. Some of the dictionary items may that may vary accross datasets include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">seq_len</span></code>: (int) The length of sequences input  to the encoder.
+<code class="docutils literal notranslate"><span class="pre">label_len</span></code>: (int) The length of input fed to the decoder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pred_len</span></code>: (int) The length of the sequences output by the model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">freq</span> </code>: (string) The frequency of the observations. (hourly:<code class="docutils literal notranslate"><span class="pre">h</span></code>, daily:<code class="docutils literal notranslate"><span class="pre">d</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enc_in</span></code>: (int) The number of time series input into encoder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dec_in</span></code>: (int) The number of time series input into decoder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">c_out</span></code>: (int) The number of time series output by the model.</p></li>
+</ul>
+<p>For additional details in regards to the <code class="docutils literal notranslate"><span class="pre">Autoformer</span></code> class, consult the  <a class="reference external" href="https://nixtla.github.io/neuralforecast/models_transformer__autoformer.html">neuralforecast documentation</a>. Values of model hyperparameters with corresponding defintions is available above in the <strong>Hyperparameter Defintions</strong> section.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">nf</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">autoformer</span><span class="o">.</span><span class="n">Autoformer</span><span class="p">(</span><span class="o">**</span><span class="n">mc_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-and-validation">
+<h2>Training and Validation<a class="headerlink" href="#training-and-validation" title="Permalink to this heading">#</a></h2>
+<p>We first define a pytorch lighting trainer which encapsulates the training process and allows us to easily implement a training and validation loop with the specified parameters. The arguments to the trainer include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">max_epochs</span></code>: (Optional[int]) – Stop training once this number of epochs is reached.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">callbacks</span></code>: (Union[List[Callback], Callback, None]) – Add a callback or list of callbacks.</p></li>
+</ul>
+<p>Subsequently, we can use the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method of the trainer with the <code class="docutils literal notranslate"><span class="pre">net</span></code>, <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> and <code class="docutils literal notranslate"><span class="pre">val_dataloader</span></code> to perform the training and validation loop.</p>
+<p>For more information regarding the <code class="docutils literal notranslate"><span class="pre">pl.Trainer</span></code> class, consult the <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.trainer.trainer.html#pytorch_lightning.trainer.trainer.Trainer.validate">PyTorch Lightning documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">early_stopping</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">,</span> 
+                                            <span class="n">min_delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> 
+                                            <span class="n">patience</span><span class="o">=</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;early_stop_patience&#39;</span><span class="p">],</span>
+                                            <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;max_epochs&#39;</span><span class="p">],</span> 
+                     <span class="n">max_steps</span><span class="o">=</span><span class="n">mc_data</span><span class="p">[</span><span class="s1">&#39;max_steps&#39;</span><span class="p">],</span>
+                     <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>
+                     <span class="n">devices</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">gradient_clip_val</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                     <span class="n">progress_bar_refresh_rate</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+                     <span class="n">check_val_every_n_epoch</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                     <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                     <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stopping</span><span class="p">])</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Set SLURM handle signals.
+
+  | Name  | Type        | Params
+--------------------------------------
+0 | model | _Autoformer | 14.9 M
+--------------------------------------
+14.9 M    Trainable params
+0         Non-trainable params
+14.9 M    Total params
+59.658    Total estimated model params size (MB)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "92233e4541f54a818ca8bd8801c21943", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="test">
+<h2>Test<a class="headerlink" href="#test" title="Permalink to this heading">#</a></h2>
+<section id="inference">
+<h3>Inference<a class="headerlink" href="#inference" title="Permalink to this heading">#</a></h3>
+<p>We can obtain the predictions of the trained model on the test samples using the predict method of the trainer object. This will output a list the same length as the number of test batches. Each entry in this list (ie <code class="docutils literal notranslate"><span class="pre">outputs[0]</span></code>) is a list itself where the first item (ie <code class="docutils literal notranslate"><span class="pre">outputs[0][0]</span></code>) is the ground truth and the second item (ie <code class="docutils literal notranslate"><span class="pre">outputs[0][1]</span></code>) is the prediction. Each of these items a 3D tensor of shape: batch size by sequenze length by number of time series.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">return_decomposition</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f2e3a352b6dc4455b03fda975476e27a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[:,</span> <span class="p">:</span><span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">ss_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">N_TIME_SERIES</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ss_ind</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ss_indices</span><span class="p">):</span>
+    <span class="n">inp</span> <span class="o">=</span> <span class="n">input_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ss_ind</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+    <span class="n">out1</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[:,</span> <span class="n">ss_ind</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">out2</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()[:,</span> <span class="n">ss_ind</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+    <span class="n">inp_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">])]</span>
+    <span class="n">out_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">],</span> <span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;seq_len&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">mc_model</span><span class="p">[</span><span class="s1">&#39;pred_len&#39;</span><span class="p">])]</span>
+
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">inp_index</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out_index</span><span class="p">,</span> <span class="n">out1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">out_index</span><span class="p">,</span> <span class="n">out2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/746312592f0600eab317b470b2eaf3325840a56732c696a8e3d4c8d967a7cd78.png" src="../_images/746312592f0600eab317b470b2eaf3325840a56732c696a8e3d4c8d967a7cd78.png" />
+</div>
+</div>
+</section>
+<section id="quantitative-resutls">
+<h3>Quantitative Resutls<a class="headerlink" href="#quantitative-resutls" title="Permalink to this heading">#</a></h3>
+<p>To assess the performance of Autoformer on the dataset, we calculate its performance on the test set using a set of metrics that are commonly used in time series forecasting. The metrics include Mean Absolute Error (MAE) and Mean Squared Error (MSE).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Aggregate list of ground truth and prediction series in to lists</span>
+<span class="n">true_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+<span class="n">pred_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">]</span>
+
+<span class="c1"># Stack lists into tensors along the sample/batch dimension</span>
+<span class="n">trues</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">true_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">pred_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Calculate Losses</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">trues</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">trues</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE: </span><span class="si">{</span><span class="n">mse</span><span class="si">}</span><span class="s2"> MAE: </span><span class="si">{</span><span class="n">mae</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./multivariate_lstf_demos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../multivariate_demos/nhits_quantile.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Multivariate quantiles and long horizon forecasting with N-HiTS</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nhits_traffic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multivariate Forecasting Long Sequence Time Series with NHITS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-package-imports">Environment Configuration and Package Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-definitions">Hyperparameter Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-dataloader">Defining Dataloader</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#autoformer-overview">Autoformer Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test">Test</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inference">Inference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-resutls">Quantitative Resutls</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vector Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

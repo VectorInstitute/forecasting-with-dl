@@ -1,0 +1,961 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Intro to Time Series Forecasting and Evaluation &#8212; Forecasting Workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro_to_forecasting/intro_time_series_2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Loading" href="../demos/demo1_prophet_neuralprophet_testset.html" />
+    <link rel="prev" title="Introduction to Time Series Analysis" href="intro_time_series.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Forecasting Bootcamp
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_time_series.html">Introduction to Time Series Analysis</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Intro to Time Series Forecasting and Evaluation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/deepar_electricty.html">Multivariate Forecasting with DeepAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nbeats_electricity.html">Multivariate Forecasting with NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_demos/nhits_quantile.html">Multivariate quantiles and long horizon forecasting with N-HiTS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Long Sequence Timeseries Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/autoformer_traffic.html">Multivariate Forecasting Long Sequence Time Series with Autoformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/nhits_traffic.html">Multivariate Forecasting Long Sequence Time Series with NHITS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datasets/datasets_intro.html">Datasets Description</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/load_raw_data.html">Load data files</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/data_explore.html">Load weather data and station metadata</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/m5/load_m5_dataset.html">M5 Data Preparation</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/VectorInstitute/forecasting-bootcamp/blob/jupyter-book/./intro_to_forecasting/intro_time_series_2.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/edit/jupyter-book/./intro_to_forecasting/intro_time_series_2.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/issues/new?title=Issue%20on%20page%20%2Fintro_to_forecasting/intro_time_series_2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/intro_to_forecasting/intro_time_series_2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Intro to Time Series Forecasting and Evaluation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-package-imports">Environment Configuration and Package Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-time-series-forecasting">Intro to Time Series Forecasting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-time-series-forecasting">Univariate Time Series Forecasting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-exponential-smoothing">Aside: Exponential Smoothing</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-exponential-smoothing-brown-method">Simple Exponential Smoothing (Brown Method)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#double-exponential-smoothing-holt-method">Double Exponential Smoothing (Holt Method)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#triple-exponential-smoothing-holt-winters-method">Triple Exponential Smoothing (Holt-Winters Method)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-forecasting">Multivariate Forecasting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#covariates">Covariates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-evaluation">Forecasting Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics">Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-methodologies">Evaluation Methodologies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="intro-to-time-series-forecasting-and-evaluation">
+<h1>Intro to Time Series Forecasting and Evaluation<a class="headerlink" href="#intro-to-time-series-forecasting-and-evaluation" title="Permalink to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<p>This is the second in a series of two notebooks on an introduction to time series forecasting. The last notebook outlined concepts of time series analysis such as time series processesing, decomposition, correlation and stationairity. In this notebook, we will discuss an intro to time series forecasting and evaluation. This notebook is particularly focused on the setup for forecasting problems and evaulation. Future notebooks will go into depth on specific forecasting methods.</p>
+</section>
+<section id="outline">
+<h2>Outline<a class="headerlink" href="#outline" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Intro to Forecasting</strong></p>
+<ul>
+<li><p>Univariate Forecasting</p>
+<ul>
+<li><p>Exponential Smoothing</p></li>
+</ul>
+</li>
+<li><p>Multivariate Forecasting</p></li>
+</ul>
+</li>
+<li><p><strong>Forcasting Evaluation</strong></p>
+<ul>
+<li><p>Metrics</p></li>
+<li><p>Evaluation Methodologies</p></li>
+</ul>
+</li>
+<li><p><strong>Conclusion</strong></p></li>
+<li><p><strong>References</strong></p></li>
+</ul>
+</section>
+<section id="environment-configuration-and-package-imports">
+<h2>Environment Configuration and Package Imports<a class="headerlink" href="#environment-configuration-and-package-imports" title="Permalink to this heading">#</a></h2>
+<p><strong>Please Note after installing the dependencies into the notebook you must restart the kernel. Simply, go under the Runtime tab and select Restart and Run All. This must be done only after the first time executing the notebook in a given session.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">in_colab</span> <span class="o">=</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
+
+<span class="k">if</span> <span class="n">in_colab</span><span class="p">:</span> 
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>darts
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pyyaml</span><span class="o">==</span><span class="m">5</span>.4.1
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">pywt</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">darts.models</span> <span class="kn">import</span> <span class="n">ExponentialSmoothing</span>
+<span class="kn">from</span> <span class="nn">darts</span> <span class="kn">import</span> <span class="n">TimeSeries</span>
+<span class="kn">from</span> <span class="nn">darts.datasets</span> <span class="kn">import</span> <span class="n">GasRateCO2Dataset</span>
+<span class="kn">from</span> <span class="nn">darts.datasets</span> <span class="kn">import</span> <span class="n">AirPassengersDataset</span>
+<span class="kn">from</span> <span class="nn">darts.dataprocessing.transformers</span> <span class="kn">import</span> <span class="n">MissingValuesFiller</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="intro-to-time-series-forecasting">
+<h2>Intro to Time Series Forecasting<a class="headerlink" href="#intro-to-time-series-forecasting" title="Permalink to this heading">#</a></h2>
+<section id="univariate-time-series-forecasting">
+<h3>Univariate Time Series Forecasting<a class="headerlink" href="#univariate-time-series-forecasting" title="Permalink to this heading">#</a></h3>
+<p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span> and a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span>, the univariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{T} \to \mathbb{R}^H\)</span>:</p>
+<p>\begin{align}
+\hat{y} = f(x) \approx y
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]\)</span> is an input vector of observations over the lookback window, <span class="math notranslate nohighlight">\(y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]\)</span> is the output vector. <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>To solidify this notion, we will train and evaluate an Exponential Smoothing Forecasting model on the Air Passenger Dataset. The Air Passenger dataset tracks the amount of commerical airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">AirPassengersDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/178f16ab20e548df0af2b03f4323d2d4793b94e6c399dab6cca1bb89868608f0.png" src="../_images/178f16ab20e548df0af2b03f4323d2d4793b94e6c399dab6cca1bb89868608f0.png" />
+</div>
+</div>
+<p>With our dataset in place, we can select a univariate forecasting model to train and evaluate. For this example, we consider an <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_smoothing">Exponential Smoothing Forecasting model</a> a seminal approach to time series forecasting.</p>
+<section id="aside-exponential-smoothing">
+<h4>Aside: Exponential Smoothing<a class="headerlink" href="#aside-exponential-smoothing" title="Permalink to this heading">#</a></h4>
+<p>Exponential smoothing (ES) models generate predictions <span class="math notranslate nohighlight">\(\hat{y}\)</span> as linear combination of past observations <span class="math notranslate nohighlight">\(x_1 ,\cdots, x_T\)</span> with exponentially decreasing weights. The implicit assumption of ES models is that the dependence of current observation on previous observations decays across time. In this way, ES models are extremely efficient - requiring only the previous smoothed value and the current time series value to compute a given prediction. This makes them favourable for use cases with low latency requirements. In the following, we will explore some common variation of ES models.</p>
+</section>
+<section id="simple-exponential-smoothing-brown-method">
+<h4>Simple Exponential Smoothing (Brown Method)<a class="headerlink" href="#simple-exponential-smoothing-brown-method" title="Permalink to this heading">#</a></h4>
+<p>In the simplest case, the smoothed series value at time <span class="math notranslate nohighlight">\(t\)</span>,  <span class="math notranslate nohighlight">\(l_t\)</span>,  is a weighted average of the previous smoothed value <span class="math notranslate nohighlight">\(l_{t-1}\)</span> and the current time series value <span class="math notranslate nohighlight">\(x_t\)</span>:</p>
+<p>\begin{equation}
+l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
+\end{equation}</p>
+<p>Given this, The forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:
+\begin{equation}
+\hat{y}_{t+h} = l_t
+\end{equation}</p>
+<p>which means simply that out of sample, our forecast is equal to the most recent value of the smoothed series. A few things to note about Simple Exponential Smoothing:</p>
+<ul class="simple">
+<li><p>Smoothing factor <span class="math notranslate nohighlight">\(\alpha\)</span> controls tradeoff between recency and smoothing</p></li>
+<li><p><span class="math notranslate nohighlight">\(\alpha\)</span> can be set manually or estimated</p></li>
+<li><p>Smoothing needs some time to catch up with the dynamics of your time series. A rule of thumb for a reasonable sample size is that you need <span class="math notranslate nohighlight">\(\frac{3}{\alpha}\)</span> observations.</p></li>
+</ul>
+</section>
+<section id="double-exponential-smoothing-holt-method">
+<h4>Double Exponential Smoothing (Holt Method)<a class="headerlink" href="#double-exponential-smoothing-holt-method" title="Permalink to this heading">#</a></h4>
+<p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecastng function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expresed as follows:</p>
+<p>\begin{equation}
+l_t = \alpha x_t + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \
+g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1)
+\end{equation}</p>
+<p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by
+\begin{equation}
+\hat{y}_{t+h} = l_t + h g_t
+\end{equation}</p>
+<p>The forecast function is no longer flat but trending: <span class="math notranslate nohighlight">\(h\)</span>-step-ahead forecast is equal to the last estimated level plus <span class="math notranslate nohighlight">\(h\)</span> times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
+<ul class="simple">
+<li><p>The first equation describes the level of the series which depends on the current value of the series, the previous level value and the previous trend value.</p></li>
+<li><p>The second equation describes the trend, which depends on the level changes at the current step and on the previous value of the trend.</p></li>
+<li><p>The values of <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are set based on expert judgement or estimated (jointly) from the data.</p></li>
+</ul>
+</section>
+<section id="triple-exponential-smoothing-holt-winters-method">
+<h4>Triple Exponential Smoothing (Holt-Winters Method)<a class="headerlink" href="#triple-exponential-smoothing-holt-winters-method" title="Permalink to this heading">#</a></h4>
+<p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond <span class="math notranslate nohighlight">\(L\)</span> into the forcasting function:</p>
+<p>\begin{equation}
+l_t = \alpha (x_t - s_{t - L}) + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \
+g_t = \beta (l_t - l_{t-1}) + (1 - \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1) \
+s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} \quad \gamma \in (0,1)
+\end{equation}</p>
+<p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:
+\begin{equation}
+\hat{y}<em>{t+h} = l_t + h g_t + s</em>{(t-L + h) ;; mod ;;  L }
+\end{equation}</p>
+<p>The forecast function consists of a level, trend and seasonal component. A few things to note about Triple Exponential Smoothing:</p>
+<ul class="simple">
+<li><p>The seasonal component explains repeated variations around intercept and trend, and it will be specified by the period.</p></li>
+<li><p>For each observation in the season, there is a separate component; for example, if the length of the season is 7 days (a weekly seasonality), we will have 7 seasonal components value of the trend.</p></li>
+<li><p>The values of <span class="math notranslate nohighlight">\(\alpha\)</span>, <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> are set based on expert judgement or estimated (jointly) from the data.</p></li>
+</ul>
+<p>We can create an Holt Winters Exponential Smoothing Forecasting Model by initializing the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.exponential_smoothing.html"><code class="docutils literal notranslate"><span class="pre">darts.models.ExponentialSmoothing</span></code></a> object. Subsequently, the model can be fit by passing the <code class="docutils literal notranslate"><span class="pre">TimeSeries</span></code> object to the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method of the initialized model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es_model</span> <span class="o">=</span> <span class="n">ExponentialSmoothing</span><span class="p">()</span>
+<span class="n">es_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;darts.models.forecasting.exponential_smoothing.ExponentialSmoothing at 0x7fa2f8cd0190&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Predictions can be generated from the fit model by calling the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method with the length of the forecasting horizon as an argument. Here we predict the 12 monthly observations following the data used to fit the model and plot the result in blue:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pred_es</span> <span class="o">=</span> <span class="n">es_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">pred_es</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2e639e2e6312dbd3487ac30185b0871597c63add2b53b849b4724a68ae33f776.png" src="../_images/2e639e2e6312dbd3487ac30185b0871597c63add2b53b849b4724a68ae33f776.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="multivariate-forecasting">
+<h3>Multivariate Forecasting<a class="headerlink" href="#multivariate-forecasting" title="Permalink to this heading">#</a></h3>
+<p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span>, a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span> and a set of <span class="math notranslate nohighlight">\(K\)</span> time series, the multivariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}\)</span>:</p>
+<p>\begin{align}
+\hat{Y} = f(X) \approx Y
+\end{align}</p>
+<p>where <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{TxK}\)</span> is a matrix where each column is a sequence of observations over the lookback window for a specific time series and <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{HxK} \)</span> is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
+<p>Similar to univariate forecasting, <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>This serves as a preliminary discussion of multivariate forecasting. In the following session, methods for multivariate forecasting will be discussed in detail.</p>
+</section>
+<section id="covariates">
+<h3>Covariates<a class="headerlink" href="#covariates" title="Permalink to this heading">#</a></h3>
+<p>Strictly relying on the history of a time series to predict its future is often suboptimal. In these cases, its beneficial to include covariates into the forecasting model. Covariates are exogenous time series that influence target time series. Covariates can be divided into the following two categories:</p>
+<ul class="simple">
+<li><p><strong>Past Covariates</strong>: time series whose past values are known at prediction time. Those series often contain values that have to be observed to be known.</p></li>
+<li><p><strong>Future Covariates</strong>: Future covariates are time series whose future values are known at prediction time. Often, the past values of future covariates are known as well.</p></li>
+</ul>
+<p>To make this more concrete, the illustration below depicts the relationship between past covariates, future covariates and the target time series:</p>
+<p align="center">
+<img width="750" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211891654-058129b8-3e44-4353-b97b-49946e6b88b5.png"> 
+</p> 
+<p>Only certain forecasting models support exogenous variables such as <a class="reference external" href="https://neuralprophet.com/">Neural Prophet</a>, <a class="reference external" href="https://analyticsindiamag.com/complete-guide-to-sarimax-in-python-for-time-series-modeling/">SARIMAX</a>, <a class="reference external" href="https://arxiv.org/abs/1704.04110">DeepAR</a>. Some of these methods will be explained in detail during future notebooks.</p>
+</section>
+</section>
+<section id="forecasting-evaluation">
+<h2>Forecasting Evaluation<a class="headerlink" href="#forecasting-evaluation" title="Permalink to this heading">#</a></h2>
+<section id="metrics">
+<h3>Metrics<a class="headerlink" href="#metrics" title="Permalink to this heading">#</a></h3>
+<p>Once the chosen model has been fit to the dataset, it must evaluated on unseen data to assess the out of sample performance. There are numerous metrics that are used including <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_error">Mean Absolute Error (MAE)</a>, <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error (MSE)</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Mean_absolute_percentage_error">Mean Absolute Percentage Error</a>. Given a forecast <span class="math notranslate nohighlight">\(y \in R^N\)</span> and corresponding ground truth <span class="math notranslate nohighlight">\(\hat{y} \in R^N\)</span>, the metrics are defined as follows:</p>
+<p align="center">
+<img width="1000" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211632073-40e73186-39f3-4b7f-9fa2-b629cb55af66.png"> 
+</p>
+<p>The <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.metrics.metrics.html"><code class="docutils literal notranslate"><span class="pre">darts.metrics.metrics</span></code></a> module contains the aformentioned metrics and more. These metrics can be easily used to evaluate the forecasts generated by our model as we will see below.</p>
+</section>
+<section id="evaluation-methodologies">
+<h3>Evaluation Methodologies<a class="headerlink" href="#evaluation-methodologies" title="Permalink to this heading">#</a></h3>
+<p>Besides metrics, another central component of evaluation is determine how to split the data into training and testing. The most common approach is to allocate the first portion of the time series to the training set and the latter part to the testing set. This is a familiar data splitting scheme for ML practitioners. It is conservative with respecto to data leakage and generalizability estiamtion. One downside of this approach is that the model does not learn from the most recent observation.  We can split a <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object in this manner by calling the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.split_before"><code class="docutils literal notranslate"><span class="pre">split_before</span></code></a> method with the proportion of the data to be alllocated to the train set.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_train</span><span class="p">,</span> <span class="n">ts_test</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">split_before</span><span class="p">(</span><span class="mf">.75</span><span class="p">)</span>
+<span class="n">ts_train</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">)</span>
+<span class="n">ts_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c67999b89daba1d9beffc614a41001aa8c36bcddd05a324cd43c9415ebc0b0a8.png" src="../_images/c67999b89daba1d9beffc614a41001aa8c36bcddd05a324cd43c9415ebc0b0a8.png" />
+</div>
+</div>
+<p>We can now fit a model on the train set and subsequently plot the prediction results on the test set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es_model</span> <span class="o">=</span> <span class="n">ExponentialSmoothing</span><span class="p">()</span>
+<span class="n">es_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ts_train</span><span class="p">)</span>
+
+<span class="n">forecast</span> <span class="o">=</span> <span class="n">es_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Actual&quot;</span><span class="p">)</span>
+<span class="n">forecast</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Forecast&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/af1806ea7c12e5891d5a2370d0a90d290b3e54c4c44100018d8091a634c3dff1.png" src="../_images/af1806ea7c12e5891d5a2370d0a90d290b3e54c4c44100018d8091a634c3dff1.png" />
+</div>
+</div>
+<p>The forecast can be evaluated with the metrics defined in the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.metrics.metrics.html"><code class="docutils literal notranslate"><span class="pre">darts.metrics.metrics</span></code></a>. In particular, we will evaulate the forecast using MAE, MSE and MAPE:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">darts.metrics.metrics</span> <span class="kn">import</span> <span class="n">mae</span><span class="p">,</span> <span class="n">mse</span><span class="p">,</span> <span class="n">mape</span>
+
+<span class="n">mae_score</span> <span class="o">=</span> <span class="n">mae</span><span class="p">(</span><span class="n">ts_test</span><span class="p">,</span> <span class="n">forecast</span><span class="p">)</span>
+<span class="n">mse_score</span> <span class="o">=</span> <span class="n">mse</span><span class="p">(</span><span class="n">ts_test</span><span class="p">,</span> <span class="n">forecast</span><span class="p">)</span>
+<span class="n">mape_score</span> <span class="o">=</span> <span class="n">mape</span><span class="p">(</span><span class="n">ts_test</span><span class="p">,</span> <span class="n">forecast</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MAE: </span><span class="si">{</span><span class="n">mae_score</span><span class="si">}</span><span class="s2">    MSE: </span><span class="si">{</span><span class="n">mse_score</span><span class="si">}</span><span class="s2">    MAPE: </span><span class="si">{</span><span class="n">mape_score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MAE: 30.58656732050072    MSE: 1193.5935888751771    MAPE: 7.812233620065577
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another more sophisticated evaulation methodology is to use <a class="reference external" href="https://medium.com/&#64;soumyachess1496/cross-validation-in-time-series-566ae4981ce4#:~:text=The%20method%20that%20can%20be,for%20the%20forecasted%20data%20points.">rolling cross validation</a>. In rolling cross validation, multiple models are fit and evaulated using different train and test sets. In particular, the datasets are generated using an expanding window approach and the results are averaged to get a single estimate. The illustation below helps depict the concept of rolling cross validation:</p>
+<p align="center">
+<img width="750" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211639665-7eaa75f7-231c-4d8f-8c5d-0ec7dcee56c0.png"> 
+</p>
+<p>In this way, we are evaulating the approach as opposed to a single model. Additionally, unlike the previous evaluation methodology, the model is able to learn from the must recent observations. However, there are many subtle design choices such as how to weight past performance compared to more recent performance. Furthermore, training multiple models is computationally intensive, especially for deep learning based approaches.</p>
+<p><a class="reference external" href="https://unit8.com/resources/darts-time-series-made-easy-in-python/">darts</a> makes it easy to realize rolling cross validation using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.baselines.html#darts.models.forecasting.baselines.NaiveDrift.historical_forecasts"><code class="docutils literal notranslate"><span class="pre">historical_forecast</span></code></a> method odf the model. It takes a time series, a starting point and a forecast horizon. It returns the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> containing the historical forecasts would have been obtained when using the model to forecast the series with the specified forecast horizon, starting at the specified timestamp using an expanding window strategy:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es_model</span> <span class="o">=</span> <span class="n">ExponentialSmoothing</span><span class="p">()</span>
+<span class="n">backtest</span> <span class="o">=</span> <span class="n">es_model</span><span class="o">.</span><span class="n">historical_forecasts</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span> <span class="n">forecast_horizon</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">mape</span><span class="p">(</span><span class="n">backtest</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Actual&quot;</span><span class="p">)</span>
+<span class="n">backtest</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Forecast MAPE=</span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/881017184fc615e8ee0360419041c9401f31be40fe2b734b0d090d44faf34dc4.png" src="../_images/881017184fc615e8ee0360419041c9401f31be40fe2b734b0d090d44faf34dc4.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>In this notebook an introduction to time series forecasting was provided. Topics we covered include:</p>
+<ul class="simple">
+<li><p>Univariate forecasting setup and Multivariate forecasting setup</p></li>
+<li><p>Including covariates to enhance performance</p></li>
+<li><p>Metrics to evaulate accuracy of forecasts</p></li>
+<li><p>Forecasting evaluation methodologies</p></li>
+</ul>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://unit8.com/resources/darts-time-series-made-easy-in-python/">Darts: Time Series Made Easy in Python</a></p></li>
+<li><p><a class="reference external" href="https://unit8.com/resources/training-forecasting-models/">Training Forecasting Models on Multiple Time Series with Darts</a></p></li>
+<li><p><a class="reference external" href="https://unit8.com/resources/time-series-forecasting-using-past-and-future-external-data-with-darts/">Time Series Forecasting Using Past and Future External Data with Darts</a></p></li>
+<li><p><a class="reference external" href="https://neptune.ai/blog/time-series-forecasting">Time Series Forecasting: Data, Analysis, and Practice</a></p></li>
+</ul>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Apply techniques for time series forecasting to relevant dataset</p></li>
+<li><p>Explore the univariate forecasting method demos in the <a class="reference external" href="https://github.com/VectorInstitute/forecasting-bootcamp/tree/main/demos">forecasting-bootcamp repo</a></p></li>
+<li><p>Dive deeper into the topics we explored in the following notebooks:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.kaggle.com/code/konradb/ts-1a-smoothing-methods/notebook">TS-1a: Smoothing Methods</a></p></li>
+<li><p><a class="reference external" href="https://www.kaggle.com/code/konradb/ts-1b-prophet/notebook">TS-1b: Prophet</a></p></li>
+<li><p><a class="reference external" href="https://www.kaggle.com/code/konradb/ts-2-linear-vision?scriptVersionId=101499413">TS-2: ARMA Methods</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "forecasting"
+        },
+        kernelOptions: {
+            name: "forecasting",
+            path: "./intro_to_forecasting"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'forecasting'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro_time_series.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction to Time Series Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../demos/demo1_prophet_neuralprophet_testset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Loading</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outline">Outline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-configuration-and-package-imports">Environment Configuration and Package Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#intro-to-time-series-forecasting">Intro to Time Series Forecasting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#univariate-time-series-forecasting">Univariate Time Series Forecasting</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aside-exponential-smoothing">Aside: Exponential Smoothing</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-exponential-smoothing-brown-method">Simple Exponential Smoothing (Brown Method)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#double-exponential-smoothing-holt-method">Double Exponential Smoothing (Holt Method)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#triple-exponential-smoothing-holt-winters-method">Triple Exponential Smoothing (Holt-Winters Method)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-forecasting">Multivariate Forecasting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#covariates">Covariates</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-evaluation">Forecasting Evaluation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics">Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-methodologies">Evaluation Methodologies</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next Steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vector Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

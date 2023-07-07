@@ -1,0 +1,1357 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Multivariate Forecasting with DeepAR &#8212; Forecasting Workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'multivariate_demos/deepar_electricty';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multivariate Forecasting with NBEATS" href="nbeats_electricity.html" />
+    <link rel="prev" title="Rolling Cross Validation for Monthly CPI Forecasting" href="../demos/demo3_rolling_cv_prophet.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    Forecasting Bootcamp
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../intro_to_forecasting/intro_time_series.html">Introduction to Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_to_forecasting/intro_time_series_2.html">Intro to Time Series Forecasting and Evaluation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multivariate Forecasting with DeepAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nbeats_electricity.html">Multivariate Forecasting with NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nhits_quantile.html">Multivariate quantiles and long horizon forecasting with N-HiTS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Long Sequence Timeseries Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/autoformer_traffic.html">Multivariate Forecasting Long Sequence Time Series with Autoformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multivariate_lstf_demos/nhits_traffic.html">Multivariate Forecasting Long Sequence Time Series with NHITS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../datasets/datasets_intro.html">Datasets Description</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/load_raw_data.html">Load data files</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/can_climate_data/data_explore.html">Load weather data and station metadata</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../datasets/m5/load_m5_dataset.html">M5 Data Preparation</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/VectorInstitute/forecasting-bootcamp/blob/jupyter-book/./multivariate_demos/deepar_electricty.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/edit/jupyter-book/./multivariate_demos/deepar_electricty.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/issues/new?title=Issue%20on%20page%20%2Fmultivariate_demos/deepar_electricty.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/multivariate_demos/deepar_electricty.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multivariate Forecasting with DeepAR</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-imports-and-global-variables">Package Imports and Global Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-definition">Dataset Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deepar-overview">DeepAR Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-predictions">Visualize Predictions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-resutls">Quantitative Resutls</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multivariate-forecasting-with-deepar">
+<h1>Multivariate Forecasting with DeepAR<a class="headerlink" href="#multivariate-forecasting-with-deepar" title="Permalink to this heading">#</a></h1>
+<p>This notebook outlines the application of DeepAR, a recently-proposed transformer-based model for time series forecasting, to a Electricity Consumption Dataset. The dataset contains the hourly electricity consumption of 321 customers from 2012 to 2014.</p>
+<p>This demo uses an implementation of DeepAR from the PyTorch Forecasting package. <a class="reference external" href="https://github.com/jdb78/pytorch-forecasting">PyTorch Forecasting</a> is a package/repository that provides convenient implementations of several leading deep learning-based forecasting models, namely <a class="reference external" href="https://arxiv.org/pdf/1912.09363.pdf">Temporal Fusion Transformers</a>, <a class="reference external" href="http://arxiv.org/abs/1905.10437">N-BEATS</a>, and <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0169207019301888">DeepAR</a>. PyTorch Forecasting is built using <a class="reference external" href="https://pytorch-lightning.readthedocs.io/">PyTorch Lightning</a>, making it easier to train in multi-GPU compute environments, out-of-the-box.</p>
+<section id="package-imports-and-global-variables">
+<h2>Package Imports and Global Variables<a class="headerlink" href="#package-imports-and-global-variables" title="Permalink to this heading">#</a></h2>
+<p><strong>Note for Colab users:</strong> Run the following cell to install PyTorch Forecasting. After installation completes, you will likely need to restart the Colab runtime. If this is the case, a button <code class="docutils literal notranslate"><span class="pre">RESTART</span> <span class="pre">RUNTIME</span></code> will appear at the bottom of the next cell’s output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pytorch-forecasting
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">from</span> <span class="nn">pytorch_forecasting.data</span> <span class="kn">import</span> <span class="n">NaNLabelEncoder</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span>
+<span class="kn">from</span> <span class="nn">pytorch_forecasting.metrics</span> <span class="kn">import</span> <span class="n">NormalDistributionLoss</span>
+<span class="kn">from</span> <span class="nn">pytorch_forecasting</span> <span class="kn">import</span> <span class="n">TimeSeriesDataSet</span><span class="p">,</span> <span class="n">Baseline</span><span class="p">,</span> <span class="n">DeepAR</span><span class="p">,</span> <span class="n">GroupNormalizer</span><span class="p">,</span> <span class="n">MultiNormalizer</span><span class="p">,</span> <span class="n">EncoderNormalizer</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
+    <span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+    <span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;/ssd003/projects/forecasting_bootcamp/bootcamp_datasets/electricity/electricity.csv&quot;</span>
+
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">VAL_PERC</span> <span class="o">=</span> <span class="mf">.1</span> 
+<span class="n">TEST_PERC</span> <span class="o">=</span> <span class="mf">.005</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="n">LAG_TIME</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">LEAD_TIME</span> <span class="o">=</span> <span class="mi">30</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<p>We start by loading the data from a CSV file from <code class="docutils literal notranslate"><span class="pre">DATA_PATH</span></code> into a dataframe. Each column of the dataframe is a different time series that measures the hourly electricity consumption of one of the 320 households included in the dataset. Additonally, there is also a column that encodes the date and time of the observations. The last column, <code class="docutils literal notranslate"><span class="pre">OT</span></code>, is dropped as it is not relevant for this demo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load CSV into dataframe and format</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;index&#39;</span><span class="p">:</span><span class="s1">&#39;date&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>...</th>
+      <th>310</th>
+      <th>311</th>
+      <th>312</th>
+      <th>313</th>
+      <th>314</th>
+      <th>315</th>
+      <th>316</th>
+      <th>317</th>
+      <th>318</th>
+      <th>319</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2016-07-01 02:00:00</td>
+      <td>14.0</td>
+      <td>69.0</td>
+      <td>234.0</td>
+      <td>415.0</td>
+      <td>215.0</td>
+      <td>1056.0</td>
+      <td>29.0</td>
+      <td>840.0</td>
+      <td>226.0</td>
+      <td>...</td>
+      <td>199.0</td>
+      <td>676.0</td>
+      <td>372.0</td>
+      <td>80100.0</td>
+      <td>4719.0</td>
+      <td>5002.0</td>
+      <td>48.0</td>
+      <td>38.0</td>
+      <td>1558.0</td>
+      <td>182.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2016-07-01 03:00:00</td>
+      <td>18.0</td>
+      <td>92.0</td>
+      <td>312.0</td>
+      <td>556.0</td>
+      <td>292.0</td>
+      <td>1363.0</td>
+      <td>29.0</td>
+      <td>1102.0</td>
+      <td>271.0</td>
+      <td>...</td>
+      <td>265.0</td>
+      <td>805.0</td>
+      <td>452.0</td>
+      <td>95200.0</td>
+      <td>4643.0</td>
+      <td>6617.0</td>
+      <td>65.0</td>
+      <td>47.0</td>
+      <td>2177.0</td>
+      <td>253.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2016-07-01 04:00:00</td>
+      <td>21.0</td>
+      <td>96.0</td>
+      <td>312.0</td>
+      <td>560.0</td>
+      <td>272.0</td>
+      <td>1240.0</td>
+      <td>29.0</td>
+      <td>1025.0</td>
+      <td>270.0</td>
+      <td>...</td>
+      <td>278.0</td>
+      <td>817.0</td>
+      <td>430.0</td>
+      <td>96600.0</td>
+      <td>4285.0</td>
+      <td>6571.0</td>
+      <td>64.0</td>
+      <td>43.0</td>
+      <td>2193.0</td>
+      <td>218.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2016-07-01 05:00:00</td>
+      <td>20.0</td>
+      <td>92.0</td>
+      <td>312.0</td>
+      <td>443.0</td>
+      <td>213.0</td>
+      <td>845.0</td>
+      <td>24.0</td>
+      <td>833.0</td>
+      <td>179.0</td>
+      <td>...</td>
+      <td>271.0</td>
+      <td>801.0</td>
+      <td>291.0</td>
+      <td>94500.0</td>
+      <td>4222.0</td>
+      <td>6365.0</td>
+      <td>65.0</td>
+      <td>39.0</td>
+      <td>1315.0</td>
+      <td>195.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2016-07-01 06:00:00</td>
+      <td>22.0</td>
+      <td>91.0</td>
+      <td>312.0</td>
+      <td>346.0</td>
+      <td>190.0</td>
+      <td>647.0</td>
+      <td>16.0</td>
+      <td>733.0</td>
+      <td>186.0</td>
+      <td>...</td>
+      <td>267.0</td>
+      <td>807.0</td>
+      <td>279.0</td>
+      <td>91300.0</td>
+      <td>4116.0</td>
+      <td>6298.0</td>
+      <td>75.0</td>
+      <td>40.0</td>
+      <td>1378.0</td>
+      <td>191.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>26299</th>
+      <td>2019-07-01 21:00:00</td>
+      <td>11.0</td>
+      <td>116.0</td>
+      <td>8.0</td>
+      <td>844.0</td>
+      <td>384.0</td>
+      <td>1590.0</td>
+      <td>51.0</td>
+      <td>1412.0</td>
+      <td>407.0</td>
+      <td>...</td>
+      <td>178.0</td>
+      <td>1897.0</td>
+      <td>1589.0</td>
+      <td>166500.0</td>
+      <td>9917.0</td>
+      <td>10412.0</td>
+      <td>324.0</td>
+      <td>21.0</td>
+      <td>1870.0</td>
+      <td>162.0</td>
+    </tr>
+    <tr>
+      <th>26300</th>
+      <td>2019-07-01 22:00:00</td>
+      <td>11.0</td>
+      <td>103.0</td>
+      <td>8.0</td>
+      <td>749.0</td>
+      <td>371.0</td>
+      <td>1366.0</td>
+      <td>47.0</td>
+      <td>1265.0</td>
+      <td>369.0</td>
+      <td>...</td>
+      <td>241.0</td>
+      <td>1374.0</td>
+      <td>1336.0</td>
+      <td>158800.0</td>
+      <td>6812.0</td>
+      <td>8956.0</td>
+      <td>302.0</td>
+      <td>20.0</td>
+      <td>1506.0</td>
+      <td>438.0</td>
+    </tr>
+    <tr>
+      <th>26301</th>
+      <td>2019-07-01 23:00:00</td>
+      <td>12.0</td>
+      <td>93.0</td>
+      <td>8.0</td>
+      <td>650.0</td>
+      <td>346.0</td>
+      <td>1282.0</td>
+      <td>48.0</td>
+      <td>1079.0</td>
+      <td>308.0</td>
+      <td>...</td>
+      <td>158.0</td>
+      <td>938.0</td>
+      <td>1311.0</td>
+      <td>154300.0</td>
+      <td>6602.0</td>
+      <td>5910.0</td>
+      <td>302.0</td>
+      <td>18.0</td>
+      <td>1864.0</td>
+      <td>621.0</td>
+    </tr>
+    <tr>
+      <th>26302</th>
+      <td>2019-07-02 00:00:00</td>
+      <td>10.0</td>
+      <td>92.0</td>
+      <td>8.0</td>
+      <td>646.0</td>
+      <td>349.0</td>
+      <td>1261.0</td>
+      <td>48.0</td>
+      <td>1009.0</td>
+      <td>288.0</td>
+      <td>...</td>
+      <td>120.0</td>
+      <td>833.0</td>
+      <td>1227.0</td>
+      <td>141900.0</td>
+      <td>6546.0</td>
+      <td>5502.0</td>
+      <td>259.0</td>
+      <td>33.0</td>
+      <td>2623.0</td>
+      <td>783.0</td>
+    </tr>
+    <tr>
+      <th>26303</th>
+      <td>2019-07-02 01:00:00</td>
+      <td>11.0</td>
+      <td>88.0</td>
+      <td>8.0</td>
+      <td>648.0</td>
+      <td>337.0</td>
+      <td>1234.0</td>
+      <td>46.0</td>
+      <td>1005.0</td>
+      <td>261.0</td>
+      <td>...</td>
+      <td>117.0</td>
+      <td>783.0</td>
+      <td>1089.0</td>
+      <td>112300.0</td>
+      <td>6188.0</td>
+      <td>4934.0</td>
+      <td>115.0</td>
+      <td>31.0</td>
+      <td>2706.0</td>
+      <td>647.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>26304 rows × 321 columns</p>
+</div></div></div>
+</div>
+<section id="data-splitting">
+<h3>Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this heading">#</a></h3>
+<p>The data is split sequentially into train, validation and test based on <code class="docutils literal notranslate"><span class="pre">VAL_PERC</span></code> and <code class="docutils literal notranslate"><span class="pre">TEST_PERC</span></code> global variables. We will withhold the last <code class="docutils literal notranslate"><span class="pre">TEST_PERC</span></code> of data for testing. In the code below, we are very careful to ensure that when training and validating the model, it does not have access to the withheld data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">n_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">*</span> <span class="n">VAL_PERC</span><span class="p">)</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">*</span> <span class="n">TEST_PERC</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="p">(</span><span class="n">n_val</span> <span class="o">+</span> <span class="n">n_test</span><span class="p">)</span>
+
+<span class="c1"># Split data into train and test</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">n_train</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">val_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">n_train</span><span class="p">:</span><span class="n">n_train</span><span class="o">+</span><span class="n">n_val</span><span class="p">]</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">n_train</span><span class="o">+</span><span class="n">n_val</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="data-formatting">
+<h2>Data Formatting<a class="headerlink" href="#data-formatting" title="Permalink to this heading">#</a></h2>
+<p>PyTorch Forecasting expects data to be formatted using its own <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/data.html">TimeSeriesDataSet</a> objects. Building a TimeSeriesDataSet begins with a Pandas DataFrame that we need to add certain custom columns.</p>
+<p>PyTorch Forecasting models can accomodate datasets consisting of multiple, coincident time series in several ways. As per the <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/data.html">documentation</a>, a combination of <code class="docutils literal notranslate"><span class="pre">group_id</span></code> and <code class="docutils literal notranslate"><span class="pre">time_idx</span></code> identify a sample in the data, and that <em>if we have only one time series, to set</em> <code class="docutils literal notranslate"><span class="pre">group_id</span></code> <em>to a constant.</em> <code class="docutils literal notranslate"><span class="pre">time_idx</span></code> is an <em>integer column denoting the time index</em>. This, as opposed to the <code class="docutils literal notranslate"><span class="pre">date</span></code> column, is used to determine the temporal sequence of samples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rename index to time_idx</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;index&#39;</span><span class="p">:</span><span class="s1">&#39;time_idx&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">val_df</span> <span class="o">=</span> <span class="n">val_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;index&#39;</span><span class="p">:</span><span class="s1">&#39;time_idx&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;index&#39;</span><span class="p">:</span><span class="s1">&#39;time_idx&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Add group id column and initialize with 0</span>
+<span class="n">train_df</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">val_df</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">test_df</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reshape  data into single value column that is uniquely indexed by pairs of (time_idx, group_ids).</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time_idx&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">value_vars</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;group_ids&#39;</span><span class="p">)</span>
+<span class="n">val_df</span> <span class="o">=</span> <span class="n">val_df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time_idx&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">value_vars</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;group_ids&#39;</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time_idx&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">],</span> <span class="n">value_vars</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;group_ids&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dataset-definition">
+<h2>Dataset Definition<a class="headerlink" href="#dataset-definition" title="Permalink to this heading">#</a></h2>
+<p>Now that we have the data in the format that TimeSeriesDataset expects, we can define the <code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">val_dataset</span></code> and <code class="docutils literal notranslate"><span class="pre">test_dataset</span></code>. For each dataset, we can pass a number of parameters that specify the characteristics of the data and how it should be processed prior to being fed to the model. Some of the arguments include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: (pd.DataFrame) – dataframe with sequence data - each row can be identified with <code class="docutils literal notranslate"><span class="pre">time_idx</span></code> and the <code class="docutils literal notranslate"><span class="pre">group_ids</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target</span></code>: (Union[str, List[str]]) – column denoting the target or list of columns denoting the target - categorical or continous.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_encoder_length</span></code>: (int) – maximum length to encode. This is the maximum history length used by the time series dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_prediction_length</span></code>: (int) – maximum prediction/decoder length (choose this not too short as it can help convergence)</p></li>
+</ul>
+<p>For additional details in regards to the <code class="docutils literal notranslate"><span class="pre">TimeSeriesDataset</span></code> class, consult the  <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/stable/api/pytorch_forecasting.data.timeseries.TimeSeriesDataSet.html">PyTorch Forecasting Documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define datasets</span>
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">TimeSeriesDataSet</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">train_df</span><span class="p">,</span>  
+    <span class="n">time_idx</span><span class="o">=</span><span class="s2">&quot;time_idx&quot;</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
+    <span class="n">group_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">],</span>
+    <span class="n">max_encoder_length</span><span class="o">=</span><span class="n">LAG_TIME</span><span class="p">,</span>
+    <span class="n">min_prediction_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">max_prediction_length</span><span class="o">=</span><span class="n">LEAD_TIME</span><span class="p">,</span>
+    <span class="n">categorical_encoders</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">NaNLabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">group_ids</span><span class="p">)},</span>
+    <span class="n">time_varying_unknown_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+    <span class="n">time_varying_known_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time_idx&quot;</span><span class="p">],</span>
+    <span class="n">target_normalizer</span><span class="o">=</span><span class="n">GroupNormalizer</span><span class="p">(</span><span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;group_ids&quot;</span><span class="p">]),</span>
+<span class="p">)</span>
+
+<span class="n">val_data</span> <span class="o">=</span> <span class="n">TimeSeriesDataSet</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">val_df</span><span class="p">,</span>  
+    <span class="n">time_idx</span><span class="o">=</span><span class="s2">&quot;time_idx&quot;</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
+    <span class="n">group_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">],</span>
+    <span class="n">min_encoder_length</span><span class="o">=</span><span class="n">LAG_TIME</span><span class="p">,</span>
+    <span class="n">max_encoder_length</span><span class="o">=</span><span class="n">LAG_TIME</span><span class="p">,</span>
+    <span class="n">max_prediction_length</span><span class="o">=</span><span class="n">LEAD_TIME</span><span class="p">,</span>
+    <span class="n">categorical_encoders</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">NaNLabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">val_df</span><span class="o">.</span><span class="n">group_ids</span><span class="p">)},</span>
+    <span class="n">time_varying_unknown_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+    <span class="n">time_varying_known_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time_idx&quot;</span><span class="p">],</span>
+    <span class="n">target_normalizer</span><span class="o">=</span><span class="n">GroupNormalizer</span><span class="p">(</span><span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;group_ids&quot;</span><span class="p">]),</span>
+<span class="p">)</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">TimeSeriesDataSet</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">test_df</span><span class="p">,</span>  
+    <span class="n">time_idx</span><span class="o">=</span><span class="s2">&quot;time_idx&quot;</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span>
+    <span class="n">group_ids</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;group_ids&#39;</span><span class="p">],</span>
+    <span class="n">min_encoder_length</span><span class="o">=</span><span class="n">LAG_TIME</span><span class="p">,</span>
+    <span class="n">max_encoder_length</span><span class="o">=</span><span class="n">LAG_TIME</span><span class="p">,</span>
+    <span class="n">max_prediction_length</span><span class="o">=</span><span class="n">LEAD_TIME</span><span class="p">,</span>
+    <span class="n">categorical_encoders</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;group_ids&quot;</span><span class="p">:</span> <span class="n">NaNLabelEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="o">.</span><span class="n">group_ids</span><span class="p">)},</span>
+    <span class="n">time_varying_unknown_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+    <span class="n">time_varying_known_reals</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time_idx&quot;</span><span class="p">],</span>
+    <span class="n">target_normalizer</span><span class="o">=</span><span class="n">GroupNormalizer</span><span class="p">(</span><span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;group_ids&quot;</span><span class="p">]),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define dataloaders</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">to_dataloader</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">val_data</span><span class="o">.</span><span class="n">to_dataloader</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">to_dataloader</span><span class="p">(</span><span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h2>
+<section id="deepar-overview">
+<h3>DeepAR Overview<a class="headerlink" href="#deepar-overview" title="Permalink to this heading">#</a></h3>
+<p align="center">
+<img width="750" alt="DeepAR" src="https://user-images.githubusercontent.com/34798787/155616570-9903ba06-cc19-46f0-b07f-36a2d53ed021.png">
+</p>
+<p>DeepAR is an autoregressive recurrent neural network for probalistic time series forecasting. Similar to NBEATS, DeepAR learns a global model from historical data of one or more time series. The same model with shared parameters is used on both the conditioning range (input) as well as the prediction range (output) and consists of mutlti-layer recurrent neural network with LSTM cells. The output of the network is recursively generated one step at a time and consists of values (e.g. mean and standard deviation) that parametize a fixed distribution. The fixed distribution is specified by a likelihood function that is chosen to match the characteristics of the data.  We can then obtain samples from the distribution to compute quantiles of interest over predictions. Some additional features of DeepAR include:</p>
+<ul class="simple">
+<li><p><strong>Robust:</strong> Handles time series of different magnitude as well as missing values</p></li>
+<li><p><strong>Flexible:</strong> Allows for covariates that are item dependent, time-dependent or both</p></li>
+<li><p><strong>Configurable:</strong> DeepAR allows us to specify any likelihood function as the output distribution as long as samples can easily be obtained and the log likelihood and gradients with respect to the parameters can be easily obtained</p></li>
+</ul>
+</section>
+</section>
+<section id="model-definition">
+<h2>Model Definition<a class="headerlink" href="#model-definition" title="Permalink to this heading">#</a></h2>
+<p>Using the Pytorch Forecasting package, a DeepAR model can be easily initialized using the <code class="docutils literal notranslate"><span class="pre">DeepAR.from_dataset</span></code> method. This method constructs a DeepAR model using the characteristics of the TimeSeriesDataset that it is operating on. The arguments of the method include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code>: (TimeSeriesDataset) time series dataset</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hidden_size</span></code>: (int, optional) – hidden recurrent size - the most important hyperparameter along with <code class="docutils literal notranslate"><span class="pre">rnn_layers</span></code>. Defaults to 10.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span></code>: (DistributionLoss, optional) – Distribution loss function. Keep in mind that each distribution loss function might have specific requirements for target normalization. Defaults to <code class="docutils literal notranslate"><span class="pre">NormalDistributionLoss</span></code>.</p></li>
+</ul>
+<p>For additional details in regards to the <code class="docutils literal notranslate"><span class="pre">DeepAR</span></code> class, consult the  <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/stable/api/pytorch_forecasting.models.deepar.DeepAR.html#pytorch_forecasting.models.deepar.DeepAR.from_dataset">PyTorch Forecasting Documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Init model with structure specified in dataset</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">DeepAR</span><span class="o">.</span><span class="n">from_dataset</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="n">hidden_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">loss</span><span class="o">=</span><span class="n">NormalDistributionLoss</span><span class="p">(),</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-and-validation">
+<h2>Training and Validation<a class="headerlink" href="#training-and-validation" title="Permalink to this heading">#</a></h2>
+<p>We first define a pytorch lighting trainer which encapsulates the training process and allows us to easily implement a training and validation loop with the specified parameters. The arguments to the trainer include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">max_epochs</span></code>: (Optional[int]) – Stop training once this number of epochs is reached.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit_train_batches</span></code>: (Union[int, float]) – How much of training dataset to check (float = fraction, int = num_batches).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">limit_val_batches</span></code>: (Union[int, float]) – How much of validation dataset to check (float = fraction, int = num_batches).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">callbacks</span></code>: (Union[List[Callback], Callback, None]) – Add a callback or list of callbacks.</p></li>
+</ul>
+<p>Subsequently, we can use the <code class="docutils literal notranslate"><span class="pre">fit</span></code> method of the trainer with the <code class="docutils literal notranslate"><span class="pre">net</span></code>, <code class="docutils literal notranslate"><span class="pre">train_dataloader</span></code> and <code class="docutils literal notranslate"><span class="pre">val_dataloader</span></code> to perform the training and validation loop.</p>
+<p>For more information regarding the <code class="docutils literal notranslate"><span class="pre">pl.Trainer</span></code> class, consult the <a class="reference external" href="https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.trainer.trainer.html#pytorch_lightning.trainer.trainer.Trainer.validate">PyTorch Lightning documentation</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set random seed </span>
+<span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Define early stopping criteria</span>
+<span class="n">early_stop_callback</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_loss&quot;</span><span class="p">,</span> <span class="n">min_delta</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">patience</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
+
+<span class="c1"># Init pytorch lightning trainer</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">max_epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span>
+    <span class="n">gpus</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">gradient_clip_val</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">early_stop_callback</span><span class="p">],</span>
+    <span class="n">limit_train_batches</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span>
+    <span class="n">limit_val_batches</span><span class="o">=</span><span class="mf">.2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Train and Validate Model</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">net</span><span class="p">,</span>
+    <span class="n">train_dataloader</span><span class="o">=</span><span class="n">train_dataloader</span><span class="p">,</span>
+    <span class="n">val_dataloaders</span><span class="o">=</span><span class="n">val_dataloader</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 42
+GPU available: True, used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Set SLURM handle signals.
+
+  | Name                   | Type                   | Params
+------------------------------------------------------------------
+0 | loss                   | NormalDistributionLoss | 0     
+1 | logging_metrics        | ModuleList             | 0     
+2 | embeddings             | MultiEmbedding         | 0     
+3 | rnn                    | LSTM                   | 13.1 K
+4 | distribution_projector | Linear                 | 66    
+------------------------------------------------------------------
+13.1 K    Trainable params
+0         Non-trainable params
+13.1 K    Total params
+0.052     Total estimated model params size (MB)
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 42
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a09ca46b04cb46eaa73cb4697693eb09", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="visualize-predictions">
+<h3>Visualize Predictions<a class="headerlink" href="#visualize-predictions" title="Permalink to this heading">#</a></h3>
+<p>With the trained model from the previous step, we can apply it to the test set to get an unbias estimate of the models performance. Additionally, we can visualize the results to build some intuition about the forecasts being generated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load best model from checkpoint</span>
+<span class="n">best_model_path</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">checkpoint_callback</span><span class="o">.</span><span class="n">best_model_path</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">DeepAR</span><span class="o">.</span><span class="n">load_from_checkpoint</span><span class="p">(</span><span class="n">best_model_path</span><span class="p">)</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get predictions from test dataset</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">best_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">show_progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Aggregate inputs, ground truth and classes into tensor alligned with predictions</span>
+<span class="n">input_list</span><span class="p">,</span> <span class="n">true_list</span><span class="p">,</span> <span class="n">class_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span> 
+    <span class="n">input_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;encoder_target&quot;</span><span class="p">])</span>
+    <span class="n">true_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">class_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;groups&quot;</span><span class="p">])</span>
+
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">input_list</span><span class="p">)</span>
+<span class="n">trues</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">true_list</span><span class="p">)</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">class_list</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">preds</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">trues</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">classes</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "5cbef0c6b6cb4ee2a44aafd20c700214", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([23040, 30]) torch.Size([23040, 30]) torch.Size([23040, 30]) torch.Size([23040, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select indices of samples to visualize</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">ss_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">preds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ss_pred</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">ss_indices</span><span class="p">]</span>
+<span class="n">ss_true</span> <span class="o">=</span> <span class="n">trues</span><span class="p">[</span><span class="n">ss_indices</span><span class="p">]</span>
+<span class="n">ss_input</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">ss_indices</span><span class="p">]</span>
+<span class="n">ss_class</span> <span class="o">=</span> <span class="n">classes</span><span class="p">[</span><span class="n">ss_indices</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ss_input</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ss_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ss_true</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ss_class</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([10, 30]) torch.Size([10, 30]) torch.Size([10, 30]) torch.Size([10, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loop through samples and plot input, ground truth and prediction</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">axarr</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">series_preds</span> <span class="o">=</span> <span class="n">ss_pred</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">series_trues</span> <span class="o">=</span> <span class="n">ss_true</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">series_inputs</span> <span class="o">=</span> <span class="n">ss_input</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+
+    <span class="n">feat_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ss_class</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    
+    <span class="n">input_len</span> <span class="o">=</span> <span class="n">series_inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pred_gt_len</span> <span class="o">=</span> <span class="n">series_preds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">input_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_len</span><span class="p">)])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_len</span><span class="p">,</span> <span class="n">input_len</span><span class="o">+</span><span class="n">pred_gt_len</span><span class="p">)])</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">series_preds</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;predictions&quot;</span><span class="p">)</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">series_trues</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ground truth&quot;</span><span class="p">)</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">input_x</span><span class="p">,</span> <span class="n">series_inputs</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">feat_name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a372f895b1cc7f08b4b64cde80e98b8d67fbf57b3c1a3356545fe0fd0991980b.png" src="../_images/a372f895b1cc7f08b4b64cde80e98b8d67fbf57b3c1a3356545fe0fd0991980b.png" />
+</div>
+</div>
+</section>
+<section id="quantitative-resutls">
+<h3>Quantitative Resutls<a class="headerlink" href="#quantitative-resutls" title="Permalink to this heading">#</a></h3>
+<p>To assess the performance of DeepAR on the dataset, we calculate its performance on the test set using a set of metrics that are commonly used in time series forecasting. The metrics include Mean Absolute Error (MAE) and Mean Squared Error (MSE).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate losses</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">trues</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">mae</span> <span class="o">=</span> <span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">trues</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">preds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE: </span><span class="si">{</span><span class="n">mse</span><span class="si">}</span><span class="s2"> MAE: </span><span class="si">{</span><span class="n">mae</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MSE: 1333233.5 MAE: 213.55343627929688
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./multivariate_demos"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../demos/demo3_rolling_cv_prophet.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Rolling Cross Validation for Monthly CPI Forecasting</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nbeats_electricity.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multivariate Forecasting with NBEATS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-imports-and-global-variables">Package Imports and Global Variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data">Load Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-definition">Dataset Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deepar-overview">DeepAR Overview</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-definition">Model Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-validation">Training and Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-predictions">Visualize Predictions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantitative-resutls">Quantitative Resutls</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vector Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

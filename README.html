@@ -1,0 +1,752 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Forecasting Bootcamp &#8212; Forecasting Workshop</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'README';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction to Time Series Analysis" href="intro_to_forecasting/intro_time_series.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Forecasting Bootcamp
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro_to_forecasting/intro_time_series.html">Introduction to Time Series Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro_to_forecasting/intro_time_series_2.html">Intro to Time Series Forecasting and Evaluation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="multivariate_demos/deepar_electricty.html">Multivariate Forecasting with DeepAR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multivariate_demos/nbeats_electricity.html">Multivariate Forecasting with NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multivariate_demos/nhits_quantile.html">Multivariate quantiles and long horizon forecasting with N-HiTS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Long Sequence Timeseries Forecasting</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="multivariate_lstf_demos/autoformer_traffic.html">Multivariate Forecasting Long Sequence Time Series with Autoformer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multivariate_lstf_demos/nhits_traffic.html">Multivariate Forecasting Long Sequence Time Series with NHITS</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="datasets/datasets_intro.html">Datasets Description</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="datasets/can_climate_data/load_raw_data.html">Load data files</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="datasets/can_climate_data/data_explore.html">Load weather data and station metadata</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="datasets/m5/load_m5_dataset.html">M5 Data Preparation</a></li>
+
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/edit/jupyter-book/./README.md" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/VectorInstitute/forecasting-bootcamp/issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/README.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Forecasting Bootcamp</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-data">Accessing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demos">Demos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-and-dev-branches">Main and dev branches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="forecasting-bootcamp">
+<h1>Forecasting Bootcamp<a class="headerlink" href="#forecasting-bootcamp" title="Permalink to this heading">#</a></h1>
+<p>This repository contains demos and reference implementations for a variety of forecasting techniques that will be highlighted at Vector Institute’s upcoming Forecasting Using Deep Learning Bootcamp in March 2022.</p>
+<section id="accessing-data">
+<h2>Accessing Data<a class="headerlink" href="#accessing-data" title="Permalink to this heading">#</a></h2>
+<p>During the bootcamp, all reference datasets are available on the Vector cluster at <code class="docutils literal notranslate"><span class="pre">/ssd003/projects/forecasting_bootcamp/bootcamp_datasets/</span></code></p>
+<p>For external use, we are providing the following link for downloading datasets:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing">Google Drive Link</a></p></li>
+</ul>
+<p>For a brief description about each dataset and their format you can refer to the table below. Note that very large datasets (e.g. WeatherBench) are not included, and that more datasets will be added over time.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Dataset</p></th>
+<th class="head text-left"><p>On Vector Cluster (Y/N)</p></th>
+<th class="head text-left"><p>On Google Drive (Y/N)</p></th>
+<th class="head text-left"><p>Description</p></th>
+<th class="head text-left"><p>Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><a class="reference external" href="https://climate-change.canada.ca/climate-data/#/daily-climate-data">Canadian Weather Station Data</a></p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Historical daily temperature and precipitation data for &gt;100 weather stations in Canada since 1991.</p></td>
+<td class="text-left"><p>4 features per weather station, 107 weather stations, 11697 daily observations, 107x4 possible targets</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://www.bankofcanada.ca/rates/exchange/legacy-noon-and-closing-rates/">Bank of Canada (BoC) Exchange Rate</a></p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Historical daily exchange rates between CAD and multiple currencies from 2007 to 2017.</p></td>
+<td class="text-left"><p>12 currencies (CAD to X exchange rate), 3651 daily observations</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Electricity Consumption</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Hourly electricity consumption data for 320 customers.</p></td>
+<td class="text-left"><p>320 customers, hourly observations of consumption per customer, 26304 observations, any column(s) could be used as targets</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Road Traffic Occupancy</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Hourly road occupancy data from 862 sensors from San Francisco / Bay Area freeways.</p></td>
+<td class="text-left"><p>861 traffic sensors, 17544 hourly observations, any column(s) as targets</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Electricity Transformer Temperature (ETT)</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Predicting the temperature of electricity transformers using hourly or every 15 minute data over two years.</p></td>
+<td class="text-left"><p>Two versions: hourly and every 15 minutes observations (17420 and 69680 respectively), 6 features and 1 target.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Influenza-Like Illness Patient Ratios</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Weekly case incidence rates of influenza-like illness reported to the Centers for Disease control, nationally, between 2002 and 2020.</p></td>
+<td class="text-left"><p>6 features (reporting statistics), 1 possible output (number of cases), 966 weekly observations</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference external" href="https://www.kaggle.com/c/m5-forecasting-accuracy">Walmart M5 Retail Product Sales</a></p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Individual product-level sales data for several products at Walmart, organized hierarchically. Curated list of resources: <a class="reference external" href="https://docs.google.com/document/d/1ZRY5AK8Ox4SYFHPqlVJC0_YEwlHU2a-AQkaZKm9ZIes/edit?usp=sharing">link</a></p></td>
+<td class="text-left"><p>42840 Hierarchical Time Series stemming from 3049 individual products at 10 Walmart accross 3 states over the span of 1941 days.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://github.com/pangeo-data/WeatherBench">WeatherBench</a></p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>N</p></td>
+<td class="text-left"><p>Global scale <strong>spatiotemporal</strong> weather forecasting dataset.</p></td>
+<td class="text-left"><p>Low resolution world wide atmospheric data</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>ConnexOntario Call Volumes</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>N</p></td>
+<td class="text-left"><p>Metadata about &gt;500K contacts to mental health services referral program from 2015 to 2020.</p></td>
+<td class="text-left"><p>Data from Connex Ontario mental health line including date, location, substance abuse, mental health status etc.</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://www.kaggle.com/c/store-sales-time-series-forecasting/data">(Grocery) Store Sales (Corporación Favorita)</a></p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>In this competition, you will predict sales for product families sold at Favorita stores located in Ecuador. The training data includes dates, store and product information, whether that item was being promoted, as well as the sales numbers. Additional files include supplementary information that may be useful in building your models.</p></td>
+<td class="text-left"><p>33 product families, 54 stores, 3 features (product sales data), 1 possible output (target sales)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p>Economic Data with Food CPI</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Y</p></td>
+<td class="text-left"><p>Monthly observations of economic variables from FRED and StatCan, 1986 to 2021, used in forecasting models for Canada’s Food Price Report.</p></td>
+<td class="text-left"><p>332 economic variables with 430 monthly values, any column(s) as targets.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this heading">#</a></h2>
+<p>The demos contain reference applications of the following methods.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Model</p></th>
+<th class="head text-left"><p>Lagged Covariates</p></th>
+<th class="head text-left"><p>Future Covariates</p></th>
+<th class="head text-left"><p>Multiple Targets</p></th>
+<th class="head text-left"><p>Probabilistic</p></th>
+<th class="head text-left"><p>Interpretable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><a class="reference external" href="https://facebook.github.io/prophet/">Prophet</a></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://neuralprophet.com/html/index.html">Neural Prophet</a></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.nbeats.NBeats.html">NBEATS</a></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/api/pytorch_forecasting.models.deepar.DeepAR.html">DeepAR</a></p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><a class="reference external" href="https://arxiv.org/abs/2106.13008">Autoformer</a></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><a class="reference external" href="https://arxiv.org/abs/2201.12886">NHITS</a></p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p>✓</p></td>
+<td class="text-left"><p></p></td>
+<td class="text-left"><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="demos">
+<h2>Demos<a class="headerlink" href="#demos" title="Permalink to this heading">#</a></h2>
+<p>The demos for the bootcamp are available in the following directories:</p>
+<ul class="simple">
+<li><p><strong>intro_to_forecasting:</strong> Two notebooks that overview the basics for time series analysis and time series forecasting.</p></li>
+<li><p><strong>demos:</strong> Outlines the application of Prophet, Neural Prophet, NBEATS, DeepAR and simple baseline methods to forecast exhange rates. The focus of these demos is to explore univariate forecasting. Lagged and/or future covariates are leveraged by methods that support them. Additionally, techniques for cross-validation are discussed.</p></li>
+<li><p><strong>multivariate_demos:</strong> Outlines the application of NBEATS and DeepAR to forecast hourly electricity consumption for a set of households based on past observations. The focus of this series of demos is to explore DeepAR and NBEATS in the multivariate forecasting setting.</p></li>
+<li><p><strong>multivariate_lstf_demos:</strong> Outlines the application of Autoformer and NHITS to forecasting a set of traffic sensors. The focus of these demos is too explore a multivariate time series forecasting problem where the desired input and ouput sequences are very large.</p></li>
+</ul>
+</section>
+<section id="main-and-dev-branches">
+<h2>Main and dev branches<a class="headerlink" href="#main-and-dev-branches" title="Permalink to this heading">#</a></h2>
+<p>The AI Engineering team are using dev branches (e.g. <a class="reference external" href="https://github.com/VectorInstitute/forecasting-bootcamp/tree/dev_demos">dev_demos</a>) to indicate works-in-progress. We invite you to view and begin experimenting with these resources, but please note that all material currently in development is subject to be modified, perhaps significantly, ahead of the bootcamp.</p>
+</section>
+<section id="environment">
+<h2>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h2>
+<p>In order to configure a Python 3.8 environment with the appropriate packages to run the demos, use the following sequence of commands on the command line:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">forecasting</span> <span class="pre">python=3.8</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">forecasting</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pip</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">forecasting_requirements.txt</span> <span class="pre">--user</span></code></p></li>
+</ul>
+<p><em>NOTE</em>: If you are going to be using notebooks launched on our cluster, there is an issue with kernels associated with conda environments and cluster launched Jupyter notebooks. Thus, you should create an environment through <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">venv</span></code> and source that in your slurm launch script or source from our prebuilt environment with <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">/ssd003/projects/aieng/public/forecasting_unified/bin/activate</span></code>.</p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="right-next"
+       href="intro_to_forecasting/intro_time_series.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Introduction to Time Series Analysis</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-data">Accessing Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models">Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demos">Demos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-and-dev-branches">Main and dev branches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment">Environment</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Vector Institute
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
