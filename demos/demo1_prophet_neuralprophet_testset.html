@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Data Loading &#8212; Forecasting Workshop</title>
+    <title>Baselines, Prophet and NeuralProphet &#8212; Forecasting Workshop</title>
   
   
   
@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'demos/demo1_prophet_neuralprophet_testset';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data Loading" href="demo2_pytorch_forecasting-NBEATS-CPI.html" />
+    <link rel="next" title="PyTorch Forecasting - NBEATS" href="demo2_pytorch_forecasting-NBEATS-CPI.html" />
     <link rel="prev" title="Intro to Time Series Forecasting and Evaluation" href="../intro_to_forecasting/intro_time_series_2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -165,38 +165,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Loading</a></li>
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Baselines, Prophet and NeuralProphet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting-NBEATS-CPI.html">PyTorch Forecasting - NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">PyTorch Forecasting - NBEATS, DeepAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-
-
-
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
 <ul class="nav bd-sidenav">
@@ -455,7 +427,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Loading</h1>
+    <h1>Baselines, Prophet and NeuralProphet</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -465,32 +437,34 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Loading</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-exchange-rate-data-file">Load exchange rate data file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-according-to-use-case">Split data according to use case</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-over-test-examples">Iterating over test examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading">Data Loading</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-exchange-rate-data-file">Load exchange rate data file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-according-to-use-case">Split data according to use case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-over-test-examples">Iterating over test examples</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-forecasts">Baseline Forecasts</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-error-metrics-over-the-baseline-forecasts">Compute error metrics over the baseline forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-forecasts-over-the-test-set">Visualizing forecasts over the test set</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-forecasts-at-max-lead-time">Persistence Forecasts At Max Lead Time</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-window-forecasts-at-max-lead-time">Mean Window Forecasts At Max Lead Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-forecasts">Baseline Forecasts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-error-metrics-over-the-baseline-forecasts">Compute error metrics over the baseline forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-forecasts-over-the-test-set">Visualizing forecasts over the test set</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-forecasts-at-max-lead-time">Persistence Forecasts At Max Lead Time</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-window-forecasts-at-max-lead-time">Mean Window Forecasts At Max Lead Time</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet">Prophet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-initialization-and-fitting">Model Initialization and Fitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#produce-forecasts">Produce Forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-prophet-forecasts">Plotting Prophet Forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet-forecasts-at-max-lead-time">Prophet Forecasts At Max Lead Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet">Prophet</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-initialization-and-fitting">Model Initialization and Fitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#produce-forecasts">Produce Forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-prophet-forecasts">Plotting Prophet Forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet-forecasts-at-max-lead-time">Prophet Forecasts At Max Lead Time</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#neuralprophet">NeuralProphet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neuralprophet">NeuralProphet</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-default-model">Baseline/Default Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-forecasts">Plot all forecasts</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-forecasts-at-max-lead-time">Plot all forecasts at max lead time</a></li>
@@ -507,11 +481,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Append evaluation metrics to <code class="docutils literal notranslate"><span class="pre">results_df</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections-and-next-steps">Reflections and Next Steps</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections-and-next-steps">Reflections and Next Steps</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -523,6 +494,8 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <p><img alt="Forecasting Demo 1: Baselines, Prophet, and NeuralProphet" src="https://raw.githubusercontent.com/VectorInstitute/forecasting-bootcamp/media-assets-do-not-merge/forecasting-demo-1.png?token=GHSAT0AAAAAABQMCWQFQHUMDN4MVB2LEQDUYQ7WXUQ" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="baselines-prophet-and-neuralprophet">
+<h1>Baselines, Prophet and NeuralProphet<a class="headerlink" href="#baselines-prophet-and-neuralprophet" title="Permalink to this heading">#</a></h1>
 <p>This notebook is the first of a series that introduces the application of popular, recently developed time series forecasting methods. In particular, we emphasize the use of consistent evaluation metrics and analysis across all models and model configurations.</p>
 <p>Use these notebooks as tools to explore the application of various forecasting methods to multivariate time series datasets, and to inspire an experimental approach for comparing multiple models and model configurations.</p>
 <p>This notebook explores the application of <strong>Prophet</strong> and <strong>NeuralProphet</strong> to exchange rate forecasting, as well as two baseline methods using <strong>sktime</strong>.</p>
@@ -545,10 +518,10 @@ document.write(`
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="data-loading">
-<h1>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this heading">#</a></h1>
+<section id="data-loading">
+<h2>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this heading">#</a></h2>
 <section id="load-exchange-rate-data-file">
-<h2>Load exchange rate data file<a class="headerlink" href="#load-exchange-rate-data-file" title="Permalink to this heading">#</a></h2>
+<h3>Load exchange rate data file<a class="headerlink" href="#load-exchange-rate-data-file" title="Permalink to this heading">#</a></h3>
 <p>The used dataset includes daily exchange rates between CAD and 12 other currencies between 2007 and 2017.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -573,7 +546,7 @@ document.write(`
 </div>
 </section>
 <section id="split-data-according-to-use-case">
-<h2>Split data according to use case<a class="headerlink" href="#split-data-according-to-use-case" title="Permalink to this heading">#</a></h2>
+<h3>Split data according to use case<a class="headerlink" href="#split-data-according-to-use-case" title="Permalink to this heading">#</a></h3>
 <p>For simplicity, this notebook uses a conventional training and testing split over the dataset. Other notebooks will give examples of rolling cross validation using multiple validation periods given by a set of cutoff dates.</p>
 <p>The purpose of this notebook is to explore a simpler problem formulation using multiple models. The experiments and analysis can be easily adapted for rolling cross validation.</p>
 <div class="cell docutils container">
@@ -601,7 +574,7 @@ document.write(`
 </div>
 </section>
 <section id="iterating-over-test-examples">
-<h2>Iterating over test examples<a class="headerlink" href="#iterating-over-test-examples" title="Permalink to this heading">#</a></h2>
+<h3>Iterating over test examples<a class="headerlink" href="#iterating-over-test-examples" title="Permalink to this heading">#</a></h3>
 <p>To help with iterating over valid pairs of input and target data, we define a PyTorch-like dataset class. In this notebook, we’ll use this primarily for iterating over test examples, since both Prophet and NeuralProphet impose their own, special formats for passing in training data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -644,8 +617,8 @@ document.write(`
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="evaluation-metrics">
-<h1>Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h1>
+<section id="evaluation-metrics">
+<h2>Evaluation Metrics<a class="headerlink" href="#evaluation-metrics" title="Permalink to this heading">#</a></h2>
 <p>In order to objectively compare the performance of this and other models on out-of-sample forecasting performance, we will need to collect output in a consistent format and apply a suite of standard evaluation metrics:</p>
 <ul class="simple">
 <li><p>Mean Squared Error (MSE)</p></li>
@@ -681,8 +654,8 @@ document.write(`
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="baseline-forecasts">
-<h1>Baseline Forecasts<a class="headerlink" href="#baseline-forecasts" title="Permalink to this heading">#</a></h1>
+<section id="baseline-forecasts">
+<h2>Baseline Forecasts<a class="headerlink" href="#baseline-forecasts" title="Permalink to this heading">#</a></h2>
 <p>Let’s begin our experiments by producing forecasts using naïve estimators. A common baseline is <em>persistence forecasting</em>, where the forecast is simply an extension of the last known observation of the time series. A second baseline is the <em>mean window forecast</em>, where we take the mean over a window of observations and use this value for forecasts. The following code produces and collects the baseline forecasts into lists.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -709,7 +682,7 @@ document.write(`
 </div>
 </div>
 <section id="compute-error-metrics-over-the-baseline-forecasts">
-<h2>Compute error metrics over the baseline forecasts<a class="headerlink" href="#compute-error-metrics-over-the-baseline-forecasts" title="Permalink to this heading">#</a></h2>
+<h3>Compute error metrics over the baseline forecasts<a class="headerlink" href="#compute-error-metrics-over-the-baseline-forecasts" title="Permalink to this heading">#</a></h3>
 <p>In this notebook, we want to compare the performance of experimental models (Prophet, NeuralProphet) compared to baselines (persistence and mean window extension). The following code applies each of the four evaluation metrics for every example in the test set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -762,10 +735,10 @@ document.write(`
 </div>
 </section>
 <section id="visualizing-forecasts-over-the-test-set">
-<h2>Visualizing forecasts over the test set<a class="headerlink" href="#visualizing-forecasts-over-the-test-set" title="Permalink to this heading">#</a></h2>
+<h3>Visualizing forecasts over the test set<a class="headerlink" href="#visualizing-forecasts-over-the-test-set" title="Permalink to this heading">#</a></h3>
 <p>For each example in the test set, we have produced a forecast between <code class="docutils literal notranslate"><span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">lead_time</span></code> days into the future. As we will see later, this is difficult to visualize over the whole test set. Instead, we can visualize the value of each forecast at a single time step into the future. The code below visualizes the baseline forecasts at the maximum lead time. As we can see, the persistence forecast is exactly the ground truth shifted <code class="docutils literal notranslate"><span class="pre">lead_time</span></code> days into the future. In the context of exchange rate forecasting, this baseline may be difficult to beat.</p>
 <section id="persistence-forecasts-at-max-lead-time">
-<h3>Persistence Forecasts At Max Lead Time<a class="headerlink" href="#persistence-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h3>
+<h4>Persistence Forecasts At Max Lead Time<a class="headerlink" href="#persistence-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_fcs</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">fc</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;yhat&#39;</span><span class="p">:</span><span class="n">fc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:][</span><span class="mi">0</span><span class="p">]}</span> <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="n">forecasts_persistence</span><span class="p">]</span>
@@ -796,7 +769,7 @@ document.write(`
 </div>
 </section>
 <section id="mean-window-forecasts-at-max-lead-time">
-<h3>Mean Window Forecasts At Max Lead Time<a class="headerlink" href="#mean-window-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h3>
+<h4>Mean Window Forecasts At Max Lead Time<a class="headerlink" href="#mean-window-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">max_fcs</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">fc</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:][</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;yhat&#39;</span><span class="p">:</span><span class="n">fc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:][</span><span class="mi">0</span><span class="p">]}</span> <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="n">forecasts_mean</span><span class="p">]</span>
@@ -828,15 +801,15 @@ document.write(`
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="prophet">
-<h1>Prophet<a class="headerlink" href="#prophet" title="Permalink to this heading">#</a></h1>
+<section id="prophet">
+<h2>Prophet<a class="headerlink" href="#prophet" title="Permalink to this heading">#</a></h2>
 <p>Univariate forecasting that supports additional <em>future</em> regressors. Prophet does not support the inclusion of <em>lagged regressors</em>, i.e. it does not support the use of historical values of multiple series to predict a single target series. We include it as a baseline because it is popular, lightweight, interpretable, and performs very well in some domains.</p>
 <p>Prophet is based on a Generalized Additive Model (GAM):</p>
 <p><span class="math notranslate nohighlight">\( y(t) = g(t) + s(t) + h(t) + \epsilon_t\)</span></p>
 <p>where <span class="math notranslate nohighlight">\(y(t)\)</span> is the target series, <span class="math notranslate nohighlight">\(g(t)\)</span> is the trend function, <span class="math notranslate nohighlight">\(s(t)\)</span> is the seasonality or periodic function, <span class="math notranslate nohighlight">\(h(t)\)</span> is a function reflecting holidays or other irregular events, and <span class="math notranslate nohighlight">\(\epsilon_t\)</span> is an error term that is assumed to be normally distributed.</p>
 <p>Despite being formulated as an additive model, multiplicative interaction between seasonality and trend components is supported (using a log transform). In the implementation, this is easily configurable using a constructor parameter. See the <a class="reference external" href="https://facebook.github.io/prophet/docs/multiplicative_seasonality.html">documentation</a> for more details.</p>
 <section id="data-preparation">
-<h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h2>
+<h3>Data Preparation<a class="headerlink" href="#data-preparation" title="Permalink to this heading">#</a></h3>
 <p>Prophet, like most forecasting packages, imposes its own, specific format for input data. It expects inputs in the form of a Pandas DataFrame with two columns, <code class="docutils literal notranslate"><span class="pre">ds</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, which correspond to Pandas-formatted timestamps and the target time series, respectively.</p>
 <p>In this example, we create a Prophet DataFrame by selecting the columns <code class="docutils literal notranslate"><span class="pre">date</span></code> and <code class="docutils literal notranslate"><span class="pre">USD_CLOSE</span></code> from the Bank of Canada exchange rate dataset. We then rename those columns to <code class="docutils literal notranslate"><span class="pre">ds</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>, respectively.</p>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">ds</span></code> column is already correctly formatted using the Pandas datetime format, since we converted it immediately after loading the data. When reading CSVs, always be sure to check that datestamps are properly formatted.</p>
@@ -852,7 +825,7 @@ document.write(`
 </div>
 </section>
 <section id="model-initialization-and-fitting">
-<h2>Model Initialization and Fitting<a class="headerlink" href="#model-initialization-and-fitting" title="Permalink to this heading">#</a></h2>
+<h3>Model Initialization and Fitting<a class="headerlink" href="#model-initialization-and-fitting" title="Permalink to this heading">#</a></h3>
 <p>For our baseline model, we fit Prophet using its default configuration.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -864,7 +837,7 @@ document.write(`
 </div>
 </section>
 <section id="produce-forecasts">
-<h2>Produce Forecasts<a class="headerlink" href="#produce-forecasts" title="Permalink to this heading">#</a></h2>
+<h3>Produce Forecasts<a class="headerlink" href="#produce-forecasts" title="Permalink to this heading">#</a></h3>
 <p>To produce a forecast using a fitted Prophet model, we need to pass it a dataframe with the desired timestamps in a column named <code class="docutils literal notranslate"><span class="pre">ds</span></code>. In the example below, we use the fitted model object to produce a dataframe <code class="docutils literal notranslate"><span class="pre">future</span></code> with dates that extend <code class="docutils literal notranslate"><span class="pre">len(test_df)</span></code> days beyond the training dates. Passing <code class="docutils literal notranslate"><span class="pre">future</span></code> to the fitted model’s <code class="docutils literal notranslate"><span class="pre">predict</span></code> function will return a dataframe populated with a detailed forecast, including model component values and confidence ranges.</p>
 <p>Notice here that we are asking Prophet to produce a single forecast for the entire test period. We are doing this because Prophet does not support inference using fixed-sized inputs in the same way that every other technique considered in our bootcamp does.</p>
 <div class="cell docutils container">
@@ -884,7 +857,7 @@ document.write(`
 </div>
 </section>
 <section id="plotting-prophet-forecasts">
-<h2>Plotting Prophet Forecasts<a class="headerlink" href="#plotting-prophet-forecasts" title="Permalink to this heading">#</a></h2>
+<h3>Plotting Prophet Forecasts<a class="headerlink" href="#plotting-prophet-forecasts" title="Permalink to this heading">#</a></h3>
 <p>The following code visualizes the application of the fitted Prophet model to both in-sample (training) and out-of-sample (testing) data. Visualization and evaluation of forecasting models using out-of-sample data is crucial for estimating future performance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -918,7 +891,7 @@ document.write(`
 </div>
 </section>
 <section id="prophet-forecasts-at-max-lead-time">
-<h2>Prophet Forecasts At Max Lead Time<a class="headerlink" href="#prophet-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h2>
+<h3>Prophet Forecasts At Max Lead Time<a class="headerlink" href="#prophet-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h3>
 <p>As we did with the baseline methods, let’s visualize Prophet’s forecasts at maximum lead time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -986,8 +959,8 @@ document.write(`
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="neuralprophet">
-<h1>NeuralProphet<a class="headerlink" href="#neuralprophet" title="Permalink to this heading">#</a></h1>
+<section id="neuralprophet">
+<h2>NeuralProphet<a class="headerlink" href="#neuralprophet" title="Permalink to this heading">#</a></h2>
 <p>Let’s proceed to explore the <a class="reference external" href="https://neuralprophet.com/html/index.html">NeuralProphet</a> model. Please review the following resources to learn more:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://arxiv.org/abs/2111.15397">Paper</a></p></li>
@@ -998,7 +971,7 @@ document.write(`
 <p>The official <a class="reference external" href="https://neuralprophet.com/html/lagged_covariates_energy_ercot.html">documentation on lagged regressors (lagged covariates)</a> gives several examples for configuring NeuralProphet models to use lagged regressors, but commentary and suggestions on best practices are largely absent.</p>
 <p>In the following code, we will consider a small number of NeuralProphet model configurations applied to the same forecasting task from above. Importantly, we retain the same train/test (in-sample/out-of-sample) split, and we will apply the same evaluation metrics to NeuralProphet’s forecasts.</p>
 <section id="data-formatting">
-<h2>Data Formatting<a class="headerlink" href="#data-formatting" title="Permalink to this heading">#</a></h2>
+<h3>Data Formatting<a class="headerlink" href="#data-formatting" title="Permalink to this heading">#</a></h3>
 <p>NeuralProphet’s data format is very similar to Prophet’s. We prepare new DataFrames for training and evaluation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1016,6 +989,7 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="baseline-default-model">
 <h2>Baseline/Default Model<a class="headerlink" href="#baseline-default-model" title="Permalink to this heading">#</a></h2>
@@ -1342,9 +1316,8 @@ document.write(`
 </div>
 </section>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="reflections-and-next-steps">
-<h1>Reflections and Next Steps<a class="headerlink" href="#reflections-and-next-steps" title="Permalink to this heading">#</a></h1>
+<section id="reflections-and-next-steps">
+<h2>Reflections and Next Steps<a class="headerlink" href="#reflections-and-next-steps" title="Permalink to this heading">#</a></h2>
 <p>So far, the best performing ‘model’ is the persistence forecasting model. This is, of course, an unsatisfactory result. The best performing experimental model on the exchange rates dataset is the restricted NeuralProphet model that uses only the last observation of lagged regressors as features. Of course, we have only considered a very small number of configurations using NeuralProphet, many more model and hyperparameter configurations are possible. Please refer to the <a class="reference external" href="https://neuralprophet.com/html/contents.html">NeuralProphet documentation</a> for detailed information. However, to <em>find</em> a better configuration may require significant effort, either manual or automated (via a hyperparameter search, for example). In practical forecasting use cases, it may be important to consider the time, resources, and effort that are needed to find a forecasting model that is better than  baseline.</p>
 <p>The following notebooks in this series will cover additional models (N-BEATS and DeepAR) as well as rolling cross validation using NeuralProphet. In order to compare the out-of-sample forecasts produced by this notebook to others, the <code class="docutils literal notranslate"><span class="pre">results_df</span></code> DataFrame is saved below. Hopefully we will find a model that performs better than baseline in a continued out-of-sample evaluation experiment!</p>
 <p><em>Note</em> The path here should be changed to your local drive folder in order for it to be retrieved in other notebooks. See the beginning of this notebook for context.</p>
@@ -1356,6 +1329,7 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1403,7 +1377,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Loading</p>
+        <p class="prev-next-title">PyTorch Forecasting - NBEATS</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1425,32 +1399,34 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Loading</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-exchange-rate-data-file">Load exchange rate data file</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-according-to-use-case">Split data according to use case</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-over-test-examples">Iterating over test examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading">Data Loading</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-exchange-rate-data-file">Load exchange rate data file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#split-data-according-to-use-case">Split data according to use case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iterating-over-test-examples">Iterating over test examples</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-forecasts">Baseline Forecasts</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-error-metrics-over-the-baseline-forecasts">Compute error metrics over the baseline forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-forecasts-over-the-test-set">Visualizing forecasts over the test set</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-forecasts-at-max-lead-time">Persistence Forecasts At Max Lead Time</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-window-forecasts-at-max-lead-time">Mean Window Forecasts At Max Lead Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-metrics">Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-forecasts">Baseline Forecasts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-error-metrics-over-the-baseline-forecasts">Compute error metrics over the baseline forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-forecasts-over-the-test-set">Visualizing forecasts over the test set</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-forecasts-at-max-lead-time">Persistence Forecasts At Max Lead Time</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-window-forecasts-at-max-lead-time">Mean Window Forecasts At Max Lead Time</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet">Prophet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-initialization-and-fitting">Model Initialization and Fitting</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#produce-forecasts">Produce Forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-prophet-forecasts">Plotting Prophet Forecasts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet-forecasts-at-max-lead-time">Prophet Forecasts At Max Lead Time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet">Prophet</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation">Data Preparation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-initialization-and-fitting">Model Initialization and Fitting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#produce-forecasts">Produce Forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-prophet-forecasts">Plotting Prophet Forecasts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prophet-forecasts-at-max-lead-time">Prophet Forecasts At Max Lead Time</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#neuralprophet">NeuralProphet</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#neuralprophet">NeuralProphet</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baseline-default-model">Baseline/Default Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-forecasts">Plot all forecasts</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-all-forecasts-at-max-lead-time">Plot all forecasts at max lead time</a></li>
@@ -1467,11 +1443,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Append evaluation metrics to <code class="docutils literal notranslate"><span class="pre">results_df</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections-and-next-steps">Reflections and Next Steps</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#reflections-and-next-steps">Reflections and Next Steps</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>

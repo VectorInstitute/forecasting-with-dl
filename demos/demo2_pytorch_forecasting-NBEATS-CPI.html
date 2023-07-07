@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Data Loading &#8212; Forecasting Workshop</title>
+    <title>PyTorch Forecasting - NBEATS &#8212; Forecasting Workshop</title>
   
   
   
@@ -64,8 +64,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'demos/demo2_pytorch_forecasting-NBEATS-CPI';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Data Loading" href="demo2_pytorch_forecasting.html" />
-    <link rel="prev" title="Data Loading" href="demo1_prophet_neuralprophet_testset.html" />
+    <link rel="next" title="PyTorch Forecasting - NBEATS, DeepAR" href="demo2_pytorch_forecasting.html" />
+    <link rel="prev" title="Baselines, Prophet and NeuralProphet" href="demo1_prophet_neuralprophet_testset.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -163,38 +163,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
-
-
-
-
-
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="demo1_prophet_neuralprophet_testset.html">Baselines, Prophet and NeuralProphet</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">PyTorch Forecasting - NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">PyTorch Forecasting - NBEATS, DeepAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-
-
-
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
 <ul class="nav bd-sidenav">
@@ -453,7 +425,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Data Loading</h1>
+    <h1>PyTorch Forecasting - NBEATS</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -463,18 +435,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Loading</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-data-formatting">Time Series Data Formatting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-timeseriesdataset-for-n-beats">Preparing a TimeSeriesDataSet for N-BEATS</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">Training the model</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model">Testing the model</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-test-set-predictions">Collect test set predictions</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-forecasts-at-max-lead-time">Plot model forecasts at max lead time</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-evaluation-metrics">Standard evaluation metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading">Data Loading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-data-formatting">Time Series Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-timeseriesdataset-for-n-beats">Preparing a TimeSeriesDataSet for N-BEATS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">Training the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model">Testing the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-test-set-predictions">Collect test set predictions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-forecasts-at-max-lead-time">Plot model forecasts at max lead time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-evaluation-metrics">Standard evaluation metrics</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -486,6 +457,8 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <p><img alt="Forecasting Demo 2: PyTorch Forecasting" src="https://raw.githubusercontent.com/VectorInstitute/forecasting-bootcamp/media-assets-do-not-merge/forecasting-demo-2.png?token=GHSAT0AAAAAABQMCWQFIGE34XPH3MQR2BBEYRHXQCQ" /></p>
+<section class="tex2jax_ignore mathjax_ignore" id="pytorch-forecasting-nbeats">
+<h1>PyTorch Forecasting - NBEATS<a class="headerlink" href="#pytorch-forecasting-nbeats" title="Permalink to this heading">#</a></h1>
 <p><a class="reference external" href="https://github.com/jdb78/pytorch-forecasting">PyTorch Forecasting</a> is a package/repository that provides convenient implementations of several leading deep learning-based forecasting models, namely <a class="reference external" href="https://arxiv.org/pdf/1912.09363.pdf">Temporal Fusion Transformers</a>, <a class="reference external" href="http://arxiv.org/abs/1905.10437">N-BEATS</a>, and <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0169207019301888">DeepAR</a>. PyTorch Forecasting is built using <a class="reference external" href="https://pytorch-lightning.readthedocs.io/">PyTorch Lightning</a>, making it easier to train in multi-GPU compute environments, out-of-the-box.</p>
 <p><strong>Note for Colab users:</strong> Run the following cell to install PyTorch Forecasting. After installation completes, you will likely need to restart the Colab runtime. If this is the case, a button <code class="docutils literal notranslate"><span class="pre">RESTART</span> <span class="pre">RUNTIME</span></code> will appear at the bottom of the next cell’s output.</p>
 <div class="cell docutils container">
@@ -534,7 +507,7 @@ document.write(`
 </div>
 </div>
 <section id="data-loading">
-<h1>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this heading">#</a></h1>
+<h2>Data Loading<a class="headerlink" href="#data-loading" title="Permalink to this heading">#</a></h2>
 <p>We will continue with the same example dataset and task as the previous demo.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -887,7 +860,7 @@ document.write(`
 </div>
 </section>
 <section id="data-splitting">
-<h1>Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this heading">#</a></h1>
+<h2>Data Splitting<a class="headerlink" href="#data-splitting" title="Permalink to this heading">#</a></h2>
 <p>We immediately split the data into training and test sets. We can later split the training set into training and validation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -901,12 +874,12 @@ document.write(`
 </div>
 </section>
 <section id="data-formatting">
-<h1>Data Formatting<a class="headerlink" href="#data-formatting" title="Permalink to this heading">#</a></h1>
+<h2>Data Formatting<a class="headerlink" href="#data-formatting" title="Permalink to this heading">#</a></h2>
 <p>PyTorch Forecasting expects data to be formatted using its own <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/data.html">TimeSeriesDataSet</a> objects. Building a TimeSeriesDataSet begins with a Pandas DataFrame, and like with Prophet and NeuralProphet, we need to add certain custom columns.</p>
 <p>For this demo, we are once again specifying a lead time of 30 days and we will withhold the last 20% of data for testing. In the code below, we are very careful to ensure that when training and validating the model, it does not have access to the withheld data.</p>
 </section>
 <section id="time-series-data-formatting">
-<h1>Time Series Data Formatting<a class="headerlink" href="#time-series-data-formatting" title="Permalink to this heading">#</a></h1>
+<h2>Time Series Data Formatting<a class="headerlink" href="#time-series-data-formatting" title="Permalink to this heading">#</a></h2>
 <p>PyTorch Forecasting models can accomodate datasets consisting of multiple, coincident time series in several ways. As per the <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/latest/data.html">documentation</a>, a combination of <code class="docutils literal notranslate"><span class="pre">group_id</span></code> and <code class="docutils literal notranslate"><span class="pre">time_idx</span></code> identify a sample in the data, and that <em>if we have only one time series, to set</em> <code class="docutils literal notranslate"><span class="pre">group_id</span></code> <em>to a constant.</em></p>
 <p><code class="docutils literal notranslate"><span class="pre">time_idx</span></code> is an <em>integer column denoting the time index</em>. This, as opposed to the <code class="docutils literal notranslate"><span class="pre">date</span></code> column, is used to determine the temporal sequence of samples.</p>
 <div class="cell docutils container">
@@ -1242,7 +1215,7 @@ document.write(`
 </div>
 </section>
 <section id="preparing-a-timeseriesdataset-for-n-beats">
-<h1>Preparing a TimeSeriesDataSet for N-BEATS<a class="headerlink" href="#preparing-a-timeseriesdataset-for-n-beats" title="Permalink to this heading">#</a></h1>
+<h2>Preparing a TimeSeriesDataSet for N-BEATS<a class="headerlink" href="#preparing-a-timeseriesdataset-for-n-beats" title="Permalink to this heading">#</a></h2>
 <p>N-BEATS is a univariate forecasting method. As such, it can only process one variable at a time.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1430,7 +1403,7 @@ document.write(`
 </div>
 </section>
 <section id="training-the-model">
-<h1>Training the model<a class="headerlink" href="#training-the-model" title="Permalink to this heading">#</a></h1>
+<h2>Training the model<a class="headerlink" href="#training-the-model" title="Permalink to this heading">#</a></h2>
 <p>In our first effort to train the N-BEATS model, we adopt the default configuration suggested by the pytorch-forecasting <a class="reference external" href="https://pytorch-forecasting.readthedocs.io/en/stable/tutorials/ar.html">tutorials</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2814,7 +2787,7 @@ Global seed set to 42
 </div>
 </section>
 <section id="testing-the-model">
-<h1>Testing the model<a class="headerlink" href="#testing-the-model" title="Permalink to this heading">#</a></h1>
+<h2>Testing the model<a class="headerlink" href="#testing-the-model" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TimeSeriesDataSet</span><span class="p">(</span>
@@ -2846,7 +2819,7 @@ Global seed set to 42
 </div>
 </section>
 <section id="collect-test-set-predictions">
-<h1>Collect test set predictions<a class="headerlink" href="#collect-test-set-predictions" title="Permalink to this heading">#</a></h1>
+<h2>Collect test set predictions<a class="headerlink" href="#collect-test-set-predictions" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_model_path</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">checkpoint_callback</span><span class="o">.</span><span class="n">best_model_path</span>
@@ -2866,7 +2839,7 @@ Global seed set to 42
 </div>
 </section>
 <section id="plot-model-forecasts-at-max-lead-time">
-<h1>Plot model forecasts at max lead time<a class="headerlink" href="#plot-model-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h1>
+<h2>Plot model forecasts at max lead time<a class="headerlink" href="#plot-model-forecasts-at-max-lead-time" title="Permalink to this heading">#</a></h2>
 <p>Like in Demo 1, we are plotting the predictions at max lead time as well as one individual example forecast. Feel free to modify the <code class="docutils literal notranslate"><span class="pre">start</span></code> variable to plot different examples.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2936,7 +2909,7 @@ Global seed set to 42
 </div>
 </section>
 <section id="standard-evaluation-metrics">
-<h1>Standard evaluation metrics<a class="headerlink" href="#standard-evaluation-metrics" title="Permalink to this heading">#</a></h1>
+<h2>Standard evaluation metrics<a class="headerlink" href="#standard-evaluation-metrics" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
@@ -2991,6 +2964,7 @@ Name: nbeats_mean_metrics, dtype: float32
 </div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -3029,7 +3003,7 @@ Name: nbeats_mean_metrics, dtype: float32
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Data Loading</p>
+        <p class="prev-next-title">Baselines, Prophet and NeuralProphet</p>
       </div>
     </a>
     <a class="right-next"
@@ -3037,7 +3011,7 @@ Name: nbeats_mean_metrics, dtype: float32
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Loading</p>
+        <p class="prev-next-title">PyTorch Forecasting - NBEATS, DeepAR</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -3059,18 +3033,17 @@ Name: nbeats_mean_metrics, dtype: float32
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Data Loading</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-data-formatting">Time Series Data Formatting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-timeseriesdataset-for-n-beats">Preparing a TimeSeriesDataSet for N-BEATS</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">Training the model</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model">Testing the model</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-test-set-predictions">Collect test set predictions</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-forecasts-at-max-lead-time">Plot model forecasts at max lead time</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-evaluation-metrics">Standard evaluation metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loading">Data Loading</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-splitting">Data Splitting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-formatting">Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#time-series-data-formatting">Time Series Data Formatting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-a-timeseriesdataset-for-n-beats">Preparing a TimeSeriesDataSet for N-BEATS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-model">Training the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-model">Testing the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-test-set-predictions">Collect test set predictions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-forecasts-at-max-lead-time">Plot model forecasts at max lead time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-evaluation-metrics">Standard evaluation metrics</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

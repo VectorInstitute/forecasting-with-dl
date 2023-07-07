@@ -65,7 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Multivariate Forecasting with DeepAR" href="../multivariate_demos/deepar_electricty.html" />
-    <link rel="prev" title="Data Loading" href="demo2_pytorch_forecasting.html" />
+    <link rel="prev" title="PyTorch Forecasting - NBEATS, DeepAR" href="demo2_pytorch_forecasting.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -163,38 +163,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="demo1_prophet_neuralprophet_testset.html">Baselines, Prophet and NeuralProphet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting-NBEATS-CPI.html">PyTorch Forecasting - NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="demo2_pytorch_forecasting.html">PyTorch Forecasting - NBEATS, DeepAR</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-
-
-
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
 <ul class="nav bd-sidenav">
@@ -463,22 +435,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-from-file">Load Data From File</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">Experiment Setup</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-function-for-prophet-data-loading">Helper Function for Prophet Data Loading</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-evaluation-metrics">Define Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-from-file">Load Data From File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">Experiment Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-function-for-prophet-data-loading">Helper Function for Prophet Data Loading</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-evaluation-metrics">Define Evaluation Metrics</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation">Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-model-fitting-and-evaluation">Run model fitting and evaluation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-raw-evaluation-metrics">View Raw Evaluation Metrics</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file">Collect Mean Validation Metrics Over Cutoff Dates and Save to File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation">Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-model-fitting-and-evaluation">Run model fitting and evaluation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-raw-evaluation-metrics">View Raw Evaluation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file">Collect Mean Validation Metrics Over Cutoff Dates and Save to File</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-validation-forecasts-to-file-optional-for-ensembling">Save Validation Forecasts to File (Optional, For Ensembling)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-validation-forecasts-to-file-optional-for-ensembling">Save Validation Forecasts to File (Optional, For Ensembling)</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -489,7 +459,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="rolling-cross-validation-for-monthly-cpi-forecasting">
+  <section class="tex2jax_ignore mathjax_ignore" id="rolling-cross-validation-for-monthly-cpi-forecasting">
 <h1>Rolling Cross Validation for Monthly CPI Forecasting<a class="headerlink" href="#rolling-cross-validation-for-monthly-cpi-forecasting" title="Permalink to this heading">#</a></h1>
 <p>In this notebook, using Prophet, we provide a template for a rolling cross validation experiment on a CPI forecasting task. The purpose of rolling cross validation, in this context, is to evaluate how well the strategy of consuming all available data for model training would have worked in retrospect. This can be useful in situations where data are scarce and where it is desirable to train models using the most recently available data possible.</p>
 <p>To do this, we will refit a Prophet model using data up to several cutoff dates. In this notebook, we use 6 cutoff dates that are all one year apart. This code has been adapted from Vector’s contribution to the 2022 edition of Canada’s Food Price Report, with code available <a class="reference external" href="https://github.com/VectorInstitute/foodprice-forecasting">here</a>.</p>
@@ -524,9 +494,8 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
 <section id="load-data-from-file">
-<h1>Load Data From File<a class="headerlink" href="#load-data-from-file" title="Permalink to this heading">#</a></h1>
+<h2>Load Data From File<a class="headerlink" href="#load-data-from-file" title="Permalink to this heading">#</a></h2>
 <p>In this demo, we will use Prophet to produce univarate forecasts for each of the 9 major Canadian food price categories listed in the columns below. The dataset is part of a larger dataset that includes many variables from the <a class="reference external" href="https://fred.stlouisfed.org/">FRED</a> database. These variables are not used in this demo, but could certainly be used in an exploration of more sophisticated global or multivariate forecasting models!</p>
 <p>If we’re using Colab, we mount our Google Drive which should have the bootcamp datasets in it already (See Github Repo Readme for instructions).</p>
 <div class="cell docutils container">
@@ -863,7 +832,7 @@ document.write(`
 </div>
 </section>
 <section id="experiment-setup">
-<h1>Experiment Setup<a class="headerlink" href="#experiment-setup" title="Permalink to this heading">#</a></h1>
+<h2>Experiment Setup<a class="headerlink" href="#experiment-setup" title="Permalink to this heading">#</a></h2>
 <p>Load the rolling cross validation cutoff dates specified in a file.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -897,7 +866,7 @@ document.write(`
 </div>
 </div>
 <section id="helper-function-for-prophet-data-loading">
-<h2>Helper Function for Prophet Data Loading<a class="headerlink" href="#helper-function-for-prophet-data-loading" title="Permalink to this heading">#</a></h2>
+<h3>Helper Function for Prophet Data Loading<a class="headerlink" href="#helper-function-for-prophet-data-loading" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_prophet_df</span><span class="p">(</span><span class="n">foodprice_df</span><span class="p">,</span> <span class="n">food_category</span><span class="p">,</span> <span class="n">dates</span><span class="p">):</span>
@@ -911,7 +880,7 @@ document.write(`
 </div>
 </section>
 <section id="define-evaluation-metrics">
-<h2>Define Evaluation Metrics<a class="headerlink" href="#define-evaluation-metrics" title="Permalink to this heading">#</a></h2>
+<h3>Define Evaluation Metrics<a class="headerlink" href="#define-evaluation-metrics" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
@@ -931,7 +900,7 @@ document.write(`
 </section>
 </section>
 <section id="define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation">
-<h1>Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)<a class="headerlink" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation" title="Permalink to this heading">#</a></h1>
+<h2>Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)<a class="headerlink" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation" title="Permalink to this heading">#</a></h2>
 <p>The following function will fit and evaluate a Prophet model for a single food price category using the specified training and validation dates</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -979,7 +948,7 @@ document.write(`
 </div>
 </div>
 <section id="run-model-fitting-and-evaluation">
-<h2>Run model fitting and evaluation<a class="headerlink" href="#run-model-fitting-and-evaluation" title="Permalink to this heading">#</a></h2>
+<h3>Run model fitting and evaluation<a class="headerlink" href="#run-model-fitting-and-evaluation" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_valid_metrics</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3652,7 +3621,7 @@ dtype: float64
 </div>
 </section>
 <section id="view-raw-evaluation-metrics">
-<h2>View Raw Evaluation Metrics<a class="headerlink" href="#view-raw-evaluation-metrics" title="Permalink to this heading">#</a></h2>
+<h3>View Raw Evaluation Metrics<a class="headerlink" href="#view-raw-evaluation-metrics" title="Permalink to this heading">#</a></h3>
 <p>View all evaluation metrics for one target category, over each of the cutoff dates.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3742,7 +3711,7 @@ dtype: float64
 </div>
 </section>
 <section id="collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file">
-<h2>Collect Mean Validation Metrics Over Cutoff Dates and Save to File<a class="headerlink" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file" title="Permalink to this heading">#</a></h2>
+<h3>Collect Mean Validation Metrics Over Cutoff Dates and Save to File<a class="headerlink" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mean_valid_metrics</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3861,7 +3830,7 @@ dtype: float64
 </section>
 </section>
 <section id="save-validation-forecasts-to-file-optional-for-ensembling">
-<h1>Save Validation Forecasts to File (Optional, For Ensembling)<a class="headerlink" href="#save-validation-forecasts-to-file-optional-for-ensembling" title="Permalink to this heading">#</a></h1>
+<h2>Save Validation Forecasts to File (Optional, For Ensembling)<a class="headerlink" href="#save-validation-forecasts-to-file-optional-for-ensembling" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">date_forecasts</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3877,6 +3846,7 @@ dtype: float64
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -3916,7 +3886,7 @@ dtype: float64
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Data Loading</p>
+        <p class="prev-next-title">PyTorch Forecasting - NBEATS, DeepAR</p>
       </div>
     </a>
     <a class="right-next"
@@ -3946,22 +3916,20 @@ dtype: float64
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-from-file">Load Data From File</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">Experiment Setup</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-function-for-prophet-data-loading">Helper Function for Prophet Data Loading</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-evaluation-metrics">Define Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-from-file">Load Data From File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">Experiment Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-function-for-prophet-data-loading">Helper Function for Prophet Data Loading</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-evaluation-metrics">Define Evaluation Metrics</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation">Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-model-fitting-and-evaluation">Run model fitting and evaluation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-raw-evaluation-metrics">View Raw Evaluation Metrics</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file">Collect Mean Validation Metrics Over Cutoff Dates and Save to File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-functions-to-fit-and-evaluate-models-for-all-cpi-categories-validation">Define Functions to Fit and Evaluate Models for All CPI Categories (Validation)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-model-fitting-and-evaluation">Run model fitting and evaluation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-raw-evaluation-metrics">View Raw Evaluation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#collect-mean-validation-metrics-over-cutoff-dates-and-save-to-file">Collect Mean Validation Metrics Over Cutoff Dates and Save to File</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#save-validation-forecasts-to-file-optional-for-ensembling">Save Validation Forecasts to File (Optional, For Ensembling)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-validation-forecasts-to-file-optional-for-ensembling">Save Validation Forecasts to File (Optional, For Ensembling)</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

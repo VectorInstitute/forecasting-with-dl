@@ -165,38 +165,10 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Univariate Forecasting</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Data Loading</a></li>
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">Data Loading</a></li>
-
-
-
-
-
-
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo1_prophet_neuralprophet_testset.html">Baselines, Prophet and NeuralProphet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting-NBEATS-CPI.html">PyTorch Forecasting - NBEATS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demos/demo2_pytorch_forecasting.html">PyTorch Forecasting - NBEATS, DeepAR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../demos/demo3_rolling_cv_prophet.html">Rolling Cross Validation for Monthly CPI Forecasting</a></li>
-
-
-
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Multivariate Forecasting</span></p>
 <ul class="nav bd-sidenav">
@@ -583,13 +555,13 @@ document.write(`
 <section id="intro-to-time-series">
 <h2>Intro to Time Series<a class="headerlink" href="#intro-to-time-series" title="Permalink to this heading">#</a></h2>
 <p>Time Series data is a sequence of data points indexed by time.  In the simplest case, each datapoint <span class="math notranslate nohighlight">\(x_i\)</span> is a scalar in whats referred to as a univariate time series. We can represent a univariate time series with N observations using a value vector <span class="math notranslate nohighlight">\(\mathbf{x} \in R^N\)</span> where the index <span class="math notranslate nohighlight">\(i \dots N\)</span> represent the time step:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-056bad08-9c36-4782-81d8-c819754d1f47">
-<span class="eqno">(1)<a class="headerlink" href="#equation-056bad08-9c36-4782-81d8-c819754d1f47" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b13da5e5-9001-4a9d-b415-6f2e703628f8">
+<span class="eqno">(1)<a class="headerlink" href="#equation-b13da5e5-9001-4a9d-b415-6f2e703628f8" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{x} = \begin{bmatrix} x_{1} \\ \vdots \\ x_{N} \end{bmatrix}
 \end{align}\]</div>
 <p>In contrast, a multivariate time series has a vector <span class="math notranslate nohighlight">\(X_ i \in R^{M}\)</span> of observations at each time step. In this way, a multivariate time series is a set of time series over the same indices. It follows that multivariate time series are represented as matrices <span class="math notranslate nohighlight">\(X \in R^{NxM}\)</span> where the row index <span class="math notranslate nohighlight">\(i \dots N\)</span> is the time step and the column index <span class="math notranslate nohighlight">\(j \dots M\)</span> is the time series:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-62327303-65cd-437c-acb0-2ba458f163f9">
-<span class="eqno">(2)<a class="headerlink" href="#equation-62327303-65cd-437c-acb0-2ba458f163f9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-313e24d2-b2f0-42c6-8889-d4804574b68d">
+<span class="eqno">(2)<a class="headerlink" href="#equation-313e24d2-b2f0-42c6-8889-d4804574b68d" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{x} = 
 \begin{bmatrix} 
 x_{1, 1}  &amp; \cdots &amp; x_{1, M}\\
@@ -891,8 +863,8 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 <h3>Denoising<a class="headerlink" href="#denoising" title="Permalink to this heading">#</a></h3>
 <p>As a stochastic process, time series are vulnerable to noise. It is often helpful to denoise data - a process that involves filtering out noise to extract the underlying signal. There are <a class="reference external" href="https://www.kaggle.com/code/residentmario/denoising-algorithms/notebook">many approaches</a> to denoising time series data, we will explore just one - Average Smoothing.</p>
 <p><strong>Average Smoothing:</strong> Average smoothing involves iteratively computing the average over a sliding window of observations that is incremented by a stride accross the entire time series. This computation can be realized using average pooling on input time series with padding to ensure the output time series has the same dimensionality:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cd5c9468-4120-4962-a7f4-614fa507678e">
-<span class="eqno">(3)<a class="headerlink" href="#equation-cd5c9468-4120-4962-a7f4-614fa507678e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-142070a6-9fe3-42b7-a3e8-7b652ca2d38b">
+<span class="eqno">(3)<a class="headerlink" href="#equation-142070a6-9fe3-42b7-a3e8-7b652ca2d38b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \hat{x} = AvgPool(Padding(x)) 
 \end{align}\]</div>
 <p>We can write a custom function to perform the operation on a column of the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html"><code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a> underlying the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object. A new time series can be initialized with the updated dataframe:</p>
@@ -962,8 +934,8 @@ x_{N, 1}  &amp; \cdots &amp; x_{N, M}\\
 </p> 
 <p>It is worth noting that the trend and cyclical components are often lumped together when realizing the decomposition of the underlying time series. With this assumption in place, we can formally specify the interaction of the sub components of the time series. Two simple models for time series deomposition include additive decomposition and multiplicative decomposition.</p>
 <p><strong>Additive Decomposition:</strong> Assumes additive interaction between sub components of time series. Additive decomposition are most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not vary with time. The additive decomposition can be formally specified as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fe180903-55ce-47c1-869e-adc37fb56dfb">
-<span class="eqno">(4)<a class="headerlink" href="#equation-fe180903-55ce-47c1-869e-adc37fb56dfb" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7c3d5a6e-5b65-4a99-b134-a9926c1fb9cd">
+<span class="eqno">(4)<a class="headerlink" href="#equation-7c3d5a6e-5b65-4a99-b134-a9926c1fb9cd" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_{i} = s_{i} + t_{i} + r_{i}
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
@@ -992,8 +964,8 @@ x_{i} = s_{i} + t_{i} + r_{i}
 </div>
 </div>
 <p><strong>Multiplicative Decomposition:</strong> Assumes multiplicative interaction between sub components of the time series. Multiplivative decomposition is most appropriate in the case where the magnitude of the seasonal and/or trend-cyclical fluctuations do not very with time. The multiplicative decomposition can be formally specified as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-667092cc-bdc1-4689-87a5-e0b720094680">
-<span class="eqno">(5)<a class="headerlink" href="#equation-667092cc-bdc1-4689-87a5-e0b720094680" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2c5fa266-0ece-49ea-be6c-099c5e9f1f50">
+<span class="eqno">(5)<a class="headerlink" href="#equation-2c5fa266-0ece-49ea-be6c-099c5e9f1f50" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_{i} = s_{i} \times t_{i} \times r_{i}
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(x_{i}\)</span> is the time series value, <span class="math notranslate nohighlight">\(s_{i}\)</span> is the seasonal componemt, <span class="math notranslate nohighlight">\(t_{i}\)</span> is the trend compenent and <span class="math notranslate nohighlight">\(r_i\)</span> is the residual component, all at time <span class="math notranslate nohighlight">\(i\)</span>.</p>
@@ -1015,8 +987,8 @@ x_{i} = s_{i} \times t_{i} \times r_{i}
 <h3>Autocorrelation and Partial Autocorrelation<a class="headerlink" href="#autocorrelation-and-partial-autocorrelation" title="Permalink to this heading">#</a></h3>
 <p>One central component in time series analysis is discovering the relative depencies among indices of the time series. To this end, <a class="reference external" href="https://en.wikipedia.org/wiki/Autocorrelation">autocorrelation</a> and <a class="reference external" href="https://en.wikipedia.org/wiki/Partial_autocorrelation_function">partial autocorrelation</a> are two metrics that measure this.</p>
 <p><strong>Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the autocorrelation <span class="math notranslate nohighlight">\(a_{k}\)</span>  can be calculated as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eea853c1-cd32-4b8f-a4a4-379054814617">
-<span class="eqno">(6)<a class="headerlink" href="#equation-eea853c1-cd32-4b8f-a4a4-379054814617" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-317d855c-21c6-47bd-8299-832ee9df664f">
+<span class="eqno">(6)<a class="headerlink" href="#equation-317d855c-21c6-47bd-8299-832ee9df664f" title="Permalink to this equation">#</a></span>\[\begin{align}
 a_{k} = \frac{\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})(\mathbf{^{t-k}x} - \mu_{x})]}{\sqrt{(\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})^2])\cdot \mathbb{E}[(\mathbf{^{t-k}x} - \mu_{x})^2])}} = \
 \frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x})}{\sqrt{var(\mathbf{^{t}x}) \cdot var(\mathbf{^{t-k}x})}}
 \end{align}\]</div>
@@ -1038,8 +1010,8 @@ a_{k} = \frac{\mathbb{E}[(\mathbf{^{t}x} - \mu_{x})(\mathbf{^{t-k}x} - \mu_{x})]
 </div>
 <p>The autocorrelation ranges from -1 (tend to move in same direction) and 1 (tend to move in different directions). From the above plot, the lag series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> has the highest autocorrelation, 1, when <span class="math notranslate nohighlight">\(k=0\)</span>. This makes sense intuitively because <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span> are equivalent when <span class="math notranslate nohighlight">\(k=0\)</span>. You will also notice a shaded area which corresponds to the confidence interval. If an autocorrelation value exceeds the confidence interval region, the autocorrelation value is statistically significant.</p>
 <p><strong>Partial Autocorrelation:</strong> Correlation of a signal with a lagged version of itself as function of the delay with the relationships of intervening observations removed.  Using partial correlation helps derive the depencies among time steps more accurately by controlling for the effects of other lags. Given a time seres <span class="math notranslate nohighlight">\(\mathbf{^{t}x}\)</span> and its <span class="math notranslate nohighlight">\(k\)</span> lagged series <span class="math notranslate nohighlight">\(\mathbf{^{t-k}x}\)</span>, the partial autocorrelation <span class="math notranslate nohighlight">\(p_{k}\)</span>  can be calculated as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f3a5a40a-d750-4a84-82ef-bd6fd2cd260b">
-<span class="eqno">(7)<a class="headerlink" href="#equation-f3a5a40a-d750-4a84-82ef-bd6fd2cd260b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2a5ce885-49a1-4173-895c-24a78013ba4b">
+<span class="eqno">(7)<a class="headerlink" href="#equation-2a5ce885-49a1-4173-895c-24a78013ba4b" title="Permalink to this equation">#</a></span>\[\begin{align}
 p_{k} = 
 \frac{cov(\mathbf{^{t}x}, \mathbf{^{t-k}x}| \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}{\sqrt{var(\mathbf{^{t}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x}) \cdot var(\mathbf{^{t-k}x} | \mathbf{^{t-1}x}, \cdots, \mathbf{^{t-k+1}x})}}
 \end{align}\]</div>
