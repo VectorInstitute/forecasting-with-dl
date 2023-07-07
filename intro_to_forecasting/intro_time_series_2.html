@@ -570,8 +570,8 @@ document.write(`
 <section id="univariate-time-series-forecasting">
 <h3>Univariate Time Series Forecasting<a class="headerlink" href="#univariate-time-series-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length $T$ and a forecasting horizon of length $H$, the univariate time series forecasting problem is to find  function $f: \mathbb{R}^{T} \to \mathbb{R}^H$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5ee47008-31b3-467c-9a3f-ec156b17ddc0">
-<span class="eqno">(8)<a class="headerlink" href="#equation-5ee47008-31b3-467c-9a3f-ec156b17ddc0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-69fa9bee-b4e2-47e8-9f6b-253925649f2f">
+<span class="eqno">(8)<a class="headerlink" href="#equation-69fa9bee-b4e2-47e8-9f6b-253925649f2f" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{y} = f(x) \approx y
 \end{align}\]</div>
 <p>where $x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]$ is an input vector of observations over the lookback window, $y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]$ is the output vector. $f$ is parametized by $\theta$ which determine the output $\hat{y}$ given an input $x$. $\theta$ is learned to mimimize the prediction loss of the model $L$ over training portion of the time series. The resulting model $f$ is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
@@ -595,13 +595,13 @@ document.write(`
 <section id="simple-exponential-smoothing-brown-method">
 <h4>Simple Exponential Smoothing (Brown Method)<a class="headerlink" href="#simple-exponential-smoothing-brown-method" title="Permalink to this heading">#</a></h4>
 <p>In the simplest case, the smoothed series value at time $t$,  $l_t$,  is a weighted average of the previous smoothed value $l_{t-1}$ and the current time series value $x_t$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f5ee77f9-e591-4308-813c-968e4200e7cc">
-<span class="eqno">(9)<a class="headerlink" href="#equation-f5ee77f9-e591-4308-813c-968e4200e7cc" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-494cc42f-4536-48cb-a2f1-525aa1d1864a">
+<span class="eqno">(9)<a class="headerlink" href="#equation-494cc42f-4536-48cb-a2f1-525aa1d1864a" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 \end{equation}\]</div>
 <p>Given this, The forecast $h$ steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-796fb3cb-429d-4e6b-9c72-7c01a3b90adb">
-<span class="eqno">(10)<a class="headerlink" href="#equation-796fb3cb-429d-4e6b-9c72-7c01a3b90adb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3b48c6b4-0364-43bf-99bc-2cb49a39d700">
+<span class="eqno">(10)<a class="headerlink" href="#equation-3b48c6b4-0364-43bf-99bc-2cb49a39d700" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t
 \end{equation}\]</div>
 <p>which means simply that out of sample, our forecast is equal to the most recent value of the smoothed series. A few things to note about Simple Exponential Smoothing:</p>
@@ -614,14 +614,14 @@ l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 <section id="double-exponential-smoothing-holt-method">
 <h4>Double Exponential Smoothing (Holt Method)<a class="headerlink" href="#double-exponential-smoothing-holt-method" title="Permalink to this heading">#</a></h4>
 <p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecastng function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expresed as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-49d65ade-d6b1-4476-86c4-51bfabf90818">
-<span class="eqno">(11)<a class="headerlink" href="#equation-49d65ade-d6b1-4476-86c4-51bfabf90818" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-e9164430-304c-45fe-9408-5f87b0cde4d8">
+<span class="eqno">(11)<a class="headerlink" href="#equation-e9164430-304c-45fe-9408-5f87b0cde4d8" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast $h$ steps ahead is defined by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-221775f2-eeea-455e-b9c2-8a3986e12882">
-<span class="eqno">(12)<a class="headerlink" href="#equation-221775f2-eeea-455e-b9c2-8a3986e12882" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-917fe27e-eb04-4993-8f29-94a54ee74304">
+<span class="eqno">(12)<a class="headerlink" href="#equation-917fe27e-eb04-4993-8f29-94a54ee74304" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t
 \end{equation}\]</div>
 <p>The forecast function is no longer flat but trending: $h$-step-ahead forecast is equal to the last estimated level plus $h$ times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
@@ -634,15 +634,15 @@ g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta 
 <section id="triple-exponential-smoothing-holt-winters-method">
 <h4>Triple Exponential Smoothing (Holt-Winters Method)<a class="headerlink" href="#triple-exponential-smoothing-holt-winters-method" title="Permalink to this heading">#</a></h4>
 <p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond $L$ into the forcasting function:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0f559d45-51d6-4489-8e1b-6f98ebbd5764">
-<span class="eqno">(13)<a class="headerlink" href="#equation-0f559d45-51d6-4489-8e1b-6f98ebbd5764" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-73807631-30ec-4772-884b-6cdc4f69d1c0">
+<span class="eqno">(13)<a class="headerlink" href="#equation-73807631-30ec-4772-884b-6cdc4f69d1c0" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha (x_t - s_{t - L}) + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1 - \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1) \\
 s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} \quad \gamma \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast $h$ steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab494fd8-bb3d-4e54-9771-2117398467d1">
-<span class="eqno">(14)<a class="headerlink" href="#equation-ab494fd8-bb3d-4e54-9771-2117398467d1" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-dd98d80a-136e-4e82-8972-1cc641229c25">
+<span class="eqno">(14)<a class="headerlink" href="#equation-dd98d80a-136e-4e82-8972-1cc641229c25" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t + s_{(t-L + h) \;\; mod \;\;  L }
 \end{equation}\]</div>
 <p>The forecast function consists of a level, trend and seasonal component. A few things to note about Triple Exponential Smoothing:</p>
@@ -683,8 +683,8 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <section id="multivariate-forecasting">
 <h3>Multivariate Forecasting<a class="headerlink" href="#multivariate-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length $T$, a forecasting horizon of length $H$ and a set of $K$ time series, the multivariate time series forecasting problem is to find  function $f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}$:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ab750a91-2706-4280-984b-d6c8e7e76317">
-<span class="eqno">(15)<a class="headerlink" href="#equation-ab750a91-2706-4280-984b-d6c8e7e76317" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-07cb2214-614d-4fb2-89af-108801fd8219">
+<span class="eqno">(15)<a class="headerlink" href="#equation-07cb2214-614d-4fb2-89af-108801fd8219" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{Y} = f(X) \approx Y
 \end{align}\]</div>
 <p>where $X \in \mathbb{R}^{TxK}$ is a matrix where each column is a sequence of observations over the lookback window for a specific time series and $Y \in \mathbb{R}^{HxK} $ is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
