@@ -1,10 +1,9 @@
-# Forecasting Bootcamp
+# Forecasting With Deep Learning 
 
-This repository contains demos and reference implementations for a variety of forecasting techniques that will be highlighted at Vector Institute's upcoming Forecasting Using Deep Learning Bootcamp in March 2022.
-
+This repository contains demos and reference implementations for a variety of forecasting techniques. The focus is to showcase state-of-the-art methods in deep learning based forecasting. However, there are several introductory notebooks that help build a foundation for those who are new to time series analysis and forecasting. 
 ## Accessing Data
 
-During the bootcamp, all reference datasets are available on the Vector cluster at ```/ssd003/projects/forecasting_bootcamp/bootcamp_datasets/```
+If you have access to the Vector cluster, the datasets are available at ```/ssd003/projects/forecasting_bootcamp/bootcamp_datasets/```
 
 For external use, we are providing the following link for downloading datasets:
 - [Google Drive Link](https://drive.google.com/drive/folders/1X-CgvkQKpatdPPrAYnWaeGmhA-daLJGr?usp=sharing)
