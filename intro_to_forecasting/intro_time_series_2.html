@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -77,7 +78,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -111,12 +121,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -131,9 +149,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../README.html">
+  
   
   
   
@@ -143,8 +163,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/logo.jpg" class="logo__image only-light" alt="Forecasting Workshop - Home"/>
+    <script>document.write(`<img src="../_static/logo.jpg" class="logo__image only-dark" alt="Forecasting Workshop - Home"/>`);</script>
   
   
 </a></div>
@@ -154,7 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../README.html">
-                    Forecasting Bootcamp
+                    Forecasting With Deep Learning
                 </a>
             </li>
         </ul>
@@ -397,20 +417,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -469,7 +491,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="intro-to-time-series-forecasting-and-evaluation">
 <h1>Intro to Time Series Forecasting and Evaluation<a class="headerlink" href="#intro-to-time-series-forecasting-and-evaluation" title="Permalink to this heading">#</a></h1>
@@ -543,8 +565,8 @@ document.write(`
 <section id="univariate-time-series-forecasting">
 <h3>Univariate Time Series Forecasting<a class="headerlink" href="#univariate-time-series-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span> and a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span>, the univariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{T} \to \mathbb{R}^H\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c0e40997-9256-4d5b-959f-7ec60dafe756">
-<span class="eqno">(8)<a class="headerlink" href="#equation-c0e40997-9256-4d5b-959f-7ec60dafe756" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-5e52b879-6e9b-46c8-95c1-0818923b6919">
+<span class="eqno">(8)<a class="headerlink" href="#equation-5e52b879-6e9b-46c8-95c1-0818923b6919" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{y} = f(x) \approx y
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]\)</span> is an input vector of observations over the lookback window, <span class="math notranslate nohighlight">\(y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]\)</span> is the output vector. <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
@@ -568,13 +590,13 @@ document.write(`
 <section id="simple-exponential-smoothing-brown-method">
 <h4>Simple Exponential Smoothing (Brown Method)<a class="headerlink" href="#simple-exponential-smoothing-brown-method" title="Permalink to this heading">#</a></h4>
 <p>In the simplest case, the smoothed series value at time <span class="math notranslate nohighlight">\(t\)</span>,  <span class="math notranslate nohighlight">\(l_t\)</span>,  is a weighted average of the previous smoothed value <span class="math notranslate nohighlight">\(l_{t-1}\)</span> and the current time series value <span class="math notranslate nohighlight">\(x_t\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-427bde61-7abd-4779-9e8d-15ab5bfc6820">
-<span class="eqno">(9)<a class="headerlink" href="#equation-427bde61-7abd-4779-9e8d-15ab5bfc6820" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-c0e82590-9024-485f-b0cd-0931847aa77f">
+<span class="eqno">(9)<a class="headerlink" href="#equation-c0e82590-9024-485f-b0cd-0931847aa77f" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 \end{equation}\]</div>
 <p>Given this, The forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4c2eb5d4-afee-48be-926e-0367bfb70883">
-<span class="eqno">(10)<a class="headerlink" href="#equation-4c2eb5d4-afee-48be-926e-0367bfb70883" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-650ed2b4-4905-4726-a3f2-5fc3887db338">
+<span class="eqno">(10)<a class="headerlink" href="#equation-650ed2b4-4905-4726-a3f2-5fc3887db338" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t
 \end{equation}\]</div>
 <p>which means simply that out of sample, our forecast is equal to the most recent value of the smoothed series. A few things to note about Simple Exponential Smoothing:</p>
@@ -587,14 +609,14 @@ l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 <section id="double-exponential-smoothing-holt-method">
 <h4>Double Exponential Smoothing (Holt Method)<a class="headerlink" href="#double-exponential-smoothing-holt-method" title="Permalink to this heading">#</a></h4>
 <p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecastng function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expresed as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-1aab22db-9a0a-45bb-8426-65a224c484b2">
-<span class="eqno">(11)<a class="headerlink" href="#equation-1aab22db-9a0a-45bb-8426-65a224c484b2" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-9b7b3755-876a-4b51-9383-4c749b59ffd0">
+<span class="eqno">(11)<a class="headerlink" href="#equation-9b7b3755-876a-4b51-9383-4c749b59ffd0" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7dba212b-63c5-4be9-a621-bb77df0d89aa">
-<span class="eqno">(12)<a class="headerlink" href="#equation-7dba212b-63c5-4be9-a621-bb77df0d89aa" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-2da6ddca-49d7-47fa-8e60-579d2638f8d1">
+<span class="eqno">(12)<a class="headerlink" href="#equation-2da6ddca-49d7-47fa-8e60-579d2638f8d1" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t
 \end{equation}\]</div>
 <p>The forecast function is no longer flat but trending: <span class="math notranslate nohighlight">\(h\)</span>-step-ahead forecast is equal to the last estimated level plus <span class="math notranslate nohighlight">\(h\)</span> times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
@@ -607,15 +629,15 @@ g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta 
 <section id="triple-exponential-smoothing-holt-winters-method">
 <h4>Triple Exponential Smoothing (Holt-Winters Method)<a class="headerlink" href="#triple-exponential-smoothing-holt-winters-method" title="Permalink to this heading">#</a></h4>
 <p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond <span class="math notranslate nohighlight">\(L\)</span> into the forcasting function:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c70bb184-e604-401e-9ea1-6b28753eb346">
-<span class="eqno">(13)<a class="headerlink" href="#equation-c70bb184-e604-401e-9ea1-6b28753eb346" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0db30e5e-6087-44a6-92e1-f0ede92ed09d">
+<span class="eqno">(13)<a class="headerlink" href="#equation-0db30e5e-6087-44a6-92e1-f0ede92ed09d" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha (x_t - s_{t - L}) + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1 - \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1) \\
 s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} \quad \gamma \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c62fbf4f-10fd-4edd-bc47-ff9674ae7fd6">
-<span class="eqno">(14)<a class="headerlink" href="#equation-c62fbf4f-10fd-4edd-bc47-ff9674ae7fd6" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ed4d52fc-2231-4c23-9eb1-8daa173322a6">
+<span class="eqno">(14)<a class="headerlink" href="#equation-ed4d52fc-2231-4c23-9eb1-8daa173322a6" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t + s_{(t-L + h) \;\; mod \;\;  L }
 \end{equation}\]</div>
 <p>The forecast function consists of a level, trend and seasonal component. A few things to note about Triple Exponential Smoothing:</p>
@@ -656,8 +678,8 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <section id="multivariate-forecasting">
 <h3>Multivariate Forecasting<a class="headerlink" href="#multivariate-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span>, a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span> and a set of <span class="math notranslate nohighlight">\(K\)</span> time series, the multivariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-103b3cd8-670b-4c48-9217-ac9f4aa632bc">
-<span class="eqno">(15)<a class="headerlink" href="#equation-103b3cd8-670b-4c48-9217-ac9f4aa632bc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3c233934-2dc8-467f-95e6-9a3d0fba1c1c">
+<span class="eqno">(15)<a class="headerlink" href="#equation-3c233934-2dc8-467f-95e6-9a3d0fba1c1c" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{Y} = f(X) \approx Y
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{TxK}\)</span> is a matrix where each column is a sequence of observations over the lookback window for a specific time series and <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{HxK} \)</span> is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
@@ -820,11 +842,10 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="intro_time_series.html"
@@ -844,10 +865,7 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -855,6 +873,7 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -906,6 +925,7 @@ By Vector Institute
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023.
@@ -932,8 +952,8 @@ By Vector Institute
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>
