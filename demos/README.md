@@ -8,7 +8,7 @@ In testing, we have identified version incompatibilities with Pandas. Please ens
 
 ## Running on Google Colab
 
-The demos in this directory have been tested using Google Colab Pro. In order to run a demo, you can connect your Colab account to GitHub. To make use of provided datasets, you will also need to either connect Colab to your personal Google Drive, or directly upload data files to your Colab instance. 
+The demos in this directory have been tested using Google Colab Pro. In order to run a demo, you can connect your Colab account to GitHub. To make use of provided datasets, you will also need to either connect Colab to your personal Google Drive, or directly upload data files to your Colab instance.
 
 ### Step-by-Step Instructions
 
@@ -16,13 +16,13 @@ The demos in this directory have been tested using Google Colab Pro. In order to
 - Upload these files to your personal Google Drive, noting their location.
 - Navigate to [Google Colab](https://colab.research.google.com/)
 - From the **File** menu, select **Upload notebook**. You will be prompted to sign in to a Google account.
-- Navigate to the **GitHub** tab. You will be prompted to connect Colab with your GitHub account. (**Note** Your GitHub account must be registered with the forecasting-bootcamp repository in order to access it.)
+- Navigate to the **GitHub** tab. You will be prompted to connect Colab with your GitHub account. (**Note** Your GitHub account must be registered with the forecasting-with-dl repository in order to access it.)
 - Ensure that the **Include private repos** checkbox is checked.
-- Select the Repository: VectorInstitute/forecasting-bootcamp
+- Select the Repository: VectorInstitute/forecasting-with-dl
 - Click on the notebook you would like to open (e.g. `demos/demo1_prophet_neuralprophet_testset.ipynb`)
 - Begin execution of the notebook.
 - The second code cell mounts your Google Drive. Follow the on-screen prompts.
-- Note that in the third code cell, you will need change the file path according to your Google Drive's file structure. Use the **Files** button on the side bar to navigate the file structure. Locate your dataset, right click on it, and select **Copy path**. 
+- Note that in the third code cell, you will need change the file path according to your Google Drive's file structure. Use the **Files** button on the side bar to navigate the file structure. Locate your dataset, right click on it, and select **Copy path**.
 - Continue execution of the notebook. Wherever other files are read or written, be sure to customize file paths according to your Google Drive's file structure.
 
 ## Demos
@@ -33,8 +33,8 @@ Prophet and NeuralProphet applied to exchange rate forecasting. One configuratio
 
 ### Demo 2: PyTorch Forecasting
 
-N-BEATS and DeepAR applied to exchange rate forecasting. This demo continues the experiment from Demo 1, bringing in two popular deep learning based forecasting methods. The demo provides working examples of how to configure multivariate datasets for univariate, 'global model' forecasting tasks. 
+N-BEATS and DeepAR applied to exchange rate forecasting. This demo continues the experiment from Demo 1, bringing in two popular deep learning based forecasting methods. The demo provides working examples of how to configure multivariate datasets for univariate, 'global model' forecasting tasks.
 
 ### Demo 3: Rolling Cross-Validation with Prophet for CPI Forecasting
 
-This notebook demonstrates a rolling cross validation experiment using Prophet. The demo was adapted from part of Vector's contribution to the 2022 edition of Canada's Food Price Report. Rolling cross validation can be used to evaluate a forecasting strategy where all available data up to a cutoff point are used to train a model. This is useful in situations where data are scarce or where it is important to train using the most recently available data. During the bootcamp, this approach should only be considered for lightweight models like Prophet due to added training time requirements. 
+This notebook demonstrates a rolling cross validation experiment using Prophet. The demo was adapted from part of Vector's contribution to the 2022 edition of Canada's Food Price Report. Rolling cross validation can be used to evaluate a forecasting strategy where all available data up to a cutoff point are used to train a model. This is useful in situations where data are scarce or where it is important to train using the most recently available data. During the bootcamp, this approach should only be considered for lightweight models like Prophet due to added training time requirements.
