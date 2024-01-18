@@ -24,9 +24,9 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 repository:
-  url: https://github.com/VectorInstitute/forecasting-bootcamp
+  url: https://github.com/VectorInstitute/forecasting-with-dl
   path_to_book: .
-  branch: jupyter-book
+  branch: main
 
 parse:
   myst_enable_extensions:
