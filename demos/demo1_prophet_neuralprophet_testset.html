@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -81,7 +81,6 @@ const thebe_selector_output = ".output, .cell_output"
   <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -121,20 +120,15 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <header>
   
-    <div class="bd-header navbar navbar-expand-lg bd-navbar">
-    </div>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
-  </header>
 
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -749,7 +743,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">persistence_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-<span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean_window_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">mean_window_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
 <span class="n">results_df</span>
 </pre></div>
 </div>
@@ -973,7 +967,7 @@ document.write(`
 <p>Please note that the comparison is not completely fair - Prophet has to predict 672 steps into the future at once, whereas our baselines only have to predict the next 60 days.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prophet_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">prophet_stats</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;mae&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1183,7 +1177,7 @@ document.write(`
 <h3>Append evaluation metrics to <code class="docutils literal notranslate"><span class="pre">results_df</span></code><a class="headerlink" href="#append-evaluation-metrics-to-results-df" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_baseline_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_baseline&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_baseline_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_baseline&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;mae&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1201,7 +1195,7 @@ document.write(`
 <span class="c1"># Add the non-target feature columns as lagged regressors</span>
 <span class="n">feature_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">np_train_df</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;USD_CLOSE&#39;</span><span class="p">,</span> <span class="s1">&#39;ds&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)]</span>
 <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_cols</span><span class="p">:</span>
-    <span class="n">np_model_last_sample_only</span><span class="o">.</span><span class="n">add_lagged_regressor</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">only_last_value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">np_model_last_sample_only</span><span class="o">.</span><span class="n">add_lagged_regressor</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">n_lags</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     
 <span class="n">np_model_last_sample_only</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">np_train_df</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;D&#39;</span><span class="p">)</span>
 <span class="n">forecasts</span> <span class="o">=</span> <span class="n">collect_np_forecasts</span><span class="p">(</span><span class="n">np_model_last_sample_only</span><span class="p">,</span> <span class="n">test_dataset</span><span class="p">)</span>
@@ -1253,7 +1247,7 @@ document.write(`
 <h3>Append evaluation metrics to <code class="docutils literal notranslate"><span class="pre">results_df</span></code><a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_last_sample_only_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_last_sample_only&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_last_sample_only_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_last_sample_only&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;mae&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1264,15 +1258,13 @@ document.write(`
 <section id="model-with-sparse-neural-autoregression">
 <h2>Model with Sparse Neural Autoregression<a class="headerlink" href="#model-with-sparse-neural-autoregression" title="Permalink to this heading">#</a></h2>
 <p>In the previous parameter plots, you could see high values for all autoregressive features. You can tell NeuralProphet to try avoiding relying on them too much by restricting how many of them it is able to use. In this case, we set <code class="docutils literal notranslate"><span class="pre">ar_reg</span></code> to 10, which imposes a strong regularization of the AR model towards sparsity in its coefficients. We also reduce the AR depth to 10 days. <em>Note</em>: NeuralProphet applies this sparsity factor only to the regular AR coefficients, not the lagged regressor AR coefficients, where higher sparsity would make more sense.</p>
-<p>We can also play around with parameters like the number of hidden layers or the learning rate of the AR-Net. Another change applied to this model is the loss function, now MAE instead of the default Huber loss.</p>
+<p>We can also play around with parameters like the learning rate of the AR-Net. Another change applied to this model is the loss function, now MAE instead of the default Huber loss.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np_model_sparse_nar</span> <span class="o">=</span> <span class="n">NeuralProphet</span><span class="p">(</span><span class="n">n_lags</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
                                     <span class="n">n_forecasts</span><span class="o">=</span><span class="n">lead_time</span><span class="p">,</span>
                                     <span class="n">ar_reg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                                     <span class="n">learning_rate</span><span class="o">=</span><span class="mf">5e-3</span><span class="p">,</span>
-                                    <span class="n">num_hidden_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                    <span class="n">d_hidden</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
                                     <span class="n">loss_func</span><span class="o">=</span><span class="s1">&#39;MAE&#39;</span>
                                     <span class="p">)</span>
 
@@ -1330,7 +1322,7 @@ document.write(`
 <h3>Append evaluation metrics to <code class="docutils literal notranslate"><span class="pre">results_df</span></code><a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_sparse_ar_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_sparse_ar&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_df</span> <span class="o">=</span> <span class="n">results_df</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="n">compute_error_statistics</span><span class="p">(</span><span class="n">np_sparse_ar_error_metrics</span><span class="p">,</span> <span class="s1">&#39;neural_prophet_sparse_ar&#39;</span><span class="p">)[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;mae&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1345,7 +1337,7 @@ document.write(`
 <p><em>Note</em> The path here should be changed to your local drive folder in order for it to be retrieved in other notebooks. See the beginning of this notebook for context.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_filename</span> <span class="o">=</span> <span class="s2">&quot;/h/kkoch/forecasting-bootcamp/demos/exchange_rate_mean_test_metrics.csv&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_filename</span> <span class="o">=</span> <span class="s2">&quot;exchange_rate_mean_test_metrics.csv&quot;</span>
 <span class="n">results_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_filename</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1511,8 +1503,8 @@ By Vector Institute
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>

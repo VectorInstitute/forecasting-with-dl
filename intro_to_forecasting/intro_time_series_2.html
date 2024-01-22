@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
@@ -38,9 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
-  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -81,7 +81,6 @@ const thebe_selector_output = ".output, .cell_output"
   <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>
@@ -121,20 +120,15 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
-
-  <header>
   
-    <div class="bd-header navbar navbar-expand-lg bd-navbar">
-    </div>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
   
-  </header>
 
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -497,7 +491,7 @@ document.write(`
 <h1>Intro to Time Series Forecasting and Evaluation<a class="headerlink" href="#intro-to-time-series-forecasting-and-evaluation" title="Permalink to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
-<p>This is the second in a series of two notebooks on an introduction to time series forecasting. The last notebook outlined concepts of time series analysis such as time series processesing, decomposition, correlation and stationairity. In this notebook, we will discuss an intro to time series forecasting and evaluation. This notebook is particularly focused on the setup for forecasting problems and evaulation. Future notebooks will go into depth on specific forecasting methods.</p>
+<p>This notebook is the second in two notebooks introducing time series forecasting. The last notebook outlined concepts of time series analysis, such as time series processing, decomposition, correlation and stationarity. This notebook will discuss an intro to time series forecasting and evaluation.  Future notebooks will go into depth on specific forecasting methods.</p>
 </section>
 <section id="outline">
 <h2>Outline<a class="headerlink" href="#outline" title="Permalink to this heading">#</a></h2>
@@ -565,12 +559,12 @@ document.write(`
 <section id="univariate-time-series-forecasting">
 <h3>Univariate Time Series Forecasting<a class="headerlink" href="#univariate-time-series-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Univaritate forecasting involves predicting future values given past observations of a time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span> and a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span>, the univariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{T} \to \mathbb{R}^H\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-46b1bac9-6616-4e40-9f41-55dece8d37ee">
-<span class="eqno">(8)<a class="headerlink" href="#equation-46b1bac9-6616-4e40-9f41-55dece8d37ee" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c6424bd1-b9fc-4cb1-9860-2be092d4100a">
+<span class="eqno">(8)<a class="headerlink" href="#equation-c6424bd1-b9fc-4cb1-9860-2be092d4100a" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{y} = f(x) \approx y
 \end{align}\]</div>
-<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]\)</span> is an input vector of observations over the lookback window, <span class="math notranslate nohighlight">\(y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]\)</span> is the output vector. <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
-<p>To solidify this notion, we will train and evaluate an Exponential Smoothing Forecasting model on the Air Passenger Dataset. The Air Passenger dataset tracks the amount of commerical airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
+<p>where <span class="math notranslate nohighlight">\(x \in \mathbb{R}^T = [y_{1} \cdots y_{T}]\)</span> is an input vector of observations over the lookback window, <span class="math notranslate nohighlight">\(y \in \mathbb{R}^H = [y_{T} \cdots y_{T+H}]\)</span> is the output vector. <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to minimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>To solidify this notion, we will train and evaluate an Exponential Smoothing Forecasting model on the Air Passenger Dataset. The Air Passenger dataset tracks the amount of commercial airplane passengers <span class="math notranslate nohighlight">\(x_i\)</span> by month <span class="math notranslate nohighlight">\(i\)</span>. We can use the <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"><code class="docutils literal notranslate"><span class="pre">darts.datasets.AirPassengersDataset.load</span></code></a> function to load the dataset:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">AirPassengersDataset</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
@@ -590,13 +584,13 @@ document.write(`
 <section id="simple-exponential-smoothing-brown-method">
 <h4>Simple Exponential Smoothing (Brown Method)<a class="headerlink" href="#simple-exponential-smoothing-brown-method" title="Permalink to this heading">#</a></h4>
 <p>In the simplest case, the smoothed series value at time <span class="math notranslate nohighlight">\(t\)</span>,  <span class="math notranslate nohighlight">\(l_t\)</span>,  is a weighted average of the previous smoothed value <span class="math notranslate nohighlight">\(l_{t-1}\)</span> and the current time series value <span class="math notranslate nohighlight">\(x_t\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-759d2dd1-11c3-4db0-a230-6e5bf20040e5">
-<span class="eqno">(9)<a class="headerlink" href="#equation-759d2dd1-11c3-4db0-a230-6e5bf20040e5" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-69efc306-f825-4225-8751-cd7bf04af84e">
+<span class="eqno">(9)<a class="headerlink" href="#equation-69efc306-f825-4225-8751-cd7bf04af84e" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 \end{equation}\]</div>
 <p>Given this, The forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ee32b06e-73c5-44b4-88cf-9caeccc5bb47">
-<span class="eqno">(10)<a class="headerlink" href="#equation-ee32b06e-73c5-44b4-88cf-9caeccc5bb47" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bd2f270c-8614-4b58-bdb5-c76e4ff90e0d">
+<span class="eqno">(10)<a class="headerlink" href="#equation-bd2f270c-8614-4b58-bdb5-c76e4ff90e0d" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t
 \end{equation}\]</div>
 <p>which means simply that out of sample, our forecast is equal to the most recent value of the smoothed series. A few things to note about Simple Exponential Smoothing:</p>
@@ -608,15 +602,15 @@ l_t = \alpha x_t + (1-\alpha) l_{t-1} \quad \text{where} \quad \alpha \in (0,1)
 </section>
 <section id="double-exponential-smoothing-holt-method">
 <h4>Double Exponential Smoothing (Holt Method)<a class="headerlink" href="#double-exponential-smoothing-holt-method" title="Permalink to this heading">#</a></h4>
-<p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecastng function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expresed as follows:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4d646632-a736-46d8-9962-6ccb0b971cc4">
-<span class="eqno">(11)<a class="headerlink" href="#equation-4d646632-a736-46d8-9962-6ccb0b971cc4" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>Simple Exponential smoothing gives us an estimate of the level of the time series which acts as an intercept. In Double Exponential smoothing, we add another component into the forecasting function - the trend. Similar to the level, we apply exponential smoothing to the trend by assuming that the future direction of the time series changes depends on the previous weighted changes. This can be expressed as follows:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0535cfa3-4b0f-4418-882a-3fbdb7fd6778">
+<span class="eqno">(11)<a class="headerlink" href="#equation-0535cfa3-4b0f-4418-882a-3fbdb7fd6778" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha x_t + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e1dc0111-49a0-423e-ba21-7c072f4d31ab">
-<span class="eqno">(12)<a class="headerlink" href="#equation-e1dc0111-49a0-423e-ba21-7c072f4d31ab" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-be628c88-be6d-4a15-9cf7-038af81a36b4">
+<span class="eqno">(12)<a class="headerlink" href="#equation-be628c88-be6d-4a15-9cf7-038af81a36b4" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t
 \end{equation}\]</div>
 <p>The forecast function is no longer flat but trending: <span class="math notranslate nohighlight">\(h\)</span>-step-ahead forecast is equal to the last estimated level plus <span class="math notranslate nohighlight">\(h\)</span> times the last estimated trend value. A few things to note about Double Exponential Smoothing:</p>
@@ -628,16 +622,16 @@ g_t = \beta (l_t - l_{t-1}) + (1- \beta) g_{t-1} \quad \text{where} \quad \beta 
 </section>
 <section id="triple-exponential-smoothing-holt-winters-method">
 <h4>Triple Exponential Smoothing (Holt-Winters Method)<a class="headerlink" href="#triple-exponential-smoothing-holt-winters-method" title="Permalink to this heading">#</a></h4>
-<p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with periond <span class="math notranslate nohighlight">\(L\)</span> into the forcasting function:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5547ec5e-164e-4dec-acf0-019cecf7589d">
-<span class="eqno">(13)<a class="headerlink" href="#equation-5547ec5e-164e-4dec-acf0-019cecf7589d" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<p>A natural extension of Double Exponential smoothing is Triple Exponential Smoothing. In triple exponential smoothing, we include a trend, level as well as a seasonal component with period <span class="math notranslate nohighlight">\(L\)</span> into the forecasting function:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7c3bf252-9bed-4b87-977d-dd84bfa746c7">
+<span class="eqno">(13)<a class="headerlink" href="#equation-7c3bf252-9bed-4b87-977d-dd84bfa746c7" title="Permalink to this equation">#</a></span>\[\begin{equation}
 l_t = \alpha (x_t - s_{t - L}) + (1 - \alpha) (l_{t-1} + g_{t-1}) \quad \text{where} \quad \alpha \in (0,1) \\
 g_t = \beta (l_t - l_{t-1}) + (1 - \beta) g_{t-1} \quad \text{where} \quad \beta \in (0,1) \\
 s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} \quad \gamma \in (0,1)
 \end{equation}\]</div>
 <p>Given this, the forecast <span class="math notranslate nohighlight">\(h\)</span> steps ahead is defined by:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d28f3ddb-ee98-45d4-be5b-83c8da3bec03">
-<span class="eqno">(14)<a class="headerlink" href="#equation-d28f3ddb-ee98-45d4-be5b-83c8da3bec03" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b54769d9-c7fb-415b-9bcc-5bb11c048955">
+<span class="eqno">(14)<a class="headerlink" href="#equation-b54769d9-c7fb-415b-9bcc-5bb11c048955" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \hat{y}_{t+h} = l_t + h g_t + s_{(t-L + h) \;\; mod \;\;  L }
 \end{equation}\]</div>
 <p>The forecast function consists of a level, trend and seasonal component. A few things to note about Triple Exponential Smoothing:</p>
@@ -678,12 +672,12 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <section id="multivariate-forecasting">
 <h3>Multivariate Forecasting<a class="headerlink" href="#multivariate-forecasting" title="Permalink to this heading">#</a></h3>
 <p>Multivariate forecasting involves predicting future values given past observations of a set of time series. More specifically, given a lookback window of length <span class="math notranslate nohighlight">\(T\)</span>, a forecasting horizon of length <span class="math notranslate nohighlight">\(H\)</span> and a set of <span class="math notranslate nohighlight">\(K\)</span> time series, the multivariate time series forecasting problem is to find  function <span class="math notranslate nohighlight">\(f: \mathbb{R}^{TxK} \to \mathbb{R}^{HxK}\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b7f7a2e3-c7ff-45b9-8a4a-e5ba24f4834b">
-<span class="eqno">(15)<a class="headerlink" href="#equation-b7f7a2e3-c7ff-45b9-8a4a-e5ba24f4834b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-63ad7d02-eb0c-43af-891c-8bdef6017d8a">
+<span class="eqno">(15)<a class="headerlink" href="#equation-63ad7d02-eb0c-43af-891c-8bdef6017d8a" title="Permalink to this equation">#</a></span>\[\begin{align}
     \hat{Y} = f(X) \approx Y
 \end{align}\]</div>
 <p>where <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{TxK}\)</span> is a matrix where each column is a sequence of observations over the lookback window for a specific time series and <span class="math notranslate nohighlight">\(Y \in \mathbb{R}^{HxK} \)</span> is the output matrix where each column is the output sequence over the forecasting horizon for a specific time series.</p>
-<p>Similar to univariate forecasting, <span class="math notranslate nohighlight">\(f\)</span> is parametized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to mimimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
+<p>Similar to univariate forecasting, <span class="math notranslate nohighlight">\(f\)</span> is paramerized by <span class="math notranslate nohighlight">\(\theta\)</span> which determine the output <span class="math notranslate nohighlight">\(\hat{y}\)</span> given an input <span class="math notranslate nohighlight">\(x\)</span>. <span class="math notranslate nohighlight">\(\theta\)</span> is learned to minimize the prediction loss of the model <span class="math notranslate nohighlight">\(L\)</span> over the training portion of the time series. The resulting model <span class="math notranslate nohighlight">\(f\)</span> is evaluated on an unseen portion of the time series to estimate the out-of-sample performance.</p>
 <p>This serves as a preliminary discussion of multivariate forecasting. In the following session, methods for multivariate forecasting will be discussed in detail.</p>
 </section>
 <section id="covariates">
@@ -697,7 +691,7 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <p align="center">
 <img width="750" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211891654-058129b8-3e44-4353-b97b-49946e6b88b5.png"> 
 </p> 
-<p>Only certain forecasting models support exogenous variables such as <a class="reference external" href="https://neuralprophet.com/">Neural Prophet</a>, <a class="reference external" href="https://analyticsindiamag.com/complete-guide-to-sarimax-in-python-for-time-series-modeling/">SARIMAX</a>, <a class="reference external" href="https://arxiv.org/abs/1704.04110">DeepAR</a>. Some of these methods will be explained in detail during future notebooks.</p>
+<p>Only certain forecasting models support exogenous variables such as <a class="reference external" href="https://neuralprophet.com/">Neural Prophet</a>, <a class="reference external" href="https://analyticsindiamag.com/complete-guide-to-sarimax-in-python-for-time-series-modeling/">SARIMAX</a>, <a class="reference external" href="https://arxiv.org/abs/1704.04110">DeepAR</a>. Some of these methods will be explained in detail in future notebooks.</p>
 </section>
 </section>
 <section id="forecasting-evaluation">
@@ -708,11 +702,11 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 <p align="center">
 <img width="1000" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211632073-40e73186-39f3-4b7f-9fa2-b629cb55af66.png"> 
 </p>
-<p>The <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.metrics.metrics.html"><code class="docutils literal notranslate"><span class="pre">darts.metrics.metrics</span></code></a> module contains the aformentioned metrics and more. These metrics can be easily used to evaluate the forecasts generated by our model as we will see below.</p>
+<p>The <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.metrics.metrics.html"><code class="docutils literal notranslate"><span class="pre">darts.metrics.metrics</span></code></a> module contains the aforementioned metrics and more. These metrics can be easily used to evaluate the forecasts generated by our model as we will see below.</p>
 </section>
 <section id="evaluation-methodologies">
 <h3>Evaluation Methodologies<a class="headerlink" href="#evaluation-methodologies" title="Permalink to this heading">#</a></h3>
-<p>Besides metrics, another central component of evaluation is determine how to split the data into training and testing. The most common approach is to allocate the first portion of the time series to the training set and the latter part to the testing set. This is a familiar data splitting scheme for ML practitioners. It is conservative with respecto to data leakage and generalizability estiamtion. One downside of this approach is that the model does not learn from the most recent observation.  We can split a <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object in this manner by calling the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.split_before"><code class="docutils literal notranslate"><span class="pre">split_before</span></code></a> method with the proportion of the data to be alllocated to the train set.</p>
+<p>Besides metrics, another central component of evaluation is determine how to split the data into training and testing. The most common approach is to allocate the first portion of the time series to the training set and the latter part to the testing set. This is a familiar data splitting scheme for ML practitioners. It is conservative with respect to to data leakage and generalizability estimation. One downside of this approach is that the model does not learn from the most recent observation.  We can split a <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> object in this manner by calling the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html#darts.timeseries.TimeSeries.split_before"><code class="docutils literal notranslate"><span class="pre">split_before</span></code></a> method with the proportion of the data to be alllocated to the train set.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ts_train</span><span class="p">,</span> <span class="n">ts_test</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">split_before</span><span class="p">(</span><span class="mf">.75</span><span class="p">)</span>
@@ -760,12 +754,12 @@ s_t = \gamma (x_t - l_{t-1} - g_{t-1})+ (1 - \gamma) s_{t-L} \quad \text{where} 
 </div>
 </div>
 </div>
-<p>Another more sophisticated evaulation methodology is to use <a class="reference external" href="https://medium.com/&#64;soumyachess1496/cross-validation-in-time-series-566ae4981ce4#:~:text=The%20method%20that%20can%20be,for%20the%20forecasted%20data%20points.">rolling cross validation</a>. In rolling cross validation, multiple models are fit and evaulated using different train and test sets. In particular, the datasets are generated using an expanding window approach and the results are averaged to get a single estimate. The illustation below helps depict the concept of rolling cross validation:</p>
+<p>Another more sophisticated evaluation methodology is to use <a class="reference external" href="https://medium.com/&#64;soumyachess1496/cross-validation-in-time-series-566ae4981ce4#:~:text=The%20method%20that%20can%20be,for%20the%20forecasted%20data%20points.">rolling cross validation</a>. In rolling cross validation, multiple models are fit and evaluated using different train and test sets. In particular, the datasets are generated using an expanding window approach and the results are averaged to get a single estimate. The illustration below helps depict the concept of rolling cross validation:</p>
 <p align="center">
 <img width="750" alt="Covariates" src="https://user-images.githubusercontent.com/34798787/211639665-7eaa75f7-231c-4d8f-8c5d-0ec7dcee56c0.png"> 
 </p>
-<p>In this way, we are evaulating the approach as opposed to a single model. Additionally, unlike the previous evaluation methodology, the model is able to learn from the must recent observations. However, there are many subtle design choices such as how to weight past performance compared to more recent performance. Furthermore, training multiple models is computationally intensive, especially for deep learning based approaches.</p>
-<p><a class="reference external" href="https://unit8.com/resources/darts-time-series-made-easy-in-python/">darts</a> makes it easy to realize rolling cross validation using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.baselines.html#darts.models.forecasting.baselines.NaiveDrift.historical_forecasts"><code class="docutils literal notranslate"><span class="pre">historical_forecast</span></code></a> method odf the model. It takes a time series, a starting point and a forecast horizon. It returns the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> containing the historical forecasts would have been obtained when using the model to forecast the series with the specified forecast horizon, starting at the specified timestamp using an expanding window strategy:</p>
+<p>In this way, we are evaluating the approach as opposed to a single model. Additionally, unlike the previous evaluation methodology, the model is able to learn from the must recent observations. However, there are many subtle design choices such as how to weight past performance compared to more recent performance. Furthermore, training multiple models is computationally intensive, especially for deep learning based approaches.</p>
+<p><a class="reference external" href="https://unit8.com/resources/darts-time-series-made-easy-in-python/">darts</a> makes it easy to realize rolling cross validation using the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.models.forecasting.baselines.html#darts.models.forecasting.baselines.NaiveDrift.historical_forecasts"><code class="docutils literal notranslate"><span class="pre">historical_forecast</span></code></a> method of the model. It takes a time series, a starting point and a forecast horizon. It returns the <a class="reference external" href="https://unit8co.github.io/darts/generated_api/darts.timeseries.html"><code class="docutils literal notranslate"><span class="pre">darts.TimeSeries</span></code></a> containing the historical forecasts would have been obtained when using the model to forecast the series with the specified forecast horizon, starting at the specified timestamp using an expanding window strategy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">es_model</span> <span class="o">=</span> <span class="n">ExponentialSmoothing</span><span class="p">()</span>
@@ -952,8 +946,8 @@ By Vector Institute
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 
   <footer class="bd-footer">
   </footer>
