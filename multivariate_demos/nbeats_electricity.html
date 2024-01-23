@@ -490,7 +490,9 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;google.colab&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">()):</span>
-    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pytorch-forecasting
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pytorch-forecasting<span class="o">==</span><span class="m">0</span>.10.3
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pytorch-lightning<span class="o">==</span><span class="m">1</span>.5.9
+    <span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.11.0<span class="w"> </span><span class="nv">torchaudio</span><span class="o">==</span><span class="m">0</span>.11.0<span class="w"> </span><span class="nv">torchtext</span><span class="o">==</span><span class="m">0</span>.6.0<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.12.0<span class="w">  </span>
 </pre></div>
 </div>
 </div>
@@ -517,7 +519,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;../datasets/electricity/electricity.csv&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;/ssd003/projects/forecasting_bootcamp/bootcamp_datasets/electricity/electricity.csv&quot;</span> <span class="c1"># Will have to update dataset path if not running on Vector Cluste1</span>
 
 <span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">VAL_PERC</span> <span class="o">=</span> <span class="mf">.1</span>
